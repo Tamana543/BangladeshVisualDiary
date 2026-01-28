@@ -1,0 +1,24 @@
+* {
+     box-sizing: border-box;
+     margin: 0;
+     padding: 0;
+}
+.flex {
+     display: flex;
+     justify-content: center;
+     align-content: center;
+}
+body{
+     flex-direction: column;
+     height: 100vh;
+     text-align: center;
+     position: relative;
+}
+nav {
+     flex-direction: column;
+
+}
+main {
+     
+     padding: 2%;
+}
