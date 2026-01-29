@@ -14,18 +14,24 @@
 }
 body{
      display: grid;
-     grid-template-columns: 0.5fr 1fr;
+     grid-template-columns: 1.3fr 0.2fr;
 background-color: #000;
      height: 100vh;
      text-align: center;
 color: #a09898;
 }
-nav {
+header {
      flex-direction: column;
 margin-top: 3%;
+grid-column-start: 2;
 
 }
-nav a:link {
+header p {
+     
+     font-size: 1.1rem;
+     margin: 2em;
+}
+header a:link {
      color: #a09898;
 text-decoration: none;
 text-transform: capitalize;
@@ -39,15 +45,18 @@ a span:hover {
 }
 
 main {
-     
-     padding: 2%;
+     grid-row-start: 1;
+     grid-column-start: 1;
+     grid-column-end: 2;
 }
 .image_container {
-     width: 95%;
-     margin-top: 5%;
+     width: 100%;
+    padding-left: 1%;
+    padding-top:1% ;
 
 }
 img {
      width: 100%;
      height: 100%;
+     border: 1px solid #a09898;
 }
