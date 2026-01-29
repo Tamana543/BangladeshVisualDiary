@@ -55,8 +55,13 @@ main {
     padding-top:1% ;
 
 }
+.image {
+          margin: 2%;
+
+}
 img {
      width: 100%;
+
      height: 100%;
      border: 1px solid #a09898;
 }
