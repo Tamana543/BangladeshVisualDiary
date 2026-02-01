@@ -67,7 +67,7 @@ No build steps. No setup stress.
 - Emotional concept (this is a strong point — keep it!)
 - Lightweight and fast
 
-This is a **good foundation project**, especially for a personal portfolio.
+
 
 ---
 
