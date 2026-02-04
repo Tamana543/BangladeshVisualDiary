@@ -10,5 +10,5 @@ for (let i = 2; i <= end ; i++) {
                </div>
      `
    imageContainer.innerHTML += html
-     
+   
 }
