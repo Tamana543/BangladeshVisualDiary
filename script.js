@@ -1,5 +1,8 @@
 const imageContainer = document.getElementById('imageContainer')
 const addBtn = document.getElementById('addBtn')
+const container = document.querySelector(".container")
+const formContainer = document.querySelector(".form_container")
+
 
 // Via Json
 fetch('./images.json').then(res=>{
