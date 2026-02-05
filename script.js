@@ -1,19 +1,5 @@
 const imageContainer = document.getElementById('imageContainer')
-
-function oldMethodTask(){
-
-     let end = 34
-     for (let i = 2; i <= end ; i++) {
-        
-          const html = `
-          <div class="image">
-                         <img src="./default_images/img_${i}.jpg" alt="${i} image">
-                    </div>
-          `
-        imageContainer.innerHTML += html
-        
-     }
-}
+const addBtn = document.getElementById('addBtn')
 
 // Via Json
 fetch('./images.json').then(res=>{
@@ -29,3 +15,10 @@ images.forEach((element,ind) => {
 });
 })
 .catch(err=>console.log(err))
+
+
+function formDisplayer(){
+
+}
+
+addBtn.addEventListener("click",formDisplayer)
