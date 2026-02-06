@@ -4,7 +4,7 @@ const container = document.querySelector(".container")
 const formContainer = document.querySelector(".form_container")
 const svgContainer = document.querySelector(".svgContainer")
 
-let svg = lottie.loadAnimation({ container: svgContainer, renderer: 'svg', loop: true, autoplay: true, path: 'Kitty_Cat.json'})
+
 // Jsons
 
 // loding images
@@ -28,13 +28,13 @@ container.classList.toggle("hidden")
 formContainer.classList.toggle("show")
 
 // looding svg 
-fetch('./Kitty_Cat.json').then(res=>{
-  // console.log("I took the svg");
-  return res.json()
-}).then(svg=>{
-  svgContainer.innerHTML += svg
-})
-
+lottie.loadAnimation(
+  { container: svgContainer, 
+    renderer: 'svg', 
+    loop: true, 
+    autoplay: true,
+     path: 'Kitty_Cat.json'}
+)
 }
 
 addBtn.addEventListener("click",formDisplayer)
