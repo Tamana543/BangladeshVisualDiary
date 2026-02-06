@@ -107,3 +107,12 @@ button:active {
   box-shadow: #D6D6E7 0 3px 7px inset;
   transform: translateY(2px);
 }
+.hidden {
+     display: none;
+}
+.show {
+     display: block;
+}
+.form_container {
+     display: none;
+}

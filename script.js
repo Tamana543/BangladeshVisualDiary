@@ -21,7 +21,8 @@ images.forEach((element,ind) => {
 
 
 function formDisplayer(){
-
+container.classList.toggle("hidden")
+formContainer.classList.toggle("show")
 }
 
 addBtn.addEventListener("click",formDisplayer)
