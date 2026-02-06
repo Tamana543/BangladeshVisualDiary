@@ -2,9 +2,12 @@ const imageContainer = document.getElementById('imageContainer')
 const addBtn = document.getElementById('addBtn')
 const container = document.querySelector(".container")
 const formContainer = document.querySelector(".form_container")
+const svgContainer = document.querySelector(".svgContainer")
 
 
-// Via Json
+// Jsons
+
+// loding images
 fetch('./images.json').then(res=>{
  return res.json()
 })
@@ -18,6 +21,8 @@ images.forEach((element,ind) => {
 });
 })
 .catch(err=>console.log(err))
+
+// looding svg 
 
 
 function formDisplayer(){
