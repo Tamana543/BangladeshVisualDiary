@@ -23,7 +23,12 @@ images.forEach((element,ind) => {
 .catch(err=>console.log(err))
 
 // looding svg 
-
+fetch('./Kitty_Cat.json').then(res=>{
+  // console.log("I took the svg");
+  return res.json()
+}).then(svg=>{
+  svgContainer.innerHTML += ''
+})
 
 function formDisplayer(){
 container.classList.toggle("hidden")
