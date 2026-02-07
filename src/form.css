@@ -86,4 +86,89 @@
     width: 100%;
     height: 100%;
   }
+.formbold-file-input label {
+    position: relative;
+    border: 1px dashed #e0e0e0;
+    border-radius: 6px;
+    min-height: 200px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 48px;
+    text-align: center;
+  }
+  .formbold-drop-file {
+    display: block;
+    font-weight: 600;
+    color: #07074d;
+    font-size: 20px;
+    margin-bottom: 8px;
+  }
+
+  .formbold-or {
+    font-weight: 500;
+    font-size: 16px;
+    color: #6b7280;
+    display: block;
+    margin-bottom: 8px;
+  }
+  .formbold-browse {
+    font-weight: 500;
+    font-size: 16px;
+    color: #07074d;
+    display: inline-block;
+    padding: 8px 28px;
+    border: 1px solid #e0e0e0;
+    border-radius: 4px;
+  }
+
+  .formbold-file-list {
+    border-radius: 6px;
+    background: #f5f7fb;
+    padding: 16px 32px;
+  }
+
+  .formbold-file-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .formbold-file-item button {
+    color: #07074d;
+    border: none;
+    background: transparent;
+    cursor: pointer;
+  }
+
+  .formbold-file-name {
+    font-weight: 500;
+    font-size: 16px;
+    color: #07074d;
+    padding-right: 12px;
+  }
+  .formbold-progress-bar {
+    margin-top: 20px;
+    position: relative;
+    width: 100%;
+    height: 6px;
+    border-radius: 8px;
+    background: #e2e5ef;
+  }
+
+  .formbold-progress {
+    position: absolute;
+    width: 75%;
+    height: 100%;
+    left: 0;
+    top: 0;
+    background: #6a64f1;
+    border-radius: 8px;
+  }
+
+  @media (min-width: 540px) {
+    .sm\:w-half {
+      width: 50%;
+    }
+  }
 
