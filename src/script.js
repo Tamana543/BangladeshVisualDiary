@@ -1,5 +1,6 @@
 const imageContainer = document.getElementById('imageContainer')
 const addBtn = document.getElementById('addBtn')
+const sendBtn = document.getElementById('sendBtn')
 const container = document.querySelector(".container")
 const formContainer = document.querySelector(".form_container")
 const svgContainer = document.querySelector(".svgContainer")
@@ -37,4 +38,10 @@ lottie.loadAnimation(
 )
 }
 
+function formHide(){
+  formContainer.classList.toggle("show")
+  container.classList.toggle("hidden")
+}
+
 addBtn.addEventListener("click",formDisplayer)
+sendBtn.addEventListener("click",formHide)
