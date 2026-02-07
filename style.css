@@ -108,10 +108,10 @@ button:active {
   transform: translateY(2px);
 }
 .hidden {
-     display: none;
+     display: none !important;
 }
 .show {
-     display: block;
+     display: block !important;
 }
 .form_container {
      display: none;
