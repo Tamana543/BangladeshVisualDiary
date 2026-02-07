@@ -8,7 +8,7 @@ const svgContainer = document.querySelector(".svgContainer")
 // Jsons
 
 // loding images
-fetch('./images.json').then(res=>{
+fetch('./src/images.json').then(res=>{
  return res.json()
 })
 .then(images=>{
@@ -33,7 +33,7 @@ lottie.loadAnimation(
     renderer: 'svg', 
     loop: true, 
     autoplay: true,
-     path: 'Kitty_Cat.json'}
+     path: './src/Kitty_Cat.json'}
 )
 }
 
