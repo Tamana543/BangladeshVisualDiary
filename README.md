@@ -94,14 +94,10 @@ No build steps. No setup stress.
 - Keyboard navigation
 
 ### 5. Mobile Optimization
-- Improve responsiveness for small screens
 - Touch-friendly spacing
 
-### 6. Deployment
-- Host on **GitHub Pages**
-- Add the live link to this README
 
-### 7. Story Mode (Advanced)
+### 6. Story Mode (Advanced)
 - Clicking an image opens a modal with a short story
 - Turns the gallery into a narrative experience
 
