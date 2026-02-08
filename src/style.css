@@ -114,10 +114,19 @@ button:active {
      display: block !important;
 }
 .form_container {
+   
      display: none;
 }
 .svgContainer { 
      width: 300px;
       height: 300px;
       margin: auto; 
+}
+
+@media (max-width: 540px) {
+     button {
+    width: 27%;
+   
+    font-size: 15px;
+  }
 }
