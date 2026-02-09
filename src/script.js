@@ -20,7 +20,11 @@ images.forEach((element,ind) => {
       
           <img src="./default_images/${element}" alt="image ${ind}">
          
-        </div> ` 
+        </div>
+        <div class="hidden description"> 
+        <p> </p>
+        </div>
+        ` 
   
  
 });
