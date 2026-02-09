@@ -16,9 +16,13 @@ fetch('./src/images.json').then(res=>{
 images.forEach((element,ind) => {
 
            imageContainer.innerHTML +=  `
-        <div class="image">
+        <div class="image hover10">
+      
           <img src="./default_images/${element}" alt="image ${ind}">
+         
         </div> ` 
+  
+ 
 });
 })
 .catch(err=>console.log(err))

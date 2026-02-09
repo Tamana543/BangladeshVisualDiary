@@ -59,6 +59,13 @@ img {
      height: 100%;
      border: 2px solid #a09898;
 }
+.hover10  img {
+     filter: grayscale(0) blur(0);
+     transition: .3s ease-in-out;
+}
+.hover10:hover img {
+	filter: grayscale(100%) blur(3px);
+}
 
 button {
      width: 20%;
