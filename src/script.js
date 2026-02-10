@@ -9,22 +9,20 @@ const descriptionContainer = document.querySelector(".description")
 
 // loding images
 fetch('./src/images.json').then(res=>{
- return res.json()
+  return res.json()
 })
 .then(images=>{
-images.forEach((element,ind) => {
-
-           imageContainer.innerHTML +=  `
-        <div class="image hover10">
-      
-          <img src="./default_images/${element.file}" alt="image ${ind+1}">
-         
-        </div>
-        <div class="hidden description"> 
-        <p>${element.description} </p>
-        </div>
-        ` 
-  
+  images.forEach((element,ind) => {
+    
+    imageContainer.innerHTML +=  `
+    <div class="image hover10">
+    
+    <img src="./default_images/${element.file}" alt="image ${ind+1}">
+    
+    </div>
+   
+    ` 
+  descriptionContainer.innerHTML += `   <p>${element.description} </p>` 
  
 });
 })
@@ -52,6 +50,7 @@ function formHide(){
 
 addBtn.addEventListener("click",formDisplayer)
 sendBtn.addEventListener("click",formHide)
+console.log(descriptionContainer);
 descriptionContainer.addEventListener("mouseenter",()=>{
 descriptionContainer.classList.remove("hidden")
 })
