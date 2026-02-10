@@ -59,12 +59,31 @@ img {
      height: 100%;
      border: 2px solid #a09898;
 }
+
 .hover10  img {
      filter: grayscale(0) blur(0);
      transition: .3s ease-in-out;
 }
+.description {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.55);
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 12px;
+  font-size: 0.9rem;
+
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
 .hover10:hover img {
 	filter: grayscale(100%) blur(3px);
+}
+.hover10:hover .description {
+	opacity: 1;
 }
 
 button {
