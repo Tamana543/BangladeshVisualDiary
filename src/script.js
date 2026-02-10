@@ -19,6 +19,8 @@ fetch('./src/images.json').then(res=>{
     <img src="./default_images/${element.file}" alt="image ${ind+1}">
        <div class="description"> 
   <p>${element.description} </p>
+  <p>  📸 : ${element.sender} </p>
+
     </div>
     </div>
    
