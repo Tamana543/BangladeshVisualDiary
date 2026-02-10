@@ -157,4 +157,7 @@ button:active {
    
     font-size: 15px;
   }
+  .description {
+     font-size: 1rem; 
+  }
 }
