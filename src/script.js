@@ -3,8 +3,7 @@ const addBtn = document.getElementById('addBtn')
 const sendBtn = document.getElementById('sendBtn')
 const container = document.querySelector(".container")
 const formContainer = document.querySelector(".form_container")
-const svgContainer = document.querySelector(".svgContainer")
-const descriptionContainer = document.querySelector(".description")
+
 // Jsons
 
 // loding images
@@ -18,11 +17,13 @@ fetch('./src/images.json').then(res=>{
     <div class="image hover10">
     
     <img src="./default_images/${element.file}" alt="image ${ind+1}">
-    
+       <div class="description"> 
+  <p>${element.description} </p>
+    </div>
     </div>
    
     ` 
-  descriptionContainer.innerHTML += `   <p>${element.description} </p>` 
+ 
  
 });
 })
@@ -51,9 +52,3 @@ function formHide(){
 addBtn.addEventListener("click",formDisplayer)
 sendBtn.addEventListener("click",formHide)
 console.log(descriptionContainer);
-descriptionContainer.addEventListener("mouseenter",()=>{
-descriptionContainer.classList.remove("hidden")
-})
-descriptionContainer.addEventListener("mouseleave",()=>{
-descriptionContainer.classList.add("hidden")
-})
