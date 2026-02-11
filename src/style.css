@@ -160,4 +160,7 @@ button:active {
   .description {
      font-size: 1rem; 
   }
+  .grid {
+     grid-template-columns: 1fr 1fr;
+  }
 }
