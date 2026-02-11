@@ -12,9 +12,7 @@ fetch('./src/images.json').then(res=>{
 })
 .then(images=>{
   images.forEach((element,ind) => {
-    if(element.file == 'img_32.jpg'){
-console.log("Tam hereeee");
-    }
+
     imageContainer.innerHTML +=  `
     <div class="image hover10">
     
