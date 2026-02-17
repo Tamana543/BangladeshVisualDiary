@@ -101,6 +101,18 @@ No build steps. No setup stress.
 - Clicking an image opens a modal with a short story
 - Turns the gallery into a narrative experience
 
+## Status
+
+👩‍💻 Under Process
+
+---
+
+## Author
+**Tamana&lt;ReginaJS/&gt;** 
+
+Website Developer
+
+---
 
 ## © Copyright
 
