@@ -3,7 +3,7 @@ const addBtn = document.getElementById('addBtn')
 const sendBtn = document.getElementById('sendBtn')
 const container = document.querySelector(".container")
 const formContainer = document.querySelector(".form_container")
-
+const svgContainer = document.querySelector(".svgContainer")
 // Jsons
 
 // loding images

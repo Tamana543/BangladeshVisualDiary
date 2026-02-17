@@ -87,6 +87,9 @@ padding: 2%;
     position: absolute;
 
   }
+  .formbold-file-input label:hover {
+    cursor: pointer;
+  }
 .formbold-file-input label {
     position: relative;
     border: 1px dashed #e0e0e0;
