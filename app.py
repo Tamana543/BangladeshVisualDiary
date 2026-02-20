@@ -40,6 +40,29 @@ def photo_render():
      return jsonify([dict(photo) for photo in photos]) # to check if everything is good visite http://127.0.0.1:5000/api/photos
 
 
+@app.route("/api/images", method=['POST'])
+def photo_upload():
+     #fetching data 
+     data = request.json
+     filename = data[filename]
+     description =data[description]
+     sender = data[sender]
+
+     #call database
+     databse_connector = sqlite3.connect('database.db')
+     database = databse_connector.cursor()
+     database.execute("""
+          INSERT INTO photos(filename,description,sender) VALUES (?,?,?)
+
+     """,(filename,description,sender))
+
+     databse_connector.commit()
+     databse_connector.close()
+
+     return { "message": "Done uploadeing "}, 201
+
+
+
 init_db()
 # test_data()
 if __name__ == "__main__":# function as both a reusable module
