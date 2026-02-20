@@ -7,7 +7,7 @@ const svgContainer = document.querySelector(".svgContainer")
 // Jsons
 
 // loding images
-fetch('./static/images.json').then(res=>{
+fetch('/static/images.json').then(res=>{
   return res.json()
 })
 .then(images=>{
@@ -16,7 +16,7 @@ fetch('./static/images.json').then(res=>{
     imageContainer.innerHTML +=  `
     <div class="image hover10">
     
-    <img src="./default_images/${element.file}" alt="image ${ind+1}">
+    <img src="/static/default_images/${element.file}" alt="image ${ind+1}">
        <div class="description"> 
   <p>${element.description} </p>
   <p>  📸 : ${element.sender} </p>
@@ -42,7 +42,7 @@ lottie.loadAnimation(
     renderer: 'svg', 
     loop: true, 
     autoplay: true,
-     path: './src/Kitty_Cat.json'}
+     path: '/static/Kitty_Cat.json'}
 )
 }
 
