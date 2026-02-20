@@ -5,3 +5,9 @@ fix the media query
 fix the folder style for completing and working with flask 
 install flask 
 import flask and render_template
+write the route for "/"
+main function to run index.html from templates 
+import sqllite and create the function 
+run the function at the end 
+create the api json file 
+photo render function 
