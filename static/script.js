@@ -53,5 +53,32 @@ function formHide(){
 }
 
 addBtn.addEventListener("click",formDisplayer)
-sendBtn.addEventListener("click",formHide)
+sendBtn.addEventListener("click",(event)=>{
+
+  event.preventDefault();
+
+  const filename = document.getElementById("file").value;
+  const description = document.getElementById("description").value;
+  const sender = document.getElementById("email").value;
+
+  fetch("/api/photos", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify({
+      filename: filename,
+      description: description,
+      sender: sender
+    })
+  })
+  .then(res => res.json())
+  .then(data => {
+    console.log("Success:", data);
+
+    // reload page to show new image
+    location.reload();
+  })
+  .catch(err => console.log(err));
+});
 
