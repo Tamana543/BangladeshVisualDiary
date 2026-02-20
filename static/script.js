@@ -7,7 +7,7 @@ const svgContainer = document.querySelector(".svgContainer")
 // Jsons
 
 // loding images
-fetch('./src/images.json').then(res=>{
+fetch('./static/images.json').then(res=>{
   return res.json()
 })
 .then(images=>{
