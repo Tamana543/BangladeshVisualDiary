@@ -13,10 +13,10 @@ fetch('/api/photos').then(res=>{ // take a look here
 })
 .then(images=>{
   images.forEach((element,ind) => {
+    // /static/default_images/${element.filename}
 
     imageContainer.innerHTML +=  `
     <div class="image hover10">
-    
     <img src="/static/default_images/${element.file}" alt="image ${ind+1}">
        <div class="description"> 
   <p>${element.description} </p>
