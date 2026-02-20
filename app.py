@@ -20,7 +20,7 @@ def test_data():
         """)
 
 # Flask Hundler 
-from flask import Flask, render_template
+from flask import Flask, render_template,request
 
 app = Flask(__name__) # import flask 
 
@@ -40,13 +40,13 @@ def photo_render():
      return jsonify([dict(photo) for photo in photos]) # to check if everything is good visite http://127.0.0.1:5000/api/photos
 
 
-@app.route("/api/images", method=['POST'])
+@app.route("/api/photos", methods=['POST'])
 def photo_upload():
      #fetching data 
      data = request.json
-     filename = data[filename]
-     description =data[description]
-     sender = data[sender]
+     filename = data['filename']
+     description =data['description']
+     sender = data['sender']
 
      #call database
      databse_connector = sqlite3.connect('database.db')
