@@ -1,0 +1,7 @@
+FIx the html 
+Fix the css
+fix the js 
+fix the media query 
+fix the folder style for completing and working with flask 
+install flask 
+import flask and render_template
