@@ -35,7 +35,27 @@ Upload_folder = "static/default_images"
 app.config["Upload_folder"] = Upload_folder #make the specified upload path accessible throughout your Flask application's views and logic. (by storing it in app.config)
 @app.route("/api/photos") # in this route it connect to database and get photos 
 def photo_upload():
-     
+     # getting file 
+     file= request.files["file"]
+     description = request.form["description"]
+     sender = request.form["sender"]
+
+     filename = file.filename
+
+     # storing file 
+     file.save(os.path.join(app.config["Upload_folder"], filename))
+
+     #SQL hundler
+     connection = sqlite3.connect("database.db")
+     conn_cursor = connection.cursor()
+
+     conn_cursor.execute("""
+          INSERT INTO photos (filename,description,sender) VALUES (?,?,?)
+
+     """,(filename,description,sender))
+     connection.commit()
+     connection.close()
+
 
      # with no file follow this 
      '''
