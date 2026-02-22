@@ -13,11 +13,11 @@ fetch('/api/photos').then(res=>{ // take a look here
 })
 .then(images=>{
   images.forEach((element,ind) => {
-    // /static/default_images/${element.filename}
+    // /static/default_images/${element.fileInput}
 
     imageContainer.innerHTML +=  `
     <div class="image hover10">
-    <img src="/static/default_images/${element.filename}" alt="image ${ind+1}">
+    <img src="/static/default_images/${element.fileInput}" alt="image ${ind+1}">
        <div class="description"> 
   <p>${element.description} </p>
   <p>  📸 : ${element.sender} </p>
@@ -57,20 +57,22 @@ sendBtn.addEventListener("click",(event)=>{
 
   event.preventDefault();
 
-  const filename = document.getElementById("file").value;
+  const fileInput = document.getElementById("file");
   const description = document.getElementById("description").value;
   const sender = document.getElementById("email").value;
 
+  const formData = new FormData() // creates a container(object) that mimics a real HTML form submission and allows file uploads.
+  formData.append("file",fileInput.files[0])// to get the uploaded file 
+  formData.append("description",description)
+  formData.append("sender",sender)
+
+
+
+
+
   fetch("/api/photos", {
     method: "POST",
-    headers: {
-      "Content-Type": "application/json"
-    },
-    body: JSON.stringify({
-      filename: filename,
-      description: description,
-      sender: sender
-    })
+    body: formData
   })
   .then(res => res.json())
   .then(data => {
