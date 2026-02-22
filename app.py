@@ -31,8 +31,8 @@ def main():
      return render_template("index.html")
 
 #defines the directory on the server where all uploaded files will be stored
-Upload_folder = "static/default_images"
-app.config["Upload_folder"] = Upload_folder #make the specified upload path accessible throughout your Flask application's views and logic. (by storing it in app.config )
+UPLOAD_FOLDER = "static/default_images"
+app.config["UPLOAD_FOLDER"] = UPLOAD_FOLDER #make the specified upload path accessible throughout your Flask application's views and logic. (by storing it in app.config )
 @app.route("/api/photos") # in this route it connect to database and get photos 
 def photo_render():
      data = sqlite3.connect("database.db")
@@ -53,7 +53,7 @@ def photo_upload():
      filename = file.filename
 
      # storing file 
-     file.save(os.path.join(app.config["Upload_folder"], filename))
+     file.save(os.path.join(app.config["UPLOAD_FOLDER"], filename))
 
      #SQL hundler
      connection = sqlite3.connect("database.db")
@@ -66,6 +66,7 @@ def photo_upload():
      connection.commit()
      connection.close()
 
+     return { "message": "Done uploadeing "}, 201
      #fetching data (JSON data)
      """
      data = request.json
@@ -84,7 +85,6 @@ def photo_upload():
      databse_connector.commit()
      databse_connector.close()
 
-     return { "message": "Done uploadeing "}, 201
      """
 
 

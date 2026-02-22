@@ -11,3 +11,6 @@ import sqllite and create the function
 run the function at the end 
 create the api json file 
 photo render function 
+sWITCH FROM JSON TO FORMDATA,
+CHANGE THE MAIN FUNCTION TO READ AND UPLOAD TO DEFAULT FOLDER (STORING THE UPLODAED IMAGE)
+ TO DO TOMORROW : FIX THE UI
