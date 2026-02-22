@@ -45,6 +45,26 @@ def photo_render():
 
 @app.route("/api/photos", methods=['POST'])
 def photo_upload():
+      # getting file 
+     file= request.files["file"]
+     description = request.form["description"]
+     sender = request.form["sender"]
+
+     filename = file.filename
+
+     # storing file 
+     file.save(os.path.join(app.config["Upload_folder"], filename))
+
+     #SQL hundler
+     connection = sqlite3.connect("database.db")
+     conn_cursor = connection.cursor()
+
+     conn_cursor.execute("""
+          INSERT INTO photos (filename,description,sender) VALUES (?,?,?)
+
+     """,(filename,description,sender))
+     connection.commit()
+     connection.close()
 
      #fetching data (JSON data)
      """
