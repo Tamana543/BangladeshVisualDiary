@@ -32,45 +32,22 @@ def main():
 
 #defines the directory on the server where all uploaded files will be stored
 Upload_folder = "static/default_images"
-app.config["Upload_folder"] = Upload_folder #make the specified upload path accessible throughout your Flask application's views and logic. (by storing it in app.config)
+app.config["Upload_folder"] = Upload_folder #make the specified upload path accessible throughout your Flask application's views and logic. (by storing it in app.config )
 @app.route("/api/photos") # in this route it connect to database and get photos 
-def photo_upload():
-     # getting file 
-     file= request.files["file"]
-     description = request.form["description"]
-     sender = request.form["sender"]
-
-     filename = file.filename
-
-     # storing file 
-     file.save(os.path.join(app.config["Upload_folder"], filename))
-
-     #SQL hundler
-     connection = sqlite3.connect("database.db")
-     conn_cursor = connection.cursor()
-
-     conn_cursor.execute("""
-          INSERT INTO photos (filename,description,sender) VALUES (?,?,?)
-
-     """,(filename,description,sender))
-     connection.commit()
-     connection.close()
-
-
-     # with no file follow this 
-     '''
+def photo_render():
      data = sqlite3.connect("database.db")
      # to make rows to be like dictionaries so that it can be used as a json 
      data.row_factory = sqlite3.Row
      photos = data.execute('SELECT * FROM photos').fetchall()
      data.close()
      return jsonify([dict(photo) for photo in photos]) # to check if everything is good visite http://127.0.0.1:5000/api/photos
-     '''
 
 
 @app.route("/api/photos", methods=['POST'])
 def photo_upload():
-     #fetching data 
+
+     #fetching data (JSON data)
+     """
      data = request.json
      filename = data['filename']
      description =data['description']
@@ -79,15 +56,16 @@ def photo_upload():
      #call database
      databse_connector = sqlite3.connect('database.db')
      database = databse_connector.cursor()
-     database.execute("""
-          INSERT INTO photos(filename,description,sender) VALUES (?,?,?)
+     database.execute(""
+     INSERT INTO photos(filename,description,sender) VALUES (?,?,?)
 
-     """,(filename,description,sender))
+     "",(filename,description,sender))
 
      databse_connector.commit()
      databse_connector.close()
 
      return { "message": "Done uploadeing "}, 201
+     """
 
 
 
