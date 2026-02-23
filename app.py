@@ -1,3 +1,4 @@
+#any confussion check draft_codes.txt
 #DataBase Hundler
 import sqlite3 # main sql :)
 def init_db():
@@ -16,37 +17,34 @@ def init_db():
 import os
 from flask import Flask, render_template,request,jsonify
 
-app = Flask(__name__) # import flask 
+app = Flask(__name__) 
 
 
-@app.route("/") # to create the web application and if someone visited  the homepage /, run the function below
+@app.route("/") 
 def main():
-     # return "Hello" # if you see this in http://127.0.0.1:5000 url, means everything is okay in backend 
+     # return "Hello" 
      return render_template("index.html")
 
-#defines the directory on the server where all uploaded files will be stored
 UPLOAD_FOLDER = "static/default_images"
-app.config["UPLOAD_FOLDER"] = UPLOAD_FOLDER #make the specified upload path accessible throughout your Flask application's views and logic. (by storing it in app.config )
-@app.route("/api/photos") # in this route it connect to database and get photos 
+app.config["UPLOAD_FOLDER"] = UPLOAD_FOLDER 
+@app.route("/api/photos") 
 def photo_render():
      data = sqlite3.connect("database.db")
-     # to make rows to be like dictionaries so that it can be used as a json 
      data.row_factory = sqlite3.Row
      photos = data.execute('SELECT * FROM photos').fetchall()
      data.close()
-     return jsonify([dict(photo) for photo in photos]) # to check if everything is good visite http://127.0.0.1:5000/api/photos
+     return jsonify([dict(photo) for photo in photos]) 
 
 
 @app.route("/api/photos", methods=['POST'])
 def photo_upload():
-      # getting file 
+   
      file= request.files["file"]
      description = request.form["description"]
      sender = request.form["sender"]
 
      filename = file.filename
 
-     # storing file 
      file.save(os.path.join(app.config["UPLOAD_FOLDER"], filename))
 
      #SQL hundler
@@ -61,30 +59,11 @@ def photo_upload():
      connection.close()
 
      return { "message": "Done uploadeing "}, 201
-     #fetching data (JSON data)
-     """
-     data = request.json
-     filename = data['filename']
-     description =data['description']
-     sender = data['sender']
-
-     #call database
-     databse_connector = sqlite3.connect('database.db')
-     database = databse_connector.cursor()
-     database.execute(""
-     INSERT INTO photos(filename,description,sender) VALUES (?,?,?)
-
-     "",(filename,description,sender))
-
-     databse_connector.commit()
-     databse_connector.close()
-
-     """
+    
 
 
 
 init_db()
-# test_data()
-if __name__ == "__main__":# function as both a reusable module
-    app.run(debug=True) # executed only when the script is run directly
+if __name__ == "__main__":
+    app.run(debug=True) 
 
