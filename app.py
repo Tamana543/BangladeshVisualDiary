@@ -11,12 +11,6 @@ def init_db():
                )
           """)
 
-def test_data():
-     with sqlite3.connect("database.db") as test_data:
-          test_data.execute("""
-            INSERT INTO photos (filename, description, sender)
-            VALUES ('test.jpg', 'Test Description', 'Tamana')
-        """)
 
 # Flask Hundler 
 import os
