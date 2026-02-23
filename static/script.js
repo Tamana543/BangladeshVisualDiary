@@ -17,7 +17,7 @@ fetch('/api/photos').then(res=>{ // take a look here
 
     imageContainer.innerHTML +=  `
     <div class="image hover10">
-    <img src="/static/default_images/${element.fileInput}" alt="image ${ind+1}">
+    <img src="/static/default_images/${element.filename}" alt="image ${ind+1}">
        <div class="description"> 
   <p>${element.description} </p>
   <p>  📸 : ${element.sender} </p>
