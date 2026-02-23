@@ -59,7 +59,7 @@ sendBtn.addEventListener("click",(event)=>{
 
   const fileInput = document.getElementById("file");
   const description = document.getElementById("description").value;
-  const sender = document.getElementById("email").value;
+  const sender = document.getElementById("sender").value;
 
   const formData = new FormData() // creates a container(object) that mimics a real HTML form submission and allows file uploads.
   formData.append("file",fileInput.files[0])// to get the uploaded file 
