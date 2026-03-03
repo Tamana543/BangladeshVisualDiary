@@ -13,4 +13,4 @@ create the api json file
 photo render function 
 sWITCH FROM JSON TO FORMDATA,
 CHANGE THE MAIN FUNCTION TO READ AND UPLOAD TO DEFAULT FOLDER (STORING THE UPLODAED IMAGE)
- TO DO TOMORROW : Update functionality to send the file to the sender email address too 
+ TO DO TOMORROW :update the drag and drop ,  Update functionality to send the file to the sender email address too ,

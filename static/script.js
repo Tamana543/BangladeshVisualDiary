@@ -60,10 +60,19 @@ function formHide(){
 dropArea.addEventListener("dragover",(event)=>{
 event.preventDefault()
 })
+
 dropArea.addEventListener("drop",(event)=>{
 event.preventDefault()
 fileInput.files = event.dataTransfer.files;
 })
+
+dropArea.addEventListener("dragenter", () => {
+  dropArea.style.border = "2px solid #F83999";
+});
+
+dropArea.addEventListener("dragleave", () => {
+  dropArea.style.border = "1px dashed #e0e0e0";
+});
 //Event listeners
 addBtn.addEventListener("click",formDisplayer)
 sendBtn.addEventListener("click",(event)=>{
