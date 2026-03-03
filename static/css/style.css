@@ -43,6 +43,13 @@ a span:hover {
 
 }
 
+.home_btn {
+     text-decoration: none;
+       background-color: #F83999;
+    color: white;
+     padding: 1.1%;
+}
+
 .image_container {
      width: 100%;
     padding-left: 1%;
@@ -88,7 +95,7 @@ height: 100%;
 	opacity: 1;
 }
 
-button {
+button,.addBtn {
      width: 20%;
      margin: 2% auto;
      padding: 0.5% 0.2%;
@@ -122,16 +129,18 @@ button {
   font-size: 18px;
 }
 
-button:focus {
+button:focus,
+.addBtn:focus {
   box-shadow: #D6D6E7 0 0 0 1.5px inset, rgba(45, 35, 66, 0.4) 0 2px 4px, rgba(45, 35, 66, 0.3) 0 7px 13px -3px, #D6D6E7 0 -3px 0 inset;
 }
 
-button:hover {
+button:hover ,
+.addBtn:hover{
   box-shadow: rgba(45, 35, 66, 0.4) 0 4px 8px, rgba(45, 35, 66, 0.3) 0 7px 13px -3px, #D6D6E7 0 -3px 0 inset;
   transform: translateY(-2px);
 }
 
-button:active {
+button:active,.addBtn:active {
   box-shadow: #D6D6E7 0 3px 7px inset;
   transform: translateY(2px);
 }
