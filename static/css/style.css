@@ -13,11 +13,11 @@
      grid-template-columns:repeat(3,1fr);
 }
 body{
-
 background-color: #000;
      height: 100vh;
      text-align: center;
 color: #a09898;
+position: relative;
 }
 header {
      flex-direction: column;
@@ -94,7 +94,12 @@ height: 100%;
 .hover10:hover .description {
 	opacity: 1;
 }
-
+#homeBtn {
+     width: 5%;
+     position: absolute;
+      top: -27px;
+    right: 15px;
+}
 button,.addBtn {
      width: 20%;
      margin: 2% auto;

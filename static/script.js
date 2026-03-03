@@ -4,6 +4,7 @@ const sendBtn = document.getElementById('sendBtn')
 const container = document.querySelector(".container")
 const formContainer = document.querySelector(".form_container")
 const svgContainer = document.querySelector(".svgContainer")
+const homeBtn = document.getElementById("homeBtn");
 // Jsons
 
 // loding images
@@ -36,6 +37,7 @@ fetch('/api/photos').then(res=>{ // take a look here
 function formDisplayer(){
 container.classList.toggle("hidden")
 formContainer.classList.toggle("show")
+homeBtn.style.top  = "20px"
 
 // looding svg 
 lottie.loadAnimation(
