@@ -5,6 +5,8 @@ const container = document.querySelector(".container")
 const formContainer = document.querySelector(".form_container")
 const svgContainer = document.querySelector(".svgContainer")
 const homeBtn = document.getElementById("homeBtn");
+const dropArea = document.querySelector(".formbold-file-input");
+const fileInput = document.getElementById("file")
 // Jsons
 
 // loding images
@@ -53,7 +55,16 @@ function formHide(){
   formContainer.classList.toggle("show")
   container.classList.toggle("hidden")
 }
+// Drag and drop functionality 
 
+dropArea.addEventListener("dragover",(event)=>{
+event.preventDefault()
+})
+dropArea.addEventListener("drop",(event)=>{
+event.preventDefault()
+fileInput.files = event.dataTransfer.files;
+})
+//Event listeners
 addBtn.addEventListener("click",formDisplayer)
 sendBtn.addEventListener("click",(event)=>{
 

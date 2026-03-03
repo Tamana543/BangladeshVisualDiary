@@ -81,12 +81,18 @@ padding: 2%;
   .w-full {
     width: 100%;
   }
+.formbold-file-input {
+  position: relative;
+}
 
-  .formbold-file-input input {
-    opacity: 0;
-    position: absolute;
-
-  }
+.formbold-file-input input {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  cursor: pointer;
+}
   .formbold-file-input label:hover {
     cursor: pointer;
   }
