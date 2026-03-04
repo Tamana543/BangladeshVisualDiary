@@ -14,7 +14,7 @@ const fileInput = document.getElementById("file")
   const statusText = document.getElementById("uploadStatus");
 const fileText = document.getElementById("fileText");
 const fileLabel = document.getElementById("fileLabel");
-
+const formboalContainer = document.getElementById("formbold-text-container")
 
 
 // loding images
@@ -153,6 +153,7 @@ try {
 
 fileInput.addEventListener("change", () => {
   if (fileInput.files && fileInput.files.length > 0) {
+    formboalContainer.style.display ="none"
     const fileName = fileInput.files[0].name;
 
     fileText.textContent =
