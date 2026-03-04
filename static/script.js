@@ -12,7 +12,9 @@ const fileInput = document.getElementById("file")
   const progressBar = document.getElementById("progressBar");
   const progressFill = document.getElementById("progressFill");
   const statusText = document.getElementById("uploadStatus");
-// Jsons
+const fileText = document.getElementById("fileText");
+const fileLabel = document.getElementById("fileLabel");
+
 
 // loding images
 
@@ -81,7 +83,7 @@ dropArea.addEventListener("dragleave", () => {
 //Event listeners
 addBtn.addEventListener("click",formDisplayer)
 
-sendBtn.addEventListener("click",(event)=>{
+sendBtn.addEventListener("click",async (event)=>{
 
   event.preventDefault();
   const file = fileInput.files[0];
@@ -102,9 +104,42 @@ return;
 sendBtn.disabled =true;
 sendBtn.textContent = "Uploading.. "
 progressBar.classList.remove("hidden")
-statusbar.classList.remove("hidden")
+statusText.classList.remove("hidden")
 statusText.textContent = "Uploading your image... "
 
+try {
+  // not real 
+  let width = 0;
+  const progress = setInterval(() => {
+    if (width < 90) {
+      width += 5
+      progressFill.style.width = width + '%';
+    }
+  }, 100);
+
+  const response = await fetch("/api/photos", {
+    method: "POST",
+    body: formData
+  })
+
+  clearInterval(progress)
+
+  if(!response.ok) throw new Error("Upload Failed");
+  
+    progressFill.style.width = "100%";
+    statusText.textContent = "Uploaded Successfully ✓";
+    sendBtn.textContent = "Done";
+
+  setTimeout(() => {
+    location.reload()
+  }, 1200);
+
+} catch (error) {
+  progressFill.style.background = "red";
+  statusText.textContent = " Upload Failed :("
+  sendBtn.disabled = false;
+  sendBtn.textContent = "Send File"
+}
   // fetch("/api/photos", {
   //   method: "POST",
   //   body: formData
