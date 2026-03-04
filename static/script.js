@@ -62,7 +62,9 @@ function formHide(){
   formContainer.classList.toggle("show")
   container.classList.toggle("hidden")
 }
-// Drag and drop functionality 
+
+//Event listeners
+// Drag and drop functionality  
 
 dropArea.addEventListener("dragover",(event)=>{
 event.preventDefault()
@@ -80,7 +82,8 @@ dropArea.addEventListener("dragenter", () => {
 dropArea.addEventListener("dragleave", () => {
   dropArea.style.border = "1px dashed #e0e0e0";
 });
-//Event listeners
+
+// Btn event listeners
 addBtn.addEventListener("click",formDisplayer)
 
 sendBtn.addEventListener("click",async (event)=>{
@@ -93,8 +96,8 @@ alert("Please choose a file :)")
 return;
 }
 
-  const formData = new FormData() // creates a container(object) that mimics a real HTML form submission and allows file uploads.
-  formData.append("file",file)// to get the uploaded file 
+  const formData = new FormData() 
+  formData.append("file",file) 
   formData.append("description",description)
   formData.append("sender",sender)
 
@@ -140,17 +143,15 @@ try {
   sendBtn.disabled = false;
   sendBtn.textContent = "Send File"
 }
-  // fetch("/api/photos", {
-  //   method: "POST",
-  //   body: formData
-  // })
-  // .then(res => res.json())
-  // .then(data => {
-  //   console.log("Success:", data);
-
-  //   // reload page to show new image
-  //   location.reload();
-  // })
-  // .catch(err => console.log(err));
+ 
 });
+
+fileInput.addEventListener("change", ()=>{
+  if (fileInput.file.length > 0) {
+    const fileName = fileInput.files[0].name;
+
+    fileText.textContent= fileName.length > 30 ? fileName.substring(0,30) + "..." : fileName;
+    fileLabel.style.border = "2px solid #f83999"
+  }
+})
 
