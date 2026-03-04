@@ -11,10 +11,38 @@ const fileInput = document.getElementById("file")
 
 // loding images
 
-fetch('/api/photos').then(res=>{ // take a look here
-  return res.json()
-})
-.then(images=>{
+// fetch('/api/photos').then(res=>{ // take a look here
+//   return res.json()
+// })
+
+const xhr = new XMLHttpRequest();
+
+xhr.open("POST", "/api/photos", true);
+
+xhr.upload.onprogress = function (e) {
+  if (e.lengthComputable) {
+    const percent = (e.loaded / e.total) * 100;
+    console.log("Uploading: " + percent.toFixed(0) + "%");
+
+    progressBar.style.width = percent + "%";
+    progressText.textContent = percent.toFixed(0) + "%";
+  }
+};
+
+xhr.onload = function () {
+  if (xhr.status === 201) {
+    progressText.textContent = "Upload Complete ✅";
+    setTimeout(() => location.reload(), 1000);
+  } else {
+    progressText.textContent = "Upload Failed ❌";
+  }
+};
+
+xhr.onerror = function () {
+  progressText.textContent = "Upload Error ❌";
+};
+
+xhr.send(formData).then(images=>{
   images.forEach((element,ind) => {
     // /static/default_images/${element.fileInput}
 
