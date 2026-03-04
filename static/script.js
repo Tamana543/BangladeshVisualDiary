@@ -16,6 +16,7 @@ const fileText = document.getElementById("fileText");
 const fileLabel = document.getElementById("fileLabel");
 
 
+
 // loding images
 
 fetch('/api/photos').then(res=>{ // take a look here
@@ -150,12 +151,16 @@ try {
  
 });
 
-fileInput.addEventListener("change", ()=>{
-  if (fileInput.file.length > 0) {
+fileInput.addEventListener("change", () => {
+  if (fileInput.files && fileInput.files.length > 0) {
     const fileName = fileInput.files[0].name;
 
-    fileText.textContent= fileName.length > 30 ? fileName.substring(0,30) + "..." : fileName;
-    fileLabel.style.border = "2px solid #f83999"
+    fileText.textContent =
+      fileName.length > 30
+        ? fileName.substring(0, 30) + "..."
+        : fileName;
+
+    fileLabel.style.border = "2px solid #f83999";
   }
-})
+});
 
