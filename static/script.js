@@ -7,6 +7,11 @@ const svgContainer = document.querySelector(".svgContainer")
 const homeBtn = document.getElementById("homeBtn");
 const dropArea = document.querySelector(".formbold-file-input");
 const fileInput = document.getElementById("file")
+  const description = document.getElementById("description").value;
+  const sender = document.getElementById("sender").value;
+  const progressBar = document.getElementById("progressBar");
+  const progressFill = document.getElementById("progressFill");
+  const statusText = document.getElementById("uploadStatus");
 // Jsons
 
 // loding images
@@ -75,34 +80,42 @@ dropArea.addEventListener("dragleave", () => {
 });
 //Event listeners
 addBtn.addEventListener("click",formDisplayer)
+
 sendBtn.addEventListener("click",(event)=>{
 
   event.preventDefault();
+  const file = fileInput.files[0];
 
-  const fileInput = document.getElementById("file");
-  const description = document.getElementById("description").value;
-  const sender = document.getElementById("sender").value;
+if(!file){
+alert("Please choose a file :)")
+return;
+}
 
   const formData = new FormData() // creates a container(object) that mimics a real HTML form submission and allows file uploads.
-  formData.append("file",fileInput.files[0])// to get the uploaded file 
+  formData.append("file",file)// to get the uploaded file 
   formData.append("description",description)
   formData.append("sender",sender)
 
 
+// UI Changes before upload
 
+sendBtn.disabled =true;
+sendBtn.textContent = "Uploading.. "
+progressBar.classList.remove("hidden")
+statusbar.classList.remove("hidden")
+statusText.textContent = "Uploading your image... "
 
+  // fetch("/api/photos", {
+  //   method: "POST",
+  //   body: formData
+  // })
+  // .then(res => res.json())
+  // .then(data => {
+  //   console.log("Success:", data);
 
-  fetch("/api/photos", {
-    method: "POST",
-    body: formData
-  })
-  .then(res => res.json())
-  .then(data => {
-    console.log("Success:", data);
-
-    // reload page to show new image
-    location.reload();
-  })
-  .catch(err => console.log(err));
+  //   // reload page to show new image
+  //   location.reload();
+  // })
+  // .catch(err => console.log(err));
 });
 
