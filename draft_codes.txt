@@ -88,3 +88,163 @@ init_db()
 if __name__ == "__main__":# function as both a reusable module
     app.run(debug=True) # executed only when the script is run directly
 
+
+
+
+Js :
+const imageContainer = document.getElementById('imageContainer')
+const addBtn = document.getElementById('addBtn')
+const sendBtn = document.getElementById('sendBtn')
+const container = document.querySelector(".container")
+const formContainer = document.querySelector(".form_container")
+const svgContainer = document.querySelector(".svgContainer")
+const homeBtn = document.getElementById("homeBtn");
+const dropArea = document.querySelector(".formbold-file-input");
+const fileInput = document.getElementById("file")
+  const description = document.getElementById("description").value;
+  const sender = document.getElementById("sender").value;
+  const progressBar = document.getElementById("progressBar");
+  const progressFill = document.getElementById("progressFill");
+  const statusText = document.getElementById("uploadStatus");
+const fileText = document.getElementById("fileText");
+const fileLabel = document.getElementById("fileLabel");
+
+
+// loding images
+
+fetch('/api/photos').then(res=>{ // take a look here
+  return res.json()
+})
+.then(images=>{
+  images.forEach((element,ind) => {
+    // /static/default_images/${element.fileInput}
+
+    imageContainer.innerHTML +=  `
+    <div class="image hover10">
+    <img src="/static/default_images/${element.filename}" alt="image ${ind+1}">
+       <div class="description"> 
+  <p>${element.description} </p>
+  <p>  📸 : ${element.sender} </p>
+
+    </div>
+    </div>
+   
+    ` 
+ 
+ 
+});
+})
+.catch(err=>console.log(err))
+
+
+function formDisplayer(){
+container.classList.toggle("hidden")
+formContainer.classList.toggle("show")
+homeBtn.style.top  = "20px"
+
+// looding svg 
+lottie.loadAnimation(
+  { container: svgContainer, 
+    renderer: 'svg', 
+    loop: true, 
+    autoplay: true,
+     path: '/static/Kitty_Cat.json'}
+)
+}
+
+function formHide(){
+  formContainer.classList.toggle("show")
+  container.classList.toggle("hidden")
+}
+// Drag and drop functionality 
+
+dropArea.addEventListener("dragover",(event)=>{
+event.preventDefault()
+})
+
+dropArea.addEventListener("drop",(event)=>{
+event.preventDefault()
+fileInput.files = event.dataTransfer.files;
+})
+
+dropArea.addEventListener("dragenter", () => {
+  dropArea.style.border = "2px solid #F83999";
+});
+
+dropArea.addEventListener("dragleave", () => {
+  dropArea.style.border = "1px dashed #e0e0e0";
+});
+//Event listeners
+addBtn.addEventListener("click",formDisplayer)
+
+sendBtn.addEventListener("click",async (event)=>{
+
+  event.preventDefault();
+  const file = fileInput.files[0];
+
+if(!file){
+alert("Please choose a file :)")
+return;
+}
+
+  const formData = new FormData() // creates a container(object) that mimics a real HTML form submission and allows file uploads.
+  formData.append("file",file)// to get the uploaded file 
+  formData.append("description",description)
+  formData.append("sender",sender)
+
+
+// UI Changes before upload
+
+sendBtn.disabled =true;
+sendBtn.textContent = "Uploading.. "
+progressBar.classList.remove("hidden")
+statusText.classList.remove("hidden")
+statusText.textContent = "Uploading your image... "
+
+try {
+  // not real 
+  let width = 0;
+  const progress = setInterval(() => {
+    if (width < 90) {
+      width += 5
+      progressFill.style.width = width + '%';
+    }
+  }, 100);
+
+  const response = await fetch("/api/photos", {
+    method: "POST",
+    body: formData
+  })
+
+  clearInterval(progress)
+
+  if(!response.ok) throw new Error("Upload Failed");
+  
+    progressFill.style.width = "100%";
+    statusText.textContent = "Uploaded Successfully ✓";
+    sendBtn.textContent = "Done";
+
+  setTimeout(() => {
+    location.reload()
+  }, 1200);
+
+} catch (error) {
+  progressFill.style.background = "red";
+  statusText.textContent = " Upload Failed :("
+  sendBtn.disabled = false;
+  sendBtn.textContent = "Send File"
+}
+  // fetch("/api/photos", {
+  //   method: "POST",
+  //   body: formData
+  // })
+  // .then(res => res.json())
+  // .then(data => {
+  //   console.log("Success:", data);
+
+  //   // reload page to show new image
+  //   location.reload();
+  // })
+  // .catch(err => console.log(err));
+});
+
