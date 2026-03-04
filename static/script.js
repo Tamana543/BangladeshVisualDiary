@@ -73,6 +73,10 @@ event.preventDefault()
 dropArea.addEventListener("drop",(event)=>{
 event.preventDefault()
 fileInput.files = event.dataTransfer.files;
+const fileName = fileInput.files[0].name;
+fileText.textContent = fileName.length > 30 ? fileName.substring(0,30)+"..." : fileName;
+
+fileLabel.style.border = "2px solid #f83999"
 })
 
 dropArea.addEventListener("dragenter", () => {
