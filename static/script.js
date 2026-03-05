@@ -26,7 +26,7 @@ fetch('/api/photos').then(res=>{ // take a look here
     // /static/default_images/${element.fileInput}
     
     imageContainer.innerHTML +=  `
-    <div class="image hover10">
+    <div class="image hover">
     <img src="/static/default_images/${element.filename}" alt="image ${ind+1}">
        <div class="description"> 
   <p>${element.description} </p>
