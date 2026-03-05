@@ -7,11 +7,9 @@ const svgContainer = document.querySelector(".svgContainer")
 const homeBtn = document.getElementById("homeBtn");
 const dropArea = document.querySelector(".formbold-file-input");
 const fileInput = document.getElementById("file")
-  const description = document.getElementById("description").value;
-  const sender = document.getElementById("sender").value;
-  const progressBar = document.getElementById("progressBar");
-  const progressFill = document.getElementById("progressFill");
-  const statusText = document.getElementById("uploadStatus");
+const progressBar = document.getElementById("progressBar");
+const progressFill = document.getElementById("progressFill");
+const statusText = document.getElementById("uploadStatus");
 const fileText = document.getElementById("fileText");
 const fileLabel = document.getElementById("fileLabel");
 const formboalContainer = document.getElementById("formbold-text-container")
@@ -25,7 +23,7 @@ fetch('/api/photos').then(res=>{ // take a look here
 .then(images=>{
   images.forEach((element,ind) => {
     // /static/default_images/${element.fileInput}
-
+    
     imageContainer.innerHTML +=  `
     <div class="image hover10">
     <img src="/static/default_images/${element.filename}" alt="image ${ind+1}">
@@ -95,16 +93,19 @@ sendBtn.addEventListener("click",async (event)=>{
 
   event.preventDefault();
   const file = fileInput.files[0];
+  const description = document.getElementById("description").value;
+  const sender = document.getElementById("sender").value;
 
 if(!file){
 alert("Please choose a file :)")
 return;
 }
-
   const formData = new FormData() 
   formData.append("file",file) 
   formData.append("description",description)
   formData.append("sender",sender)
+
+
 
 
 // UI Changes before upload
