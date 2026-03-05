@@ -21,6 +21,7 @@ fetch('/api/photos').then(res=>{ // take a look here
   return res.json()
 })
 .then(images=>{
+
   images.forEach((element,ind) => {
     // /static/default_images/${element.fileInput}
     
