@@ -86,7 +86,11 @@ dropArea.addEventListener("dragenter", () => {
 dropArea.addEventListener("dragleave", () => {
   dropArea.style.border = "1px dashed #e0e0e0";
 });
-
+images.forEach(image=>{
+  image.addEventListener("click",()=>{
+    console.log(image);
+  })
+})
 // Btn event listeners
 addBtn.addEventListener("click",formDisplayer)
 

@@ -30,12 +30,12 @@ header p {
      font-size: 1.1rem;
      margin: 2em;
 }
-header a:link {
+header .github_link:link {
      color: #a09898;
 text-decoration: none;
 text-transform: capitalize;
 }
-a span:hover {
+.github_link span:hover {
 
      color: #ecdcdc;
      cursor: pointer;
