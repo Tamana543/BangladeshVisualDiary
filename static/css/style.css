@@ -166,6 +166,39 @@ button:active,.addBtn:active {
       margin: auto; 
 }
 
+
+/* Image fullscreen viewer */
+.lightbox {
+     position: fixed;
+top:0;
+left:0;
+width:100%;
+height:100%;
+background: rgba(0,0,0,0.9);
+display:flex;
+align-items:center;
+justify-content:center;
+}
+
+.lightbox-img {
+     max-width: 90%;
+max-height: 90%
+}
+
+.lightbox button {
+    width: 4%;
+    position: absolute;
+}
+.next{
+right: 6%;
+}
+.prev {
+left: 6%;
+}
+.close{
+    top: 3%;
+    right: 6%;
+}
 @media (max-width: 540px) {
      button {
     width: 27%;
@@ -178,4 +211,8 @@ button:active,.addBtn:active {
   .grid {
      grid-template-columns: 1fr 1fr;
   }
+  .close {
+    top: 5%;
+    right: 8%;
+}
 }
