@@ -15,6 +15,9 @@ const fileLabel = document.getElementById("fileLabel");
 const formboalContainer = document.getElementById("formbold-text-container")
 const lightbox = document.querySelector(".lightbox")
 const lightboxImg = document.querySelector(".lightbox-img")
+const nextBtn = document.querySelector(".next")
+const preBtn = document.querySelector(".prev")
+const closeBtn = document.querySelector(".close")
 let currentInd = 0
 let imageList = []
 // loding images
@@ -24,13 +27,17 @@ fetch('/api/photos')
   return res.json()
 })
 .then(images=>{
-imageContainer = images
+imageList = images
   images.forEach((element,ind) => {
     // /static/default_images/${element.fileInput}
     
     imageContainer.innerHTML +=  `
     <div class="image hover">
-    <img src="/static/default_images/${element.filename}" alt="image ${ind+1}">
+    <img src="/static/default_images/${element.filename}"
+     alt="image ${ind+1}"
+      data-index="${ind}"
+      >
+    
        <div class="description"> 
   <p>${element.description} </p>
   <p>  📸 : ${element.sender} </p>
@@ -69,7 +76,7 @@ function showIMG(index){
 const imageData = imageList[index]
 
 lightboxImg.src = `/static/default_images/${imageData.filename}`
-lightbox.alt =''
+lightbox.alt =`image ${index + 1}`
 }
 
 function nextIMG(){
@@ -122,6 +129,9 @@ imageContainer.addEventListener("click",(event)=>{
     lightboxImg.alt = alt
   }
 })
+
+nextBtn.addEventListener("click",nextIMG)
+preBtn.addEventListener("click",prevIMG)
 // Btn event listeners
 addBtn.addEventListener("click",formDisplayer)
 
