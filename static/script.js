@@ -95,6 +95,9 @@ if(currentInd < 0){
 }
 showIMG(currentInd)
 }
+function closeLightBox(){
+  lightbox.classList.add("hidden")
+}
 //Event listeners
 // Drag and drop functionality  
 
@@ -132,6 +135,19 @@ imageContainer.addEventListener("click",(event)=>{
 
 nextBtn.addEventListener("click",nextIMG)
 preBtn.addEventListener("click",prevIMG)
+closeBtn.addEventListener("click",closeLightBox)
+document.addEventListener("keydown",(event)=>{
+  if(event.key === "Escape"){
+    closeLightBox()
+  }
+
+  if(event.key === "ArrowLeft"){
+    prevIMG()
+  }
+if (event.key === "ArrowRight") {
+  nextIMG()
+}
+})
 // Btn event listeners
 addBtn.addEventListener("click",formDisplayer)
 
