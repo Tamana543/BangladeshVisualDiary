@@ -181,8 +181,8 @@ justify-content:center;
 }
 
 .lightbox-img {
-     max-width: 90%;
-max-height: 90%
+width: 100%;
+height: 100%;
 }
 
 .lightbox button {

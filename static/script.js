@@ -14,15 +14,17 @@ const fileText = document.getElementById("fileText");
 const fileLabel = document.getElementById("fileLabel");
 const formboalContainer = document.getElementById("formbold-text-container")
 const lightbox = document.querySelector(".lightbox")
-const lightboxImg = document.querySelector(".lightboxx-img")
-
+const lightboxImg = document.querySelector(".lightbox-img")
+let currentInd = 0
+let imageList = []
 // loding images
 
-fetch('/api/photos').then(res=>{ // take a look here
+fetch('/api/photos')
+.then(res=>{
   return res.json()
 })
 .then(images=>{
-
+imageContainer = images
   images.forEach((element,ind) => {
     // /static/default_images/${element.fileInput}
     
@@ -63,7 +65,29 @@ function formHide(){
   formContainer.classList.toggle("show")
   container.classList.toggle("hidden")
 }
+function showIMG(index){
+const imageData = imageList[index]
 
+lightboxImg.src = `/static/default_images/${imageData.filename}`
+lightbox.alt =''
+}
+
+function nextIMG(){
+  currentInd++;
+   if(currentInd >= imageList.length){
+    currentInd = 0
+  }
+
+  showIMG(currentInd)
+}
+
+function prevIMG(){
+currentInd--;
+if(currentInd < 0){
+  currentInd = 0
+}
+showIMG(currentInd)
+}
 //Event listeners
 // Drag and drop functionality  
 
@@ -90,10 +114,12 @@ dropArea.addEventListener("dragleave", () => {
 
 imageContainer.addEventListener("click",(event)=>{
   if(event.target.tagName === "IMG"){
+    currentInd = Number(event.target.dataset.index)
     const src = event.target.src;
     const alt = event.target.alt;
     lightbox.classList.remove("hidden")
-
+    lightboxImg.src = src;
+    lightboxImg.alt = alt
   }
 })
 // Btn event listeners
