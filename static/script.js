@@ -13,7 +13,8 @@ const statusText = document.getElementById("uploadStatus");
 const fileText = document.getElementById("fileText");
 const fileLabel = document.getElementById("fileLabel");
 const formboalContainer = document.getElementById("formbold-text-container")
-
+const lightbox = document.querySelector(".lightbox")
+const lightboxImg = document.querySelector(".lightboxx-img")
 
 // loding images
 
@@ -86,10 +87,14 @@ dropArea.addEventListener("dragenter", () => {
 dropArea.addEventListener("dragleave", () => {
   dropArea.style.border = "1px dashed #e0e0e0";
 });
-images.forEach(image=>{
-  image.addEventListener("click",()=>{
-    console.log(image);
-  })
+
+imageContainer.addEventListener("click",(event)=>{
+  if(event.target.tagName === "IMG"){
+    const src = event.target.src;
+    const alt = event.target.alt;
+    lightbox.classList.remove("hidden")
+
+  }
 })
 // Btn event listeners
 addBtn.addEventListener("click",formDisplayer)

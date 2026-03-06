@@ -200,10 +200,10 @@ left: 6%;
     right: 6%;
 }
 @media (max-width: 540px) {
-     button {
-    width: 27%;
+     button,#homeBtn {
+    width: 27% !important;
    
-    font-size: 15px;
+    font-size: 15px !important;
   }
   .description {
      font-size: 1rem; 
@@ -214,5 +214,9 @@ left: 6%;
   .close {
     top: 5%;
     right: 8%;
+}
+.lightbox button {
+    width: 4% !important;
+
 }
 }
