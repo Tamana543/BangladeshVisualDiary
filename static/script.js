@@ -18,6 +18,9 @@ const lightboxImg = document.querySelector(".lightbox-img")
 const nextBtn = document.querySelector(".next")
 const preBtn = document.querySelector(".prev")
 const closeBtn = document.querySelector(".close")
+const modeTogglerBtn = document.querySelector(".tdnn")
+const modeTogglerMoon = document.querySelector(".moon")
+const body = document.querySelector("body")
 let currentInd = 0
 let imageList = []
 // loding images
@@ -227,4 +230,9 @@ fileInput.addEventListener("change", () => {
     fileLabel.style.border = "2px solid #f83999";
   }
 });
+modeTogglerBtn.addEventListener("click",()=>{
+  modeTogglerBtn.classList.toggle('day');
+body.classList.toggle('light')
+modeTogglerMoon.classList.toggle("sun")
+})
 

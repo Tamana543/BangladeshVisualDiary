@@ -17,9 +17,9 @@
 
 body{
   transition: all .2s ease-in-out;
-  background: var(--darkbg);
+
   color: var(--darkt);
-  text-align: center;
+
 }
 .light{
   background: var(--lightbg);
