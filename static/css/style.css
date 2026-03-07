@@ -19,9 +19,11 @@ background-color: #000;
 color: #a09898;
 position: relative;
 }
+.container {
+         margin-top: 1%;
+}
 header {
      flex-direction: column;
-margin-top: 3%;
 grid-column-start: 2;
 
 }
@@ -205,7 +207,7 @@ left: 6%;
 @media (max-width: 540px) {
      button,#homeBtn {
     width: 27% !important;
-   
+           top: 4px;
     font-size: 15px !important;
   }
   .description {
