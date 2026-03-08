@@ -3,6 +3,7 @@ const addBtn = document.getElementById('addBtn')
 const sendBtn = document.getElementById('sendBtn')
 const container = document.querySelector(".container")
 const formContainer = document.querySelector(".form_container")
+const formSubContainer = document.querySelector(".formbold-form-wrapper");
 const svgContainer = document.querySelector(".svgContainer")
 const homeBtn = document.getElementById("homeBtn");
 const dropArea = document.querySelector(".formbold-file-input");
@@ -59,7 +60,7 @@ imageList = images
 function formDisplayer(){
 container.classList.toggle("hidden")
 formContainer.classList.toggle("show")
-homeBtn.style.top  = "20px"
+homeBtn.style.top  = "-26px"
 
 // looding svg 
 lottie.loadAnimation(
@@ -235,5 +236,7 @@ modeTogglerBtn.addEventListener("click",()=>{
 body.classList.toggle('light')
 modeTogglerMoon.classList.toggle("sun")
 addBtn.classList.toggle("light")
+homeBtn.classList.toggle("light")
+formSubContainer.classList.toggle("light")
 })
 

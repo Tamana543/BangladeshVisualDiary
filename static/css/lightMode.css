@@ -13,6 +13,7 @@
   --mooncolor: #D9FBFF;
   --bgColor--day: #9ee3fb;
   --toggleBtn-bgColor--day: var(--bgColor--day);
+  --box-shadow : rgba(45, 35, 66, 0.4) 1px -1px 8px 0px, rgba(45, 35, 66, 0.3) 0 7px 13px -3px, #daa8d0 1px -1px 20px 0px inset !important;
 }
 
 body{
@@ -22,12 +23,13 @@ body{
 
 }
 .light{
-  background: var(--lightbg);
-  color: var(--lightt);
+  background: var(--lightbg) !important;
+  color: var(--lightt) !important;
 }
-.addBtn.light{
-      box-shadow: rgba(45, 35, 66, 0.4) 1px -1px 8px 0px, rgba(45, 35, 66, 0.3) 0 7px 13px -3px, #daa8d0 1px -1px 20px 0px inset !important;
+.addBtn.light,#homeBtn.light{
+      box-shadow:  var(--box-shadow) ;
 }
+
 .tdnn {
     margin-top: 14px;
     margin-left: 27px;
@@ -84,4 +86,14 @@ body{
     -3.5em 3.5em 0 -3em #fff,
     -5em 0 0 -2.7em #fff,
     -3.5em -3.5em 0 -3em #fff;
+}
+.formbold-form-wrapper.light {
+    /* box-shadow: var(--box-shadow) ; */
+    padding: 0%;
+    width: 57% !important; 
+  }
+  
+.formbold-form-label.light{
+  color: var(--darkt) !important;
+
 }
