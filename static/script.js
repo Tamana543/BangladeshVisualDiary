@@ -234,5 +234,6 @@ modeTogglerBtn.addEventListener("click",()=>{
   modeTogglerBtn.classList.toggle('day');
 body.classList.toggle('light')
 modeTogglerMoon.classList.toggle("sun")
+addBtn.classList.toggle("light")
 })
 

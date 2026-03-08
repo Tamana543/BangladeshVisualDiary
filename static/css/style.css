@@ -19,9 +19,7 @@ background-color: #000;
 color: #a09898;
 position: relative;
 }
-.container {
-         margin-top: 1%;
-}
+
 header {
      flex-direction: column;
 grid-column-start: 2;
