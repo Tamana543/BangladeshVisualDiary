@@ -1,7 +1,7 @@
 :root {
   --darkbg:#251D29;
   --darkt: #FFD1F7;
-  --lightbg: #f6f7fb;
+  --lightbg: #eff3f4;
   /* --lightbg: #fff; */
   /* --lightt: #D43370; */
   --lightt: #4a4a4a;
@@ -98,4 +98,18 @@ transition: background-color 0.4s ease, color 0.4s ease;
 .formbold-form-label.light{
   color: var(--darkt) !important;
 
+}
+form.formLight {
+  background-color: #ffff;
+    width: 100%;
+    /* max-width: 400px; */
+    /* background-color: var(--background-sec); */
+    padding: 2.25em;
+    box-sizing: border-box;
+    border: solid 1px var(--border-color);
+    border-radius: 0.5rem;
+    color: #07074d;
+}
+.formLight label, .formLight .formbold-drop-file {
+  color: #07074d !important;
 }

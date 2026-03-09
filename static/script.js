@@ -22,6 +22,7 @@ const closeBtn = document.querySelector(".close")
 const modeTogglerBtn = document.querySelector(".tdnn")
 const modeTogglerMoon = document.querySelector(".moon")
 const body = document.querySelector("body")
+const formAddData = document.getElementById("photoForm")
 let currentInd = 0
 let imageList = []
 // loding images
@@ -238,5 +239,6 @@ modeTogglerMoon.classList.toggle("sun")
 addBtn.classList.toggle("light")
 homeBtn.classList.toggle("light")
 formSubContainer.classList.toggle("light")
+formAddData.classList.toggle("formLight")
 })
 
