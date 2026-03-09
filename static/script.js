@@ -241,6 +241,6 @@ addBtn.classList.toggle("light")
 homeBtn.classList.toggle("light")
 formSubContainer.classList.toggle("light")
 formAddData.classList.toggle("formLight")
-imageContainer.querySelector('#createdImg').classList.toggle("lightImg")
+imageContainer.getElementById('createdImg').classList.toggle("lightImg")
 })
 
