@@ -41,6 +41,7 @@ imageList = images
     <img src="/static/default_images/${element.filename}"
      alt="image ${ind+1}"
       data-index="${ind}"
+      id="createdImg"
       >
     
        <div class="description"> 
@@ -240,5 +241,6 @@ addBtn.classList.toggle("light")
 homeBtn.classList.toggle("light")
 formSubContainer.classList.toggle("light")
 formAddData.classList.toggle("formLight")
+imageContainer.querySelector('#createdImg').classList.toggle("lightImg")
 })
 

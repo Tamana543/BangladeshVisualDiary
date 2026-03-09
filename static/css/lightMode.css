@@ -113,3 +113,15 @@ form.formLight {
 .formLight label, .formLight .formbold-drop-file {
   color: #07074d !important;
 }
+
+.imageContainer img.lightImg {
+  background-color: #ffff !important;
+    /* width: 100%; */
+    /* max-width: 400px; */
+    /* background-color: var(--background-sec); */
+    padding: 2.25em !important;
+    box-sizing: border-box !important;
+    border: solid 1px var(--border-color) !important;
+    border-radius: 0.5rem !important;
+  
+}
