@@ -178,8 +178,7 @@ color: #828293;
 .hidden {
   display: none;
 }
-
-  @media (min-width: 540px) {
+@media (max-width: 540px) {
     .sm\:w-half {
       width: 50%;
     }
@@ -187,6 +186,9 @@ color: #828293;
     width: 27%;
    
     font-size: 15px;
+  }
+  .formbold-main-wrapper{
+    width: 90% !important;
   }
 }
 
