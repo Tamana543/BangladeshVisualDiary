@@ -35,6 +35,9 @@ header .github_link:link {
 text-decoration: none;
 text-transform: capitalize;
 }
+body.light .github_link:link {
+     color: #000 !important;
+}
 .github_link span:hover {
 
      color: #ecdcdc;
