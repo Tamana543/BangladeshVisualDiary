@@ -105,6 +105,7 @@ img {
      position: absolute;
       top: -27px;
     right: 15px;
+        height: 5%;
 }
 button,.addBtn {
      width: 20%;
