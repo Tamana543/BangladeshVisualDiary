@@ -41,7 +41,6 @@ imageList = images
     <img src="/static/default_images/${element.filename}"
      alt="image ${ind+1}"
       data-index="${ind}"
-      id="createdImg"
       >
     
        <div class="description"> 
@@ -82,7 +81,7 @@ function showIMG(index){
 const imageData = imageList[index]
 
 lightboxImg.src = `/static/default_images/${imageData.filename}`
-lightbox.alt =`image ${index + 1}`
+lightboxImg.alt =`image ${index + 1}`
 }
 
 function nextIMG(){
@@ -97,7 +96,7 @@ function nextIMG(){
 function prevIMG(){
 currentInd--;
 if(currentInd < 0){
-  currentInd = 0
+   currentInd = imageList.length - 1
 }
 showIMG(currentInd)
 }
@@ -131,11 +130,8 @@ dropArea.addEventListener("dragleave", () => {
 imageContainer.addEventListener("click",(event)=>{
   if(event.target.tagName === "IMG"){
     currentInd = Number(event.target.dataset.index)
-    const src = event.target.src;
-    const alt = event.target.alt;
     lightbox.classList.remove("hidden")
-    lightboxImg.src = src;
-    lightboxImg.alt = alt
+    showIMG(currentInd)
   }
 })
 
