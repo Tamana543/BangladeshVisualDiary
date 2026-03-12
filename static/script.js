@@ -34,7 +34,7 @@ fetch('/api/photos')
 .then(images=>{
 imageList = images
   images.forEach((element,ind) => {
-    // /static/default_images/${element.fileInput}
+ 
     
     imageContainer.innerHTML +=  `
     <div class="image hover">

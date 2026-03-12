@@ -2,8 +2,6 @@
   --darkbg:#251D29;
   --darkt: #FFD1F7;
   --lightbg: #eff3f4;
-  /* --lightbg: #fff; */
-  /* --lightt: #D43370; */
   --lightt: #4a4a4a;
   
   --toggleHeight: 16em;
@@ -108,8 +106,7 @@ height: 100%;
 form.formLight {
   background-color: #ffff;
     width: 100%;
-    /* max-width: 400px; */
-    /* background-color: var(--background-sec); */
+
     padding: 2.25em;
     box-sizing: border-box;
     border: solid 1px var(--border-color);
@@ -122,9 +119,7 @@ form.formLight {
 
 .imageContainer img.lightImg {
   background-color: #ffff !important;
-    /* width: 100%; */
-    /* max-width: 400px; */
-    /* background-color: var(--background-sec); */
+   
     padding: 2.25em !important;
     box-sizing: border-box !important;
     border: solid 1px var(--border-color) !important;
