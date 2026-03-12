@@ -30,14 +30,14 @@ header p {
      font-size: 1.1rem;
      margin: 2em;
 }
-header .github_link:link {
+/* header .github_link:link {
      color: #a09898;
 text-decoration: none;
 text-transform: capitalize;
 }
 body.light .github_link:link {
      color: #000 !important;
-}
+} */
 .github_link span:hover {
 
      color: #ecdcdc;
@@ -45,7 +45,10 @@ body.light .github_link:link {
      border-bottom: 2px solid #ecdcdc;
 
 }
-
+header img {
+     width: 5% !important;
+   border: 0;
+}
 .home_btn {
      text-decoration: none;
        background-color: #F83999;
