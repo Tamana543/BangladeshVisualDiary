@@ -23,6 +23,7 @@ position: relative;
 header {
      flex-direction: column;
 grid-column-start: 2;
+position: relative;
 
 }
 header p {
@@ -30,14 +31,12 @@ header p {
      font-size: 1.1rem;
      margin: 2em;
 }
-/* header .github_link:link {
-     color: #a09898;
-text-decoration: none;
-text-transform: capitalize;
+.github_link {
+     position: absolute;
+     display: flex;
+          top: -30px;
+    right: 106px;
 }
-body.light .github_link:link {
-     color: #000 !important;
-} */
 .github_link span:hover {
 
      color: #ecdcdc;
@@ -46,8 +45,9 @@ body.light .github_link:link {
 
 }
 header img {
-     width: 5% !important;
+     width: 89% !important;
    border: 0;
+   background: none;
 }
 .home_btn {
      text-decoration: none;
@@ -108,7 +108,7 @@ img {
      position: absolute;
       top: -27px;
     right: 15px;
-        height: 5%;
+          height: 4%;
 }
 button,.addBtn {
      width: 20%;
