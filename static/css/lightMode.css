@@ -106,10 +106,10 @@ height: 100%;
 form.formLight {
   background-color: #ffff;
     width: 100%;
-
+  box-shadow: none !important;
     padding: 2.25em;
     box-sizing: border-box;
-    border: solid 1px var(--border-color);
+   border: outset 1.5mm rgb(135 120 120 / 14%);
     border-radius: 0.5rem;
     color: #07074d;
 }

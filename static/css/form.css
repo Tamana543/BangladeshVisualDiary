@@ -1,3 +1,10 @@
+form {
+    border: outset 1.5mm rgb(41 40 40 / 14%);
+    box-shadow: inset -1px -1px 20px 6px rgb(29 29 29 / 87%);
+    padding: 5%;
+    margin-bottom: 3%;
+       background-color: #1c1a1a;
+}
 .formbold-mb-5 {
     margin-bottom: 20px;
   }
