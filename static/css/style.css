@@ -34,7 +34,7 @@ header p {
 .github_link {
      position: absolute;
      display: flex;
-          top: -30px;
+              top: 4px;
     right: 106px;
 }
 .github_link span:hover {
@@ -44,8 +44,9 @@ header p {
      border-bottom: 2px solid #ecdcdc;
 
 }
-header img {
-     width: 89% !important;
+.github_logo {
+     width: 87% !important;
+    height: 83%;
    border: 0;
    background: none;
      padding: 4%;
