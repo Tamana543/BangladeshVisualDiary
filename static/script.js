@@ -14,6 +14,8 @@ const statusText = document.getElementById("uploadStatus");
 const fileText = document.getElementById("fileText");
 const fileLabel = document.getElementById("fileLabel");
 const formboalContainer = document.getElementById("formbold-text-container")
+const emailCheck = document.getElementById("emailCheck")
+const emailContainer = document.getElementById("emailContainer")
 const lightbox = document.querySelector(".lightbox")
 const lightboxImg = document.querySelector(".lightbox-img")
 const nextBtn = document.querySelector(".next")
@@ -229,14 +231,22 @@ fileInput.addEventListener("change", () => {
     fileLabel.style.border = "2px solid #f83999";
   }
 });
+
+emailCheck.addEventListener("change", () => {
+    if(emailCheck.checked){
+      emailContainer.classList.remove("hidden")
+    } else {
+      emailContainer.classList.add("hidden")
+    }
+})
 modeTogglerBtn.addEventListener("click",()=>{
-  modeTogglerBtn.classList.toggle('day');
-body.classList.toggle('light')
-modeTogglerMoon.classList.toggle("sun")
-addBtn.classList.toggle("light")
-homeBtn.classList.toggle("light")
-formSubContainer.classList.toggle("light")
-formAddData.classList.toggle("formLight")
+      modeTogglerBtn.classList.toggle('day');
+    body.classList.toggle('light')
+    modeTogglerMoon.classList.toggle("sun")
+    addBtn.classList.toggle("light")
+    homeBtn.classList.toggle("light")
+    formSubContainer.classList.toggle("light")
+    formAddData.classList.toggle("formLight")
 
 })
 
