@@ -134,7 +134,7 @@ color: #828293;
 .checkmark {
   width: 18px;
   height: 18px;
-  border: 2px solid #f83999;
+     border: 2px solid #ffd2e8;
   border-radius: 4px;
   position: relative;
   transition: all 0.2s ease;
@@ -143,7 +143,7 @@ color: #828293;
   border-color: #ff5ca8;
 }
 .customCheck input:checked + .checkmark {
-  background-color: #f83999;
+    background-color: #c47ea1;
 }
 .checkmark::after {
   content: "";
