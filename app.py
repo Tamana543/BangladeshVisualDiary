@@ -1,4 +1,5 @@
 #any confussion check draft_codes.txt
+from flask_email import Mail, message
 #DataBase Hundler
 import sqlite3 # main sql :)
 def init_db():
