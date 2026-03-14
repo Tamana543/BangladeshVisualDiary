@@ -121,7 +121,47 @@ color: #828293;
     font-size: 20px;
     margin-bottom: 8px;
   }
+.customCheck input {
+  display: none;
+}
+ .customCheck {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer;
+}
 
+.checkmark {
+  width: 18px;
+  height: 18px;
+  border: 2px solid #f83999;
+  border-radius: 4px;
+  position: relative;
+  transition: all 0.2s ease;
+}
+.customCheck:hover .checkmark {
+  border-color: #ff5ca8;
+}
+.customCheck input:checked + .checkmark {
+  background-color: #f83999;
+}
+.checkmark::after {
+  content: "";
+  position: absolute;
+  display: none;
+}
+.customCheck input:checked + .checkmark::after {
+  display: block;
+}
+.customCheck .checkmark::after {
+  left: 5px;
+  top: 1px;
+  width: 4px;
+  height: 9px;
+  border: solid white;
+  border-width: 0 2px 2px 0;
+  transform: rotate(45deg);
+}
   .formbold-or {
     font-weight: 500;
     font-size: 16px;
