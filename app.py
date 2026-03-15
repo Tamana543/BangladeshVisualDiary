@@ -1,5 +1,5 @@
 #any confussion check draft_codes.txt
-from flask_email import Mail, message
+from flask_mail import Mail, Message
 #DataBase Hundler
 import sqlite3 # main sql :)
 def init_db():
@@ -14,12 +14,23 @@ def init_db():
           """)
 
 
+
 # Flask Hundler 
 import os
 from flask import Flask, render_template,request,jsonify
 
 app = Flask(__name__) 
 
+# Email handler 
+
+app.config['MAIL_SERVER'] = 'smtp.gmail.com'
+app.config['MAIL_PORT'] = 587 
+app.config['MAIL_USE_TLS'] = True
+app.config['MAIL_USERNAME'] = 'auw242106@auw.edu.bd'
+app.config['MAIL_PASSWORD'] = 'okkn jnwz iyie xpkz'
+app.config['MAIL_DEFAULT_SENDER'] = 'auw242106@auw.edu.bd'
+
+mail = Mail(app)
 
 @app.route("/") 
 def main():
