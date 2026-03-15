@@ -59,6 +59,7 @@ def photo_upload():
      filepath = os.path.join(app.config["UPLOAD_FOLDER"], filename)
      file.save(filepath)
      email = request.form.get("email")
+     print("EMAIL RECEIVED:", email)
      if email:
           msg = Message(
                 subject="Your photo fron e_visual gallery.",
@@ -67,16 +68,16 @@ def photo_upload():
               
                
           msg.body = f"""
-     Hello {sender},
+          Hello {sender},
 
-     Thanks for sharing your photo!
+          Thanks for sharing your photo!
 
-     Description:
-     {description}
-     """
-     with open(filepath,"rb") as img :
-          msg.attach(filename, "image/jpeg", img.read())
-     mail.send() 
+          Description:
+          {description}
+          """
+          with open(filepath,"rb") as img :
+               msg.attach(filename, "image/jpeg", img.read())
+          mail.send(msg) 
      #SQL hundler
      connection = sqlite3.connect("database.db")
      conn_cursor = connection.cursor()
