@@ -58,7 +58,24 @@ def photo_upload():
      filename = file.filename
 
      file.save(os.path.join(app.config["UPLOAD_FOLDER"], filename))
+     email = request.form.get("email")
+     if email:
+          msg = Message(
+                subject="Your photo fron e_visual gallery.",
+               recipients=[email]
+               )
+              
+               
+          msg.body = f"""Hello {sender},
 
+          Thanks for sharing your photo with Bangladesh Visual Diary.
+
+          Description:
+          {description}
+
+          Your image is attached to this email.
+          """
+          
      #SQL hundler
      connection = sqlite3.connect("database.db")
      conn_cursor = connection.cursor()
