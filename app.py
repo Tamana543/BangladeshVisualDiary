@@ -68,7 +68,7 @@ def photo_upload():
               
           # The template loader 
           msg.html = render_template(
-            "email_notification.html", 
+            "email_template.html", 
             sender_name=sender, 
             photo_description=description
         )
