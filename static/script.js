@@ -161,19 +161,20 @@ sendBtn.addEventListener("click",async (event)=>{
   const file = fileInput.files[0];
   const description = document.getElementById("description").value;
   const sender = document.getElementById("sender").value;
-const email = document.getElementById("email").value
+const email = document.getElementById("email").value;
+console.log(email)
 
+if(!file){
+  alert("Please choose a file :)")
+  return;
+}
+const formData = new FormData() 
+formData.append("file",file) 
+formData.append("description",description)
+formData.append("sender",sender)
 if(emailCheck.checked){
     formData.append("email", email)
 }
-if(!file){
-alert("Please choose a file :)")
-return;
-}
-  const formData = new FormData() 
-  formData.append("file",file) 
-  formData.append("description",description)
-  formData.append("sender",sender)
 
 
 
