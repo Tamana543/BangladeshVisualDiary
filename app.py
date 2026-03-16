@@ -50,31 +50,28 @@ def photo_render():
 
 @app.route("/api/photos", methods=['POST'])
 def photo_upload():
-   
      file= request.files["file"]
      description = request.form["description"]
      sender = request.form["sender"]
+     email = request.form.get("email")
 
      filename = file.filename
      filepath = os.path.join(app.config["UPLOAD_FOLDER"], filename)
      file.save(filepath)
-     email = request.form.get("email")
-     print("EMAIL RECEIVED:", email)
+
+     
      if email:
           msg = Message(
-                subject="Your photo fron e_visual gallery.",
+                subject="Your photo fron E_visual gallery.",
                recipients=[email]
                )
               
-               
-          msg.body = f"""
-          Hello {sender},
-
-          Thanks for sharing your photo!
-
-          Description:
-          {description}
-          """
+          # The template loader 
+          msg.html = render_template(
+            "email_notification.html", 
+            sender_name=sender, 
+            photo_description=description
+        )
           with open(filepath,"rb") as img :
                msg.attach(filename, "image/jpeg", img.read())
           mail.send(msg) 

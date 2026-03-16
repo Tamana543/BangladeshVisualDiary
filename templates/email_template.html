@@ -24,8 +24,8 @@
      }
         .header
          {
-           background-color: #4A90E2;
-           color: white;
+           background-color: #ffd1f7;
+           color: rgb(27, 25, 25);
            padding: 20px;
            text-align: center;
       }
@@ -35,7 +35,7 @@
       }
         .description-box
          { 
-          background-color: #f9f9f9; 
+          background-color:  #ffd1f7; 
           border-left: 4px solid #4A90E2;
            padding: 15px; 
           margin: 15px 0;
@@ -50,6 +50,23 @@
       }
     </style>
 <body>
-     
+     <div class="container">
+        <div class="header">
+            <h1>E-Visual Gallery</h1>
+        </div>
+        <div class="content">
+            <p>Hello <strong>{{ sender_name }}</strong>,</p>
+            <p>Thanks for sharing your photo with us! We have successfully received your upload.</p>
+            
+            <div class="description-box">
+                "{{ photo_description }}"
+            </div>
+
+            <p>The image you uploaded is attached to this email for your records.</p>
+        </div>
+        <div class="footer">
+            Sent via E-Visual Gallery App
+        </div>
+    </div>
 </body>
 </html>
