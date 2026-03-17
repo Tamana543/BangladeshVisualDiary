@@ -17,16 +17,6 @@
      <title>Edit Request</title>
 </head>
 <body>
-    <!DOCTYPE html>
-<html lang="en">
-<head>
-    
-
-  
-
-     <title>Bangladesh Visual Diary</title>
-</head>
-<body>
   <div class="tdnn">
          <div class="moon">
         </div>
@@ -55,7 +45,7 @@
     <form id="photoForm" enctype="multipart/form-data">
       <div class="formbold-mb-5">
         <label for="sender" class="formbold-form-label">
-          Sender:
+          Your name:
         </label>
         <input
           type="text"
@@ -66,86 +56,21 @@
         />
       </div>
       <div class="formbold-mb-5">
-        <label for="description" class="formbold-form-label">
-          Describe the photo
+        <label for="sender" class="formbold-form-label">
+          Image Name:
         </label>
         <input
           type="text"
-          name="description"
-          id="description"
-          placeholder="This image is .."
+          name="sender"
+          id="imageName"
+          placeholder="Enter Image's Name"
           class="formbold-form-input"
         />
       </div>
 
-      <div class="formbold-mb-5">
- <label class="customCheck formbold-form-label">
-  <input type="checkbox" id="emailCheck">
-  <span class="checkmark"></span>
-  Send this photo to my Email..
-</label>
-</div>
-
-<div class="formbold-mb-5 hidden" id="emailContainer">
-  <label for="email" class="formbold-form-label">
-    Email address
-  </label>
-  <input
-    type="email"
-    name="email"
-    id="email"
-    placeholder="Enter your email"
-    class="formbold-form-input"
-  />
-</div>
-
-      <div class="mb-6 pt-4">
-        <label class="formbold-form-label formbold-form-label-2">
-          Upload File
-        </label>
-
-        <div class="formbold-mb-5 formbold-file-input">
-          <input type="file" name="file" id="file" />
-          <label for="file" id="fileLabel">
-            <div>
-              <span class="formbold-drop-file" id="fileText"> Drop files here </span>
-              <span  id="formbold-text-container">
-              <span class="formbold-or"> Or </span>
-              <span class="formbold-browse"> Browse </span>
-              </span>
-            </div>
-          </label>
-        </div>
-
-       
-      </div>
-<div class="formbold-progress-bar hidden" id="progressBar">
-  <div class="formbold-progress" id="progressFill"></div>
-</div>
-<p id="uploadStatus" class="hidden" style="color:#a09898;"></p>
-      <div>
-        <button class="formbold-btn w-full" id="sendBtn">Upload File</button>
-      </div>
-      
-    </form>
-  </div>
-</div>
-</div>
-     </div>
 
 
-     <div class="lightbox hidden">
-
-    <button class="close">✕</button>
-
-    <button class="prev">⬅</button>
-
-    <img class="lightbox-img">
-
-    <button class="next">➡</button>
-
-</div>
-
+    
 
         <script src="{{ url_for('static', filename='script.js') }}"></script>
    
