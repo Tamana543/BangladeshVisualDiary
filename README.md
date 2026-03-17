@@ -1,6 +1,6 @@
-# Bangladesh Visual Diary 🇧🇩📸
+# Visual Gallery 🇧🇩📸
 
-A personal visual diary showcasing moments, streets, people, and everyday life in **Bangladesh** through photography.  
+A personal visual diary showcasing moments, streets, people, and everyday life through photography.  
 This project is designed as a simple, emotional, and minimal static website where images speak louder than words.
 
 Created with ❤️ by **Tamana**.
@@ -10,8 +10,7 @@ Created with ❤️ by **Tamana**.
 ## 🌱 Project Purpose
 
 This project is more than a gallery.  
-It is a **visual memory archive** — capturing feelings, culture, and ordinary beauty from Bangladesh.
-
+It is a **visual memory archive** — capturing feelings, culture, and ordinary beauty from my life. 
 The goal:
 - Preserve moments visually
 - Practice front-end fundamentals
@@ -26,7 +25,13 @@ The goal:
 - **HTML5** – structure  
 - **CSS3** – layout & styling  
 - **JavaScript (Vanilla)** – image handling and interaction  
-- **Git & GitHub** – version control  
+- **Git & GitHub** – version control 
+- **Python** - Backend Main logic
+- **Flask**  - as the web framework for handling routes and API endpoints
+- **Fetch API** -  communication between the frontend and backend
+- **Flask-Mail**  -  sending emails with image attachments
+- **SQLite** -  storing image data
+
 
 No frameworks. No noise. Just the essentials.
 
@@ -64,7 +69,7 @@ No build steps. No setup stress.
 
 - Clean and readable structure
 - Simple logic (easy to maintain and expand)
-- Emotional concept (this is a strong point — keep it!)
+- Emotional concept 
 - Lightweight and fast
 
 
@@ -72,32 +77,24 @@ No build steps. No setup stress.
 ---
 
 ## 🔮 What Can Be Added to Improve This Project
-
+- let me know more :)
 
 ### 1. Image Metadata
 - Add **captions**, **dates**, or **locations**
-- Example: *“Dhaka, rainy evening – 2024”*
+- Example: *“Kabul , rainy evening – 2024”*
 
-### 2. Upload Without Editing Code
-- Use `<input type="file">` to upload images directly
-- Store them temporarily using `localStorage`
 
-### 3. Categories or Tags
+### 2. Categories or Tags
 - Street life
 - Nature
 - People
 - Daily moments
 
-### 4. Accessibility Improvements
-- `alt` text for all images
-- Better contrast for text
-- Keyboard navigation
-
-### 5. Mobile Optimization
+### 3. Mobile Optimization
 - Touch-friendly spacing
 
 
-### 6. Story Mode (Advanced)
+### 4. Story Mode (Advanced)
 - Clicking an image opens a modal with a short story
 - Turns the gallery into a narrative experience
 
