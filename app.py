@@ -32,10 +32,15 @@ app.config['MAIL_DEFAULT_SENDER'] = 'auw242106@auw.edu.bd'
 
 mail = Mail(app)
 
+
 @app.route("/") 
 def main():
      # return "Hello" 
      return render_template("index.html")
+
+@app.route("/edit_req")
+def edit_req():
+     return render_template("edit_req.html")
 
 UPLOAD_FOLDER = "static/default_images"
 app.config["UPLOAD_FOLDER"] = UPLOAD_FOLDER 
