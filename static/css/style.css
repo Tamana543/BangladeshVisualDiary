@@ -37,7 +37,13 @@ header p {
        top: -17px;
     right: 36px;
 }
-.github_link .github_logo:hover {
+#deleteImg {
+     text-decoration: none;
+     padding: 1%;
+     color: #838394;
+     margin-top: 1%;
+}
+.github_link .github_logo:hover,#deleteImg:hover {
 
      color: #ecdcdc;
      cursor: pointer;
