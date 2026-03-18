@@ -42,33 +42,21 @@
      <div class="formbold-main-wrapper">
 
   <div class="formbold-form-wrapper">
-    <form id="photoForm" enctype="multipart/form-data">
-      <div class="formbold-mb-5">
-        <label for="sender" class="formbold-form-label">
-          Your name:
-        </label>
-        <input
-          type="text"
-          name="sender"
-          id="sender"
-          placeholder="Enter your Name"
-          class="formbold-form-input"
-        />
-      </div>
-      <div class="formbold-mb-5">
-        <label for="sender" class="formbold-form-label">
-          Image Name:
-        </label>
-        <input
-          type="text"
-          name="sender"
-          id="imageName"
-          placeholder="Enter Image's Name"
-          class="formbold-form-input"
-        />
-      </div>
-
-
+    <form id="deleteRequestForm">
+    <div class="formbold-mb-5">
+        <label for="senderName" class="formbold-form-label">Your Name:</label>
+        <input type="text" id="senderName" class="formbold-form-input" placeholder="Enter your Name" required />
+    </div>
+    <div class="formbold-mb-5">
+        <label for="delImageName" class="formbold-form-label">Image Filename:</label>
+        <input type="text" id="delImageName" class="formbold-form-input" placeholder="e.g., sunset.jpg" required />
+    </div>
+    <div class="formbold-mb-5">
+        <label for="reason" class="formbold-form-label">Reason for deletion:</label>
+        <textarea id="reason" class="formbold-form-input" placeholder="Why should we delete this?"></textarea>
+    </div>
+    <button type="submit" class="formbold-btn w-full" id="submitDelBtn">Send Delete Request</button>
+</form>
 
     
 
