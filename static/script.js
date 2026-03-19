@@ -24,8 +24,8 @@ const closeBtn = document.querySelector(".close")
 const modeTogglerBtn = document.querySelector(".tdnn")
 const modeTogglerMoon = document.querySelector(".moon")
 const body = document.querySelector("body")
-// const formAddData = document.getElementById("photoForm")
-const formSubData = document.getElementById(".formbold-form-wrapper")
+const formData = document.querySelector(".form")
+// const formDelData = document.getElementById("deleteRequestForm")
 let currentInd = 0
 let imageList = []
 // loding images
@@ -239,19 +239,21 @@ if(sendBtn){
 
 }
 
-fileInput.addEventListener("change", () => {
-  if (fileInput.files && fileInput.files.length > 0) {
-    formboalContainer.style.display ="none"
-    const fileName = fileInput.files[0].name;
+if(fileInput) {
+  fileInput.addEventListener("change", () => {
+    if (fileInput.files && fileInput.files.length > 0) {
+      formboalContainer.style.display ="none"
+      const fileName = fileInput.files[0].name;
 
-    fileText.textContent =
-      fileName.length > 30
-        ? fileName.substring(0, 30) + "..."
-        : fileName;
+      fileText.textContent =
+        fileName.length > 30
+          ? fileName.substring(0, 30) + "..."
+          : fileName;
 
-    fileLabel.style.border = "2px solid #f83999";
-  }
-});
+      fileLabel.style.border = "2px solid #f83999";
+    }
+  });
+}
 if(emailCheck){
 
 emailCheck.addEventListener("change", () => {
@@ -270,7 +272,9 @@ if(modeTogglerBtn){
       addBtn.classList.toggle("light")
       homeBtn.classList.toggle("light")
       formSubContainer.classList.toggle("light")
-      formSubData.classList.toggle("formLight")
+
+      formData.classList.toggle("formLight")
+
       //  loding the mode according users laptop
       localStorage.setItem('theme', body.classList.contains('light') ? 'light' : 'dark');
   })
