@@ -24,10 +24,18 @@ const closeBtn = document.querySelector(".close")
 const modeTogglerBtn = document.querySelector(".tdnn")
 const modeTogglerMoon = document.querySelector(".moon")
 const body = document.querySelector("body")
-const formAddData = document.getElementById("photoForm")
+// const formAddData = document.getElementById("photoForm")
+const formSubData = document.getElementById(".formbold-form-wrapper")
 let currentInd = 0
 let imageList = []
 // loding images
+
+// To change the mode of app according to user laptop
+if (localStorage.getItem('theme') === 'light') {
+    body.classList.add('light');
+    if (modeTogglerBtn) modeTogglerBtn.classList.add('day');
+    if (modeTogglerMoon) modeTogglerMoon.classList.add('sun');
+} 
 
 fetch('/api/photos')
 .then(res=>{
@@ -244,14 +252,16 @@ emailCheck.addEventListener("change", () => {
       emailContainer.classList.add("hidden")
     }
 })
-modeTogglerBtn.addEventListener("click",()=>{
-      modeTogglerBtn.classList.toggle('day');
-    body.classList.toggle('light')
-    modeTogglerMoon.classList.toggle("sun")
-    addBtn.classList.toggle("light")
-    homeBtn.classList.toggle("light")
-    formSubContainer.classList.toggle("light")
-    formAddData.classList.toggle("formLight")
-
-})
-
+if(modeTogglerBtn){
+  modeTogglerBtn.addEventListener("click",()=>{
+        modeTogglerBtn.classList.toggle('day');
+      body.classList.toggle('light')
+      modeTogglerMoon.classList.toggle("sun")
+      addBtn.classList.toggle("light")
+      homeBtn.classList.toggle("light")
+      formSubContainer.classList.toggle("light")
+      formSubData.classList.toggle("formLight")
+      //  loding the mode according users laptop
+      localStorage.setItem('theme', body.classList.contains('light') ? 'light' : 'dark');
+  })
+}
