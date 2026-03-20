@@ -13,4 +13,4 @@ create the api json file
 photo render function 
 sWITCH FROM JSON TO FORMDATA,
 CHANGE THE MAIN FUNCTION TO READ AND UPLOAD TO DEFAULT FOLDER (STORING THE UPLODAED IMAGE)
-TO DO TOMORROW :  the deleting image after uploading it by requesting from me ( html done, work on js), authentacation, Create the 404 not found page (search for the route for it )
+TO DO TOMORROW :  the deleting image after uploading it by requesting from me ( fix svj and js), authentacation, Create the 404 not found page (search for the route for it )
