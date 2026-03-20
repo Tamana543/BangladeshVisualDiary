@@ -24,268 +24,383 @@ const closeBtn = document.querySelector(".close")
 const modeTogglerBtn = document.querySelector(".tdnn")
 const modeTogglerMoon = document.querySelector(".moon")
 const body = document.querySelector("body")
-const formData = document.querySelector(".form")
-// const formDelData = document.getElementById("deleteRequestForm")
+const formAddData = document.getElementById("photoForm")
 let currentInd = 0
 let imageList = []
+
 // loding images
+fetch('/api/photos') 
+  .then(res=>{
 
-// To change the mode of app according to user laptop
-if (localStorage.getItem('theme') === 'light') {
-    body.classList.add('light');
-    if (modeTogglerBtn) modeTogglerBtn.classList.add('day');
-    if (modeTogglerMoon) modeTogglerMoon.classList.add('sun');
-} 
+    return res.json()
 
-if(imageContainer){
-    fetch('/api/photos')
-    .then(res=>{
-      return res.json()
-    })
-    .then(images=>{
-    imageList = images
-      images.forEach((element,ind) => {
+  }) .then(images=>{
+
+  imageList = images
+
+    images.forEach((element,ind) => {
+
+  
+
     
-        
-        imageContainer.innerHTML +=  `
-        <div class="image hover">
-        <img src="/static/default_images/${element.filename}"
-        alt="image ${ind+1}"
-          data-index="${ind}"
-          >
-        
-          <div class="description"> 
-      <p>${element.description} </p>
-      <p>  📸 : ${element.sender} </p>
 
-        </div>
-        </div>
-      
-        ` 
-    
-    
-    });
-    })
-    .catch(err=>console.log(err))
+      imageContainer.innerHTML +=  `
 
-}
+      <div class="image hover">
+
+      <img src="/static/default_images/${element.filename}"
+
+      alt="image ${ind+1}"
+
+        data-index="${ind}"
+
+        >
+
+    
+
+        <div class="description">
+
+    <p>${element.description} </p>
+
+    <p>  📸 : ${element.sender} </p>
+
+
+
+      </div>
+
+      </div>
+
+    
+
+      `
+
+  
+
+  
+
+  });
+
+  }).catch(err=>console.log(err))
+
+
 function formDisplayer(){
 container.classList.toggle("hidden")
 formContainer.classList.toggle("show")
 homeBtn.style.top  = "-26px"
 
-// looding svg 
+
+
+// looding svg
+
 lottie.loadAnimation(
-  { container: svgContainer, 
-    renderer: 'svg', 
-    loop: true, 
-    autoplay: true,
-     path: '/static/Kitty_Cat.json'}
+
+{ container: svgContainer,
+
+  renderer: 'svg',
+
+  loop: true,
+
+  autoplay: true,
+
+   path: '/static/Kitty_Cat.json'}
+
 )
+
 }
 
+
 function formHide(){
-  formContainer.classList.toggle("show")
-  container.classList.toggle("hidden")
+
+formContainer.classList.toggle("show")
+
+container.classList.toggle("hidden")
 }
 function showIMG(index){
 const imageData = imageList[index]
+
 
 lightboxImg.src = `/static/default_images/${imageData.filename}`
 lightboxImg.alt =`image ${index + 1}`
 }
 
-function nextIMG(){
-  currentInd++;
-   if(currentInd >= imageList.length){
-    currentInd = 0
-  }
 
-  showIMG(currentInd)
+function nextIMG(){
+
+currentInd++;
+
+  if(currentInd >= imageList.length){
+
+    currentInd = 0
+
 }
+
+
+
+showIMG(currentInd)
+}
+
 
 function prevIMG(){
 currentInd--;
 if(currentInd < 0){
+
    currentInd = imageList.length - 1
 }
 showIMG(currentInd)
 }
+
 function closeLightBox(){
+
   lightbox.classList.add("hidden")
+
 }
 //Event listeners
 // Drag and drop functionality  
-if(dropArea){
-    dropArea.addEventListener("dragover",(event)=>{
-    event.preventDefault()
-    })
 
-    dropArea.addEventListener("drop",(event)=>{
-    event.preventDefault()
-    fileInput.files = event.dataTransfer.files;
-    const fileName = fileInput.files[0].name;
-    fileText.textContent = fileName.length > 30 ? fileName.substring(0,30)+"..." : fileName;
 
-    fileLabel.style.border = "2px solid #f83999"
-    })
+dropArea.addEventListener("dragover",(event)=>{
+event.preventDefault()
+})
 
-    dropArea.addEventListener("dragenter", () => {
-      dropArea.style.border = "2px solid #F83999";
-    });
 
-    dropArea.addEventListener("dragleave", () => {
-      dropArea.style.border = "1px dashed #e0e0e0";
-    });
+dropArea.addEventListener("drop",(event)=>{
+event.preventDefault()
+fileInput.files = event.dataTransfer.files;
+const fileName = fileInput.files[0].name;
+fileText.textContent = fileName.length > 30 ? fileName.substring(0,30)+"..." : fileName;
+
+
+fileLabel.style.border = "2px solid #f83999"
+})
+
+
+dropArea.addEventListener("dragenter", () => {
+
+dropArea.style.border = "2px solid #F83999";
+});
+
+
+dropArea.addEventListener("dragleave", () => {
+
+dropArea.style.border = "1px dashed #e0e0e0";
+});
+
+
+imageContainer.addEventListener("click",(event)=>{
+
+if(event.target.tagName === "IMG"){
+
+  currentInd = Number(event.target.dataset.index)
+
+  lightbox.classList.remove("hidden")
+
+  showIMG(currentInd)
+
+}
+})
+
+
+nextBtn.addEventListener("click",nextIMG)
+preBtn.addEventListener("click",prevIMG)
+closeBtn.addEventListener("click",closeLightBox)
+document.addEventListener("keydown",(event)=>{
+
+if(event.key === "Escape"){
+
+  closeLightBox()
+
 }
 
-if(imageContainer){
-    imageContainer.addEventListener("click",(event)=>{
-      if(event.target.tagName === "IMG"){
-        currentInd = Number(event.target.dataset.index)
-        lightbox.classList.remove("hidden")
-        showIMG(currentInd)
-      }
-    })
-}
-if(imageContainer){
-  nextBtn.addEventListener("click",nextIMG)
-  preBtn.addEventListener("click",prevIMG)
-  closeBtn.addEventListener("click",closeLightBox)
-  document.addEventListener("keydown",(event)=>{
-    if(event.key === "Escape"){
-      closeLightBox()
-    }
 
-    if(event.key === "ArrowLeft"){
-      prevIMG()
-    }
-  if (event.key === "ArrowRight") {
-    nextIMG()
-  }
-  })
+
+if(event.key === "ArrowLeft"){
+
+  prevIMG()
+
 }
+if (event.key === "ArrowRight") {
+
+nextIMG()
+}
+})
 // Btn event listeners
 addBtn.addEventListener("click",formDisplayer)
 
-if(sendBtn){
-    sendBtn.addEventListener("click",async (event)=>{
 
-      event.preventDefault();
-      const file = fileInput.files[0];
-      const description = document.getElementById("description").value;
-      const sender = document.getElementById("sender").value;
-    const email = document.getElementById("email").value;
-    console.log(email)
-
-    if(!file){
-      alert("Please choose a file :)")
-      return;
-    }
-    const formData = new FormData() 
-    formData.append("file",file) 
-    formData.append("description",description)
-    formData.append("sender",sender)
-    if(emailCheck.checked){
-        formData.append("email", email)
-    }
+sendBtn.addEventListener("click",async (event)=>{
 
 
 
+event.preventDefault();
 
-    // UI Changes before upload
+const file = fileInput.files[0];
 
-    sendBtn.disabled =true;
-    sendBtn.textContent = "Uploading.. "
-    progressBar.classList.remove("hidden")
-    statusText.classList.remove("hidden")
-    statusText.textContent = "Uploading your image... "
+  const description = document.getElementById("description").value;
 
-    try {
-      // not real 
-      let width = 0;
-      const progress = setInterval(() => {
-        if (width < 90) {
-          width += 5
-          progressFill.style.width = width + '%';
-        }
-      }, 100);
+const sender = document.getElementById("sender").value;
+const email = document.getElementById("email").value;
+console.log(email)
 
-      const response = await fetch("/api/photos", {
-        method: "POST",
-        body: formData
-      })
 
-      clearInterval(progress)
+if(!file){
 
-      if(!response.ok) throw new Error("Upload Failed");
-      
-        progressFill.style.width = "100%";
-        statusText.textContent = "Uploaded Successfully ✓";
-        sendBtn.textContent = "Done";
+alert("Please choose a file :)")
 
-      setTimeout(() => {
-        location.reload()
-      }, 1200);
+return;
+}
+const formData = new FormData()
+formData.append("file",file)
+formData.append("description",description)
+formData.append("sender",sender)
+if(emailCheck.checked){
 
-    } catch (error) {
-      progressFill.style.background = "red";
-      statusText.textContent = " Upload Failed :("
-      sendBtn.disabled = false;
-      sendBtn.textContent = "Send File"
-    }
-    
-    });
-
+  formData.append("email", email)
 }
 
-if(fileInput) {
-  fileInput.addEventListener("change", () => {
-    if (fileInput.files && fileInput.files.length > 0) {
-      formboalContainer.style.display ="none"
-      const fileName = fileInput.files[0].name;
 
-      fileText.textContent =
-        fileName.length > 30
-          ? fileName.substring(0, 30) + "..."
-          : fileName;
 
-      fileLabel.style.border = "2px solid #f83999";
-    }
-  });
+
+
+
+
+
+// UI Changes before upload
+
+
+sendBtn.disabled =true;
+sendBtn.textContent = "Uploading.. "
+progressBar.classList.remove("hidden")
+statusText.classList.remove("hidden")
+statusText.textContent = "Uploading your image... "
+
+
+try {
+
+// not real
+let width = 0;
+
+const progress = setInterval(() => {
+
+  if (width < 90) {
+
+    width += 5
+
+    progressFill.style.width = width + '%';
+
+  }
+
+}, 100);
+
+
+
+const response = await fetch("/api/photos", {
+
+  method: "POST",
+
+  body: formData
+
+})
+
+
+
+clearInterval(progress)
+
+
+
+if(!response.ok) throw new Error("Upload Failed");
+
+ 
+
+  progressFill.style.width = "100%";
+
+  statusText.textContent = "Uploaded Successfully ✓";
+
+  sendBtn.textContent = "Done";
+
+
+
+setTimeout(() => {
+
+  location.reload()
+
+}, 1200);
+
+
+} catch (error) {
+
+progressFill.style.background = "red";
+
+statusText.textContent = " Upload Failed :("
+
+sendBtn.disabled = false;
+
+sendBtn.textContent = "Send File"
 }
-if(emailCheck){
+
+ 
+});
+
+
+
+fileInput.addEventListener("change", () => {
+
+  if (fileInput.files && fileInput.files.length > 0) {
+
+    formboalContainer.style.display ="none"
+
+    const fileName = fileInput.files[0].name;
+
+
+
+    fileText.textContent =
+
+      fileName.length > 30
+
+        ? fileName.substring(0, 30) + "..."
+
+        : fileName;
+
+
+
+    fileLabel.style.border = "2px solid #f83999";
+
+  }
+
+});
+
+
 
 emailCheck.addEventListener("change", () => {
+
     if(emailCheck.checked){
+
       emailContainer.classList.remove("hidden")
+
     } else {
+
       emailContainer.classList.add("hidden")
+
     }
+
 })
-}
-if(modeTogglerBtn){
-  modeTogglerBtn.addEventListener("click",()=>{
-        modeTogglerBtn.classList.toggle('day');
-      body.classList.toggle('light')
-      modeTogglerMoon.classList.toggle("sun")
-      addBtn.classList.toggle("light")
-      homeBtn.classList.toggle("light")
-      formSubContainer.classList.toggle("light")
-      formData.classList.toggle("light")
 
-      formData.classList.toggle("formLight")
+modeTogglerBtn.addEventListener("click",()=>{
 
-      //  loding the mode according users laptop
-      localStorage.setItem('theme', body.classList.contains('light') ? 'light' : 'dark');
-  })
-}
+      modeTogglerBtn.classList.toggle('day');
+
+    body.classList.toggle('light')
+
+    modeTogglerMoon.classList.toggle("sun")
+
+    addBtn.classList.toggle("light")
+
+    homeBtn.classList.toggle("light")
+
+    formSubContainer.classList.toggle("light")
+
+    formAddData.classList.toggle("formLight")
+
+})
 
 
-const deleteForm = document.getElementById('deleteRequestForm');
-if (deleteForm) {
-    deleteForm.addEventListener('submit', (e) => {
-        e.preventDefault();
-        console.log("Delete request submitted!");
-    });
-}
+
