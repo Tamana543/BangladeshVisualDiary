@@ -89,35 +89,28 @@ formContainer.classList.toggle("show")
 homeBtn.style.top  = "-26px"
 
 
-
 // looding svg
-
 lottie.loadAnimation(
 
 { container: svgContainer,
 
-  renderer: 'svg',
+renderer: 'svg',
 
-  loop: true,
+loop: true,
 
-  autoplay: true,
+autoplay: true,
 
-   path: '/static/Kitty_Cat.json'}
-
+  path: '/static/Kitty_Cat.json'}
 )
-
 }
 
 
 function formHide(){
-
 formContainer.classList.toggle("show")
-
 container.classList.toggle("hidden")
 }
 function showIMG(index){
 const imageData = imageList[index]
-
 
 lightboxImg.src = `/static/default_images/${imageData.filename}`
 lightboxImg.alt =`image ${index + 1}`
@@ -125,7 +118,6 @@ lightboxImg.alt =`image ${index + 1}`
 
 
 function nextIMG(){
-
 currentInd++;
 
   if(currentInd >= imageList.length){
@@ -135,10 +127,8 @@ currentInd++;
 }
 
 
-
 showIMG(currentInd)
 }
-
 
 function prevIMG(){
 currentInd--;
@@ -157,11 +147,9 @@ function closeLightBox(){
 //Event listeners
 // Drag and drop functionality  
 
-
 dropArea.addEventListener("dragover",(event)=>{
 event.preventDefault()
 })
-
 
 dropArea.addEventListener("drop",(event)=>{
 event.preventDefault()
@@ -169,13 +157,10 @@ fileInput.files = event.dataTransfer.files;
 const fileName = fileInput.files[0].name;
 fileText.textContent = fileName.length > 30 ? fileName.substring(0,30)+"..." : fileName;
 
-
 fileLabel.style.border = "2px solid #f83999"
 })
 
-
 dropArea.addEventListener("dragenter", () => {
-
 dropArea.style.border = "2px solid #F83999";
 });
 
@@ -185,16 +170,14 @@ dropArea.addEventListener("dragleave", () => {
 dropArea.style.border = "1px dashed #e0e0e0";
 });
 
-
 imageContainer.addEventListener("click",(event)=>{
-
 if(event.target.tagName === "IMG"){
 
-  currentInd = Number(event.target.dataset.index)
+currentInd = Number(event.target.dataset.index)
 
-  lightbox.classList.remove("hidden")
+lightbox.classList.remove("hidden")
 
-  showIMG(currentInd)
+showIMG(currentInd)
 
 }
 })
@@ -204,19 +187,15 @@ nextBtn.addEventListener("click",nextIMG)
 preBtn.addEventListener("click",prevIMG)
 closeBtn.addEventListener("click",closeLightBox)
 document.addEventListener("keydown",(event)=>{
-
 if(event.key === "Escape"){
 
-  closeLightBox()
-
+closeLightBox()
 }
-
 
 
 if(event.key === "ArrowLeft"){
 
-  prevIMG()
-
+prevIMG()
 }
 if (event.key === "ArrowRight") {
 
@@ -226,9 +205,7 @@ nextIMG()
 // Btn event listeners
 addBtn.addEventListener("click",formDisplayer)
 
-
 sendBtn.addEventListener("click",async (event)=>{
-
 
 
 event.preventDefault();
@@ -263,7 +240,6 @@ if(emailCheck.checked){
 
 
 
-
 // UI Changes before upload
 
 
@@ -273,96 +249,79 @@ progressBar.classList.remove("hidden")
 statusText.classList.remove("hidden")
 statusText.textContent = "Uploading your image... "
 
-
 try {
 
-// not real
-let width = 0;
-
+// not reallet width = 0;
 const progress = setInterval(() => {
 
-  if (width < 90) {
+if (width < 90) {
 
-    width += 5
+  width += 5
 
-    progressFill.style.width = width + '%';
+  progressFill.style.width = width + '%';
 
-  }
-
+}
 }, 100);
-
 
 
 const response = await fetch("/api/photos", {
 
-  method: "POST",
+method: "POST",
 
-  body: formData
-
+body: formData
 })
 
 
-
 clearInterval(progress)
-
 
 
 if(!response.ok) throw new Error("Upload Failed");
 
  
 
-  progressFill.style.width = "100%";
+progressFill.style.width = "100%";
 
-  statusText.textContent = "Uploaded Successfully ✓";
+statusText.textContent = "Uploaded Successfully ✓";
 
-  sendBtn.textContent = "Done";
-
+sendBtn.textContent = "Done";
 
 
 setTimeout(() => {
 
-  location.reload()
-
+location.reload()
 }, 1200);
 
-
 } catch (error) {
-
 progressFill.style.background = "red";
-
 statusText.textContent = " Upload Failed :("
-
 sendBtn.disabled = false;
-
 sendBtn.textContent = "Send File"
 }
 
- 
-});
-
+ });
 
 
 fileInput.addEventListener("change", () => {
 
-  if (fileInput.files && fileInput.files.length > 0) {
+if (fileInput.files && fileInput.files.length > 0) {
 
-    formboalContainer.style.display ="none"
+  formboalContainer.style.display ="none"
 
-    const fileName = fileInput.files[0].name;
-
-
-
-    fileText.textContent =
-
-      fileName.length > 30
-
-        ? fileName.substring(0, 30) + "..."
-
-        : fileName;
+  const fileName = fileInput.files[0].name;
 
 
 
-    fileLabel.style.border = "2px solid #f83999";
+  fileText.textContent =
+
+    fileName.length > 30
+
+      ? fileName.substring(0, 30) + "..."
+
+      : fileName;
+
+
+
+  fileLabel.style.border = "2px solid #f83999";
 
   }
 
@@ -372,33 +331,32 @@ fileInput.addEventListener("change", () => {
 
 emailCheck.addEventListener("change", () => {
 
-    if(emailCheck.checked){
+  if(emailCheck.checked){
 
-      emailContainer.classList.remove("hidden")
+    emailContainer.classList.remove("hidden")
 
-    } else {
+  } else {
 
-      emailContainer.classList.add("hidden")
+    emailContainer.classList.add("hidden")
 
-    }
+  }
 
 })
-
 modeTogglerBtn.addEventListener("click",()=>{
 
-      modeTogglerBtn.classList.toggle('day');
+    modeTogglerBtn.classList.toggle('day');
 
-    body.classList.toggle('light')
+  body.classList.toggle('light')
 
-    modeTogglerMoon.classList.toggle("sun")
+  modeTogglerMoon.classList.toggle("sun")
 
-    addBtn.classList.toggle("light")
+  addBtn.classList.toggle("light")
 
-    homeBtn.classList.toggle("light")
+  homeBtn.classList.toggle("light")
 
-    formSubContainer.classList.toggle("light")
+  formSubContainer.classList.toggle("light")
 
-    formAddData.classList.toggle("formLight")
+  formAddData.classList.toggle("formLight")
 
 })
 
