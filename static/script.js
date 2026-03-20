@@ -272,6 +272,7 @@ if(modeTogglerBtn){
       addBtn.classList.toggle("light")
       homeBtn.classList.toggle("light")
       formSubContainer.classList.toggle("light")
+      formData.classList.toggle("light")
 
       formData.classList.toggle("formLight")
 
