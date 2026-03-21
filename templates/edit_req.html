@@ -2,70 +2,46 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-     <meta name="description" content="Tamana Farzmai- Visual Gallery">
-     <meta property="og:title" content="Edit Request">
-     <meta property="og:type" content="web App">
-      <meta property="url" content="https://tamana543.github.io/BangladeshVisualDiary/">
-      <meta property="og:description" content="Visual Gallery">
-      <meta property="og:locale" content="en_US">
-      <meta property="og:site_name" content="Visual Gallery">
-<link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
-<link rel="stylesheet" href="{{ url_for('static', filename='css/form.css') }}">
-<link rel="stylesheet" href="{{ url_for('static', filename='css/lightMode.css') }}">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/lottie-web/5.12.2/lottie.min.js"></script>
-     <title>Edit Request</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/form.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/lightMode.css') }}">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/lottie-web/5.12.2/lottie.min.js"></script>
+    <title>Edit Request</title>
+    <style>
+        .form_container { display: block !important; margin-top: 50px; }
+        #homeBtn { position: fixed; top: 20px; left: 20px; z-index: 1000; }
+    </style>
 </head>
-<style>
-  .form_container {
-    display: block !important;
-  }
-  .container {
-    display: none !important;
-  }
-</style>
 <body>
-  <div class="tdnn">
-         <div class="moon">
-        </div>
-      </div>
-     <div class="container">
-         
-        </div>
-        <a href="https://github.com/Tamana543" class="github_link"><span><img src="{{ url_for('static', filename='GitHub-logo.gif')}}" alt="Github" class="github_logo"></span></a>
+    <div class="tdnn"><div class="moon"></div></div>
+
     <a href="/" class="addBtn" id="homeBtn">Home</a>
-     <div class="form_container">
-       <div class="message">
-         <!-- <h3>We will do all our best to solve the problem within 3 working days. Appreciating for your support :)</h3> -->
-        
-       </div>
-<div class="form">
-     <div class="formbold-main-wrapper">
 
-
-  <div class="formbold-form-wrapper">
-    <form id="deleteRequestForm" class="form">
-    <div class="formbold-mb-5">
-        <label for="senderName" class="formbold-form-label">Your Name:</label>
-        <input type="text" id="senderName" class="formbold-form-input" placeholder="Enter your Name" required />
+    <div class="form_container">
+        <div class="form">
+            <div class="formbold-main-wrapper">
+                <div class="formbold-form-wrapper">
+                    <form id="deleteRequestForm">
+                        <div class="formbold-mb-5">
+                            <label for="senderName" class="formbold-form-label">Your Name:</label>
+                            <input type="text" id="senderName" class="formbold-form-input" placeholder="Enter your Name" required />
+                        </div>
+                        <div class="formbold-mb-5">
+                            <label for="delImageName" class="formbold-form-label">Image Filename:</label>
+                            <input type="text" id="delImageName" class="formbold-form-input" placeholder="e.g., photo1.jpg" required />
+                        </div>
+                        <div class="formbold-mb-5">
+                            <label for="reason" class="formbold-form-label">Reason for deletion:</label>
+                            <textarea id="reason" class="formbold-form-input" style="height: 100px;" placeholder="Why should we delete this?"></textarea>
+                        </div>
+                        <button type="submit" class="formbold-btn w-full" id="submitDelBtn">Send Delete Request</button>
+                    </form>
+                </div>
+            </div>
+        </div>
     </div>
-    <div class="formbold-mb-5">
-        <label for="delImageName" class="formbold-form-label">Image Filename:</label>
-        <input type="text" id="delImageName" class="formbold-form-input" placeholder="e.g., sunset.jpg" required />
-    </div>
-    <div class="formbold-mb-5">
-        <label for="reason" class="formbold-form-label">Reason for deletion:</label>
-        <textarea id="reason" class="formbold-form-input" placeholder="Why should we delete this?"></textarea>
-    </div>
-    <button type="submit" class="formbold-btn w-full" id="submitDelBtn">Send Delete Request</button>
-</form>
-</div>
 
-    
-
-        <script src="{{ url_for('static', filename='edit_req.js') }}"></script>
-   
-
- 
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
 </body>
 </html>
