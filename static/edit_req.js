@@ -1,290 +1,68 @@
-
-const sendBtn = document.getElementById('sendBtn')
-const container = document.querySelector(".container")
-const formContainer = document.querySelector(".form_container")
-const formSubContainer = document.querySelector(".formbold-form-wrapper");
-const svgContainer = document.querySelector(".svgContainer")
+// --- Elements ---
+const body = document.querySelector("body");
+const modeTogglerBtn = document.querySelector(".tdnn");
+const modeTogglerMoon = document.querySelector(".moon");
 const homeBtn = document.getElementById("homeBtn");
-const dropArea = document.querySelector(".formbold-file-input");
-const fileInput = document.getElementById("file")
-const progressBar = document.getElementById("progressBar");
-const progressFill = document.getElementById("progressFill");
-const statusText = document.getElementById("uploadStatus");
-const fileText = document.getElementById("fileText");
-const fileLabel = document.getElementById("fileLabel");
-const formboalContainer = document.getElementById("formbold-text-container")
-const emailCheck = document.getElementById("emailCheck")
-const emailContainer = document.getElementById("emailContainer")
-const lightbox = document.querySelector(".lightbox")
-const lightboxImg = document.querySelector(".lightbox-img")
-const nextBtn = document.querySelector(".next")
-const preBtn = document.querySelector(".prev")
-const closeBtn = document.querySelector(".close")
-const modeTogglerBtn = document.querySelector(".tdnn")
-const modeTogglerMoon = document.querySelector(".moon")
-const body = document.querySelector("body")
-const formData = document.querySelector(".form")
-// const formDelData = document.getElementById("deleteRequestForm")
-let currentInd = 0
-let imageList = []
-// loding images
+const formSubContainer = document.querySelector(".formbold-form-wrapper");
+const deleteForm = document.getElementById('deleteRequestForm');
 
-// To change the mode of app according to user laptop
+// --- 1. Initial Theme Load ---
 if (localStorage.getItem('theme') === 'light') {
     body.classList.add('light');
     if (modeTogglerBtn) modeTogglerBtn.classList.add('day');
     if (modeTogglerMoon) modeTogglerMoon.classList.add('sun');
-} 
-
-if(imageContainer){
-    fetch('/api/photos')
-    .then(res=>{
-      return res.json()
-    })
-    .then(images=>{
-    imageList = images
-      images.forEach((element,ind) => {
-    
-        
-        imageContainer.innerHTML +=  `
-        <div class="image hover">
-        <img src="/static/default_images/${element.filename}"
-        alt="image ${ind+1}"
-          data-index="${ind}"
-          >
-        
-          <div class="description"> 
-      <p>${element.description} </p>
-      <p>  📸 : ${element.sender} </p>
-
-        </div>
-        </div>
-      
-        ` 
-    
-    
-    });
-    })
-    .catch(err=>console.log(err))
-
-}
-function formDisplayer(){
-container.classList.toggle("hidden")
-formContainer.classList.toggle("show")
-homeBtn.style.top  = "-26px"
-
-// looding svg 
-lottie.loadAnimation(
-  { container: svgContainer, 
-    renderer: 'svg', 
-    loop: true, 
-    autoplay: true,
-     path: '/static/Kitty_Cat.json'}
-)
 }
 
-function formHide(){
-  formContainer.classList.toggle("show")
-  container.classList.toggle("hidden")
-}
-function showIMG(index){
-const imageData = imageList[index]
-
-lightboxImg.src = `/static/default_images/${imageData.filename}`
-lightboxImg.alt =`image ${index + 1}`
-}
-
-function nextIMG(){
-  currentInd++;
-   if(currentInd >= imageList.length){
-    currentInd = 0
-  }
-
-  showIMG(currentInd)
-}
-
-function prevIMG(){
-currentInd--;
-if(currentInd < 0){
-   currentInd = imageList.length - 1
-}
-showIMG(currentInd)
-}
-function closeLightBox(){
-  lightbox.classList.add("hidden")
-}
-//Event listeners
-// Drag and drop functionality  
-if(dropArea){
-    dropArea.addEventListener("dragover",(event)=>{
-    event.preventDefault()
-    })
-
-    dropArea.addEventListener("drop",(event)=>{
-    event.preventDefault()
-    fileInput.files = event.dataTransfer.files;
-    const fileName = fileInput.files[0].name;
-    fileText.textContent = fileName.length > 30 ? fileName.substring(0,30)+"..." : fileName;
-
-    fileLabel.style.border = "2px solid #f83999"
-    })
-
-    dropArea.addEventListener("dragenter", () => {
-      dropArea.style.border = "2px solid #F83999";
-    });
-
-    dropArea.addEventListener("dragleave", () => {
-      dropArea.style.border = "1px dashed #e0e0e0";
-    });
-}
-
-if(imageContainer){
-    imageContainer.addEventListener("click",(event)=>{
-      if(event.target.tagName === "IMG"){
-        currentInd = Number(event.target.dataset.index)
-        lightbox.classList.remove("hidden")
-        showIMG(currentInd)
-      }
-    })
-}
-if(imageContainer){
-  nextBtn.addEventListener("click",nextIMG)
-  preBtn.addEventListener("click",prevIMG)
-  closeBtn.addEventListener("click",closeLightBox)
-  document.addEventListener("keydown",(event)=>{
-    if(event.key === "Escape"){
-      closeLightBox()
-    }
-
-    if(event.key === "ArrowLeft"){
-      prevIMG()
-    }
-  if (event.key === "ArrowRight") {
-    nextIMG()
-  }
-  })
-}
-// Btn event listeners
-addBtn.addEventListener("click",formDisplayer)
-
-if(sendBtn){
-    sendBtn.addEventListener("click",async (event)=>{
-
-      event.preventDefault();
-      const file = fileInput.files[0];
-      const description = document.getElementById("description").value;
-      const sender = document.getElementById("sender").value;
-    const email = document.getElementById("email").value;
-    console.log(email)
-
-    if(!file){
-      alert("Please choose a file :)")
-      return;
-    }
-    const formData = new FormData() 
-    formData.append("file",file) 
-    formData.append("description",description)
-    formData.append("sender",sender)
-    if(emailCheck.checked){
-        formData.append("email", email)
-    }
-
-
-
-
-    // UI Changes before upload
-
-    sendBtn.disabled =true;
-    sendBtn.textContent = "Uploading.. "
-    progressBar.classList.remove("hidden")
-    statusText.classList.remove("hidden")
-    statusText.textContent = "Uploading your image... "
-
-    try {
-      // not real 
-      let width = 0;
-      const progress = setInterval(() => {
-        if (width < 90) {
-          width += 5
-          progressFill.style.width = width + '%';
-        }
-      }, 100);
-
-      const response = await fetch("/api/photos", {
-        method: "POST",
-        body: formData
-      })
-
-      clearInterval(progress)
-
-      if(!response.ok) throw new Error("Upload Failed");
-      
-        progressFill.style.width = "100%";
-        statusText.textContent = "Uploaded Successfully ✓";
-        sendBtn.textContent = "Done";
-
-      setTimeout(() => {
-        location.reload()
-      }, 1200);
-
-    } catch (error) {
-      progressFill.style.background = "red";
-      statusText.textContent = " Upload Failed :("
-      sendBtn.disabled = false;
-      sendBtn.textContent = "Send File"
-    }
-    
-    });
-
-}
-
-if(fileInput) {
-  fileInput.addEventListener("change", () => {
-    if (fileInput.files && fileInput.files.length > 0) {
-      formboalContainer.style.display ="none"
-      const fileName = fileInput.files[0].name;
-
-      fileText.textContent =
-        fileName.length > 30
-          ? fileName.substring(0, 30) + "..."
-          : fileName;
-
-      fileLabel.style.border = "2px solid #f83999";
-    }
-  });
-}
-if(emailCheck){
-
-emailCheck.addEventListener("change", () => {
-    if(emailCheck.checked){
-      emailContainer.classList.remove("hidden")
-    } else {
-      emailContainer.classList.add("hidden")
-    }
-})
-}
-if(modeTogglerBtn){
-  modeTogglerBtn.addEventListener("click",()=>{
+// --- 2. Theme Toggler (Shared Logic) ---
+if (modeTogglerBtn) {
+    modeTogglerBtn.addEventListener("click", () => {
+        body.classList.toggle('light');
         modeTogglerBtn.classList.toggle('day');
-      body.classList.toggle('light')
-      modeTogglerMoon.classList.toggle("sun")
-      addBtn.classList.toggle("light")
-      homeBtn.classList.toggle("light")
-      formSubContainer.classList.toggle("light")
-      formData.classList.toggle("light")
-
-      formData.classList.toggle("formLight")
-
-      //  loding the mode according users laptop
-      localStorage.setItem('theme', body.classList.contains('light') ? 'light' : 'dark');
-  })
+        modeTogglerMoon.classList.toggle("sun");
+        if (homeBtn) homeBtn.classList.toggle("light");
+        if (formSubContainer) formSubContainer.classList.toggle("light");
+        
+        localStorage.setItem('theme', body.classList.contains('light') ? 'light' : 'dark');
+    });
 }
 
-
-const deleteForm = document.getElementById('deleteRequestForm');
+// --- 3. Delete Request Submission ---
 if (deleteForm) {
-    deleteForm.addEventListener('submit', (e) => {
+    deleteForm.addEventListener('submit', async (e) => {
         e.preventDefault();
-        console.log("Delete request submitted!");
+        
+        const submitBtn = document.getElementById('submitDelBtn');
+        const originalText = submitBtn.textContent;
+        
+        // UI Feedback
+        submitBtn.textContent = "Sending Request...";
+        submitBtn.disabled = true;
+
+        const payload = {
+            sender: document.getElementById('senderName').value,
+            imageName: document.getElementById('delImageName').value,
+            reason: document.getElementById('reason').value
+        };
+
+        try {
+            const response = await fetch('/api/delete_request', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(payload)
+            });
+
+            if (response.ok) {
+                alert("Your request has been sent to the admin. We will process it shortly.");
+                window.location.href = "/"; // Redirect home after success
+            } else {
+                throw new Error("Failed to send");
+            }
+        } catch (error) {
+            alert("Oops! Something went wrong. Please try again later.");
+            console.error("Mail Error:", error);
+        } finally {
+            submitBtn.textContent = originalText;
+            submitBtn.disabled = false;
+        }
     });
 }
