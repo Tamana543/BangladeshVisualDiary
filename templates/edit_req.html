@@ -23,18 +23,23 @@
             <div class="formbold-main-wrapper">
                 <div class="formbold-form-wrapper">
                     <form id="deleteRequestForm">
+                        <h3 style="margin-bottom: 20px; color: var(--lightt);">Request Image Deletion</h3>
+                        
                         <div class="formbold-mb-5">
                             <label for="senderName" class="formbold-form-label">Your Name:</label>
                             <input type="text" id="senderName" class="formbold-form-input" placeholder="Enter your Name" required />
                         </div>
+                        
                         <div class="formbold-mb-5">
                             <label for="delImageName" class="formbold-form-label">Image Filename:</label>
-                            <input type="text" id="delImageName" class="formbold-form-input" placeholder="e.g., photo1.jpg" required />
+                            <input type="text" id="delImageName" class="formbold-form-input" placeholder="e.g., sunset.jpg" required />
                         </div>
+                        
                         <div class="formbold-mb-5">
                             <label for="reason" class="formbold-form-label">Reason for deletion:</label>
-                            <textarea id="reason" class="formbold-form-input" style="height: 100px;" placeholder="Why should we delete this?"></textarea>
+                            <textarea id="reason" class="formbold-form-input" style="height: 120px;" placeholder="Why should we delete this?"></textarea>
                         </div>
+                        
                         <button type="submit" class="formbold-btn w-full" id="submitDelBtn">Send Delete Request</button>
                     </form>
                 </div>
@@ -42,6 +47,6 @@
         </div>
     </div>
 
-    <script src="{{ url_for('static', filename='script.js') }}"></script>
+    <script src="{{ url_for('static', filename='edit_req.js') }}"></script>
 </body>
 </html>
