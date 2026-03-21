@@ -1,5 +1,4 @@
-const imageContainer = document.getElementById('imageContainer')
-const addBtn = document.getElementById('addBtn')
+
 const sendBtn = document.getElementById('sendBtn')
 const container = document.querySelector(".container")
 const formContainer = document.querySelector(".form_container")
