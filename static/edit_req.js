@@ -16,7 +16,7 @@ loop: true,
 
 autoplay: true,
 
-  path: '/static/Cat_playing_animation.json'}
+  path: '/static/Cat playing animation_2.json'}
 )
 
 
