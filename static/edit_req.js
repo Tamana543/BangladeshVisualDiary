@@ -4,8 +4,20 @@ const modeTogglerBtn = document.querySelector(".tdnn");
 const modeTogglerMoon = document.querySelector(".moon");
 const homeBtn = document.getElementById("homeBtn");
 const deleteForm = document.getElementById('deleteRequestForm'); 
+const svgContainer = document.querySelector(".svgContainer")
+// load animation 
+lottie.loadAnimation(
 
+{ container: svgContainer,
 
+renderer: 'svg',
+
+loop: true,
+
+autoplay: true,
+
+  path: '/static/Kitty_Cat.json'}
+)
 
 
 
