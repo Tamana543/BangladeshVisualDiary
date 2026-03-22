@@ -6,22 +6,8 @@ const homeBtn = document.getElementById("homeBtn");
 const deleteForm = document.getElementById('deleteRequestForm'); 
 
 
-const savedTheme = localStorage.getItem('theme');
-if (savedTheme === 'light') {
-    applyLightMode();
-}
 
-function applyLightMode() {
-    body.classList.add('light');
-    if (modeTogglerBtn) modeTogglerBtn.classList.add('day');
-    if (modeTogglerMoon) modeTogglerMoon.classList.add('sun');
-    if (homeBtn) homeBtn.classList.add("light");
-    // Apply classes directly to the form
-    if (deleteForm) {
-        deleteForm.classList.add("light");
-        deleteForm.classList.add("formLight");
-    }
-}
+
 
 
 if (modeTogglerBtn) {
