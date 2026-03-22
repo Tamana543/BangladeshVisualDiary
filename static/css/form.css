@@ -235,7 +235,11 @@ color: #828293;
     font-size: 15px;
   }
   .formbold-main-wrapper{
+    width: 100% !important;
+  }
+  .formbold-form-wrapper{
     width: 90% !important;
   }
+ 
 }
 
