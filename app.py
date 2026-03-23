@@ -63,7 +63,8 @@ def delete_request():
      msg.html = render_template(
             "email_template.html", 
             sender_name=sender_name, 
-            photo_description= f"Reason for deletion :{reason} "
+            photo_description= f"Reason for deletion :{reason} ",
+            email_reason = "Delete this image from dataBase.."
         )
      
      filepath = os.path.join(app.config["UPLOAD_FOLDER"], image_name)
@@ -117,7 +118,8 @@ def photo_upload():
           msg.html = render_template(
             "email_template.html", 
             sender_name=sender, 
-            photo_description=description
+            photo_description=description,
+            email_reason = "We've successfully received your upload!"
         )
           with open(filepath,"rb") as img :
                msg.attach(filename, "image/jpeg", img.read())
