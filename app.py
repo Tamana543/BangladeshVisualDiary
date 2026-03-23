@@ -51,23 +51,30 @@ def delete_request():
      image_name = data.get('imageName')
      reason = data.get('reason')
 
-     filepath = os.path.join(app.config["UPLOAD_FOLDER"], image_name)
+     
      
 
      msg = Message(
                 subject="Your photo fron E_visual gallery.",
-               recipients="Tamanafarzami33@gmail.com"
+               recipients= ["Tamanafarzami33@gmail.com"]
                )
               
           # The template loader 
      msg.html = render_template(
             "email_template.html", 
             sender_name=sender_name, 
-            photo_description=reason
+            photo_description= f"Reason for deletion :{reason} "
         )
-     with open(filepath,"rb") as img :
+     
+     filepath = os.path.join(app.config["UPLOAD_FOLDER"], image_name)
+     if os.path.exists(filepath):
+          with open(filepath,"rb") as img :
                msg.attach(image_name, "image/jpeg", img.read())
-
+     else : 
+          alert(f"Warning: {image_name} not found in folder. Sending without image ")
+     
+     
+     
      try:
           mail.send(msg)
           return jsonify({"message" : "Request sent successfully, it will take at most two working days to approve your reqest :)"}) , 200
