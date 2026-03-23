@@ -53,25 +53,17 @@ function  showFancyAlert(title, message) {
         renderer: 'svg',
         loop: false,
         autoplay: true,
-        path: 'https://assets9.lottiefiles.com/packages/lf20_pqnqcclm.json' 
+        path: '/static/Loader cat.json' 
     });
 }
 
-if (response.ok) {
-    const resData = await response.json();
-    showFancyAlert("Request Sent!", resData.message);
-
-    document.getElementById('closeAlertBtn').addEventListener('click', () => {
-        window.location.href = "/";
-    });
-}
 
 
 if (deleteForm) {
     deleteForm.addEventListener('submit', async (e) => {
         e.preventDefault();
         const submitBtn = document.getElementById('submitDelBtn');
-        const resData = await response.json();
+  
 
         submitBtn.textContent = "Sending Request...";
         submitBtn.disabled = true;
@@ -88,7 +80,7 @@ if (deleteForm) {
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(payload)
             });
-
+      const resData = await response.json();
             if (response.ok) {
                showFancyAlert("Request Sent!", resData.message);
                 
