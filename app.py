@@ -42,6 +42,41 @@ def main():
 def edit_req():
      return render_template("edit_req.html")
 
+
+@app.route("/api/delete_request", methods=['POST'])
+def delete_request():
+     data = request.get_json()
+
+     sender_name = data.get('sender')
+     image_name = data.get('imageName')
+     reason = data.get('reason')
+
+     filepath = os.path.join(app.config["UPLOAD_FOLDER"], image_name)
+     
+
+     msg = Message(
+                subject="Your photo fron E_visual gallery.",
+               recipients="Tamanafarzami33@gmail.com"
+               )
+              
+          # The template loader 
+     msg.html = render_template(
+            "email_template.html", 
+            sender_name=sender_name, 
+            photo_description=reason
+        )
+     with open(filepath,"rb") as img :
+               msg.attach(image_name, "image/jpeg", img.read())
+
+     try:
+          mail.send(msg)
+          return jsonify({"message" : "Request sent successfully, it will take at most two working days to approve your reqest :)"}) , 200
+     except Exception as e :
+          print(f"Error : {e}")
+          return jsonify({"message": "Failed to send email "}), 500
+     
+
+
 UPLOAD_FOLDER = "static/default_images"
 app.config["UPLOAD_FOLDER"] = UPLOAD_FOLDER 
 @app.route("/api/photos") 
