@@ -71,7 +71,7 @@ def delete_request():
           with open(filepath,"rb") as img :
                msg.attach(image_name, "image/jpeg", img.read())
      else : 
-          alert(f"Warning: {image_name} not found in folder. Sending without image ")
+          print(f"Warning: {image_name} not found in folder. Sending without image ")
      
      
      
