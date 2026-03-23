@@ -40,11 +40,39 @@ if (modeTogglerBtn) {
     });
 }
 
+// Function alert box
+function  showFancyAlert(title, message) {
+    const modal = document.getElementById('customAlert');
+    document.getElementById('alertTitle').textContent = title;
+    document.getElementById('alertMessage').textContent = message;
+    
+    modal.classList.remove('hidden');
+
+    lottie.loadAnimation({
+        container: document.getElementById('successAnim'),
+        renderer: 'svg',
+        loop: false,
+        autoplay: true,
+        path: 'https://assets9.lottiefiles.com/packages/lf20_pqnqcclm.json' 
+    });
+}
+
+if (response.ok) {
+    const resData = await response.json();
+    showFancyAlert("Request Sent!", resData.message);
+
+    document.getElementById('closeAlertBtn').addEventListener('click', () => {
+        window.location.href = "/";
+    });
+}
+
 
 if (deleteForm) {
     deleteForm.addEventListener('submit', async (e) => {
         e.preventDefault();
         const submitBtn = document.getElementById('submitDelBtn');
+        const resData = await response.json();
+
         submitBtn.textContent = "Sending Request...";
         submitBtn.disabled = true;
 
@@ -62,13 +90,18 @@ if (deleteForm) {
             });
 
             if (response.ok) {
-                alert("Request sent successfully!");
-                window.location.href = "/";
+               showFancyAlert("Request Sent!", resData.message);
+                
+                document.getElementById('closeAlertBtn').onclick = () => {
+                    window.location.href = "/";
+                };
+
             } else {
-                alert("Error sending request.");
+               showFancyAlert("Error", "Something went wrong on the server.");
             }
         } catch (error) {
             console.error("Submission Error:", error);
+            showFancyAlert("Error", "Could not connect to the server.");
         } finally {
             submitBtn.textContent = "Send Delete Request";
             submitBtn.disabled = false;
