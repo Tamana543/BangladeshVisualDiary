@@ -139,7 +139,7 @@ def photo_upload():
     
 
 @app.errorhandler(404)
-def error_page():
+def error_page(error):
      return render_template("404.html"), 404
 
 

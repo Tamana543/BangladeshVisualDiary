@@ -6,106 +6,10 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/form.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/lightMode.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/edit_req.css') }}">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/lottie-web/5.12.2/lottie.min.js"></script>
     <title>Edit Request</title>
-    <style>
-.modal-overlay {
-    position: fixed;
-    top: 0; left: 0;
-    width: 100%; height: 100%;
-    background: rgba(0, 0, 0, 0.7);
-    backdrop-filter: blur(5px);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 9999;
-}
-
-.modal-content {
-    background: var(--dark-bg, #1a1a1a);
-    color: white;
-    padding: 30px;
-    border-radius: 20px;
-    text-align: center;
-    max-width: 400px;
-    width: 90%;
-    box-shadow: 0 10px 40px rgba(248, 57, 153, 0.3); 
-    border: 1px solid #f83999;
-}
-
-body.light .modal-content {
-    background: white;
-    color: #333;
-}
-
-.hidden { 
-    display: none !important; 
-}
-
-#deleteRequestForm.light, 
-#deleteRequestForm.formLight {
-     margin-bottom: 0;
-    color: #333333 !important;
-    padding: 20px;
-    border-radius: 8px;
-    background-image: none !important;
-}
-
-#deleteRequestForm.light .formbold-form-label {
-    color: #555555 !important;
-}
-
-
-#deleteRequestForm.light h3 {
-    color: #000000 !important;
-}
-
-.form.formLight, .formbold-form-wrapper.light {
-    background-color: #ffffff !important;
-    color: #333 !important;
-    box-shadow: 0px 10px 30px rgba(0,0,0,0.1);
-}
-
-body.light .formbold-form-label {
-    color: #555 !important;
-}
-.svgContainer {
-    width: 500px !important;
-    height: 300px !important;
-
-}
-.github_link {
-
-    right: 84px;
-}
-        .form_container {
-             display: block !important; 
-  
-        }
-        #homeBtn { 
-              width: 8%;
-            height: 6%;
-             position: fixed;     
-            top: -27px;
-    right: 15px; 
-    z-index: 1000; 
-}
-
-@media (max-width: 540px) {
-    .svgContainer {
-               width: 410px !important;
-        height: 300px !important;
-    }
-    .formbold-btn {
-               font-size: 17px !important;
-        width: 60% !important;
-    }
-    #homeBtn {
-        top: -10px;
-    }
-}
-    
-    </style>
+ 
 </head>
 <body>
     <div class="tdnn"><div class="moon"></div></div>
