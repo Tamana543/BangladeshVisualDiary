@@ -56,7 +56,7 @@ def delete_request():
 
      msg = Message(
                 subject="Your photo fron E_visual gallery.",
-               recipients= ["Tamanafarzami33@gmail.com"]
+               recipients= ["auw242106@auw.edu.bd"]
                )
               
           # The template loader 
