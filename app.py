@@ -138,6 +138,9 @@ def photo_upload():
      return { "message": "Done uploadeing "}, 201
     
 
+@app.errorhandler(404)
+def error_page():
+     return render_template("404.html"), 404
 
 
 init_db()

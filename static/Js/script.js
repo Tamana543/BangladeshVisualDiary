@@ -88,6 +88,7 @@ container.classList.toggle("hidden")
 formContainer.classList.toggle("show")
 homeBtn.style.top  = "-26px"
 
+if(svgContainer){
 
 // looding svg
 lottie.loadAnimation(
@@ -103,7 +104,7 @@ autoplay: true,
   path: '/static/Kitty_Cat.json'}
 )
 }
-
+}
 
 function formHide(){
 formContainer.classList.toggle("show")
