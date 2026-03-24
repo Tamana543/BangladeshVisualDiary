@@ -3,13 +3,13 @@
 <head>
      <meta charset="UTF-8">
      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/lightMode.css') }}">
      <title>Page Not Found</title>
 </head>
 
 <style>
-  
-
-.container {
+  .container {
   position: absolute;
   top: 50%;
   left: 50%;
@@ -54,6 +54,8 @@ button:active {
 </style>
 
 <body>
+      <div class="tdnn"><div class="moon"></div></div>
+        <a href="https://github.com/Tamana543" class="github_link"><span><img src="{{ url_for('static', filename='GitHub-logo.gif')}}" alt="Github" class="github_logo"></span></a>
       <div class="container">
       <div class="gif">
         <img src="https://i.postimg.cc/2yrFyxKv/giphy.gif" alt="gif_ing" />
