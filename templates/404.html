@@ -5,30 +5,69 @@
      <meta name="viewport" content="width=device-width, initial-scale=1.0">
      <title>Page Not Found</title>
 </head>
+
+<style>
+  
+
+.container {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.gif {
+  display: flex;
+  justify-content: center;
+}
+
+.content {
+  text-align: center;
+  margin: 3rem 0;
+}
+
+.content .main-heading {
+  font-size: 2.5rem;
+  font-weight: 700;
+}
+p {
+  font-size: 1.3rem;
+  padding: 0.7rem 0;
+}
+
+button {
+  padding: 1rem;
+  border-radius: 15px;
+  outline: none;
+  border: none;
+  background: #d468d4;
+  color: #fff;
+  font-size: 1.3rem;
+  cursor: pointer;
+}
+
+button:hover,
+button:active {
+    background-color: #580258;
+    color: white;
+}
+</style>
+
 <body>
-      <section class="page_404 flex">
-  <div class="container ">
-    <div class="row">
-      <div >
-        <div>
-          <div class="four_zero_four_bg">
-            <h1 class="text-center ">500</h1>
-
-          </div>
-
-          <div class="contant_box_404">
-            <h3 class="h2">
-              Look like you got an error
-            </h3>
-
-            <p>the page you are looking for has a problem!</p>
-
-            <a href="/" class="link_404">Go to Home</a>
-          </div>
-        </div>
+      <div class="container">
+      <div class="gif">
+        <img src="https://i.postimg.cc/2yrFyxKv/giphy.gif" alt="gif_ing" />
+      </div>
+      <div class="content">
+        <h1 class="main-heading">This page is gone.</h1>
+        <p>
+          ...maybe the page you're looking for is not found or never existed.
+        </p>
+        <a href="/">
+          <button>Back to home <i class="far fa-hand-point-right"></i></button>
+        </a>
       </div>
     </div>
-  </div>
-</section>
+    
 </body>
 </html>
