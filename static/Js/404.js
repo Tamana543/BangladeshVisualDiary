@@ -2,7 +2,7 @@
 const body = document.querySelector("body");
 const modeTogglerBtn = document.querySelector(".tdnn");
 const modeTogglerMoon = document.querySelector(".moon");
-const homeBtn = document.getElementById("homeBtn");
+const homeBtn = document.querySelector(".return_home");
 const svgContainer = document.querySelector(".svgContainer");
 
 lottie.loadAnimation(
@@ -27,12 +27,6 @@ if (modeTogglerBtn) {
         
         if (homeBtn) homeBtn.classList.toggle("light");
         
-        // Toggle classes on the form
-        if (deleteForm) {
-            deleteForm.classList.toggle("light");
-            deleteForm.classList.toggle("formLight");
-        }
-
         localStorage.setItem('theme', isLight ? 'light' : 'dark');
     });
 }

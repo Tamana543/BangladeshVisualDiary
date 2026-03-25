@@ -1,19 +1,7 @@
- .container {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-}
-
-.gif {
-  display: flex;
-  justify-content: center;
-}
-
 .content {
   text-align: center;
   margin: 3rem 0;
-  color: #969494 !important;
+  color: #625f5f ;
 }
 
 .content .main-heading {
@@ -23,21 +11,4 @@
 p {
   font-size: 1.3rem;
   padding: 0.7rem 0;
-}
-
-button {
-  padding: 1rem;
-  border-radius: 15px;
-  outline: none;
-  border: none;
-  background: #d468d4;
-  color: #fff;
-  font-size: 1.3rem;
-  cursor: pointer;
-}
-
-button:hover,
-button:active {
-    background-color: #580258;
-    color: white;
 }
