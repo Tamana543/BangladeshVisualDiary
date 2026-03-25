@@ -3,7 +3,20 @@ const body = document.querySelector("body");
 const modeTogglerBtn = document.querySelector(".tdnn");
 const modeTogglerMoon = document.querySelector(".moon");
 const homeBtn = document.getElementById("homeBtn");
+const svgContainer = document.querySelector(".svgContainer");
 
+lottie.loadAnimation(
+
+{ container: svgContainer,
+
+renderer: 'svg',
+
+loop: true,
+
+autoplay: true,
+
+  path: '/static/404_anime.json'}
+)
 
 
 if (modeTogglerBtn) {
@@ -23,5 +36,6 @@ if (modeTogglerBtn) {
         localStorage.setItem('theme', isLight ? 'light' : 'dark');
     });
 }
+
 
 
