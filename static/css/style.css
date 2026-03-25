@@ -222,6 +222,7 @@ left: 6%;
 @media (max-width: 540px) {
      button,#homeBtn {
    width: 24% !important;
+           height: 2%;
         top: 4px !important;
         font-size: 19px !important;
   }
