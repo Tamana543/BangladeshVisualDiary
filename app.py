@@ -1,4 +1,4 @@
-#any confussion check draft_codes.txt
+#draft_codes.txt
 
 import os
 from flask_mail import Mail, Message
@@ -29,7 +29,7 @@ app.config['MAIL_SERVER'] = 'smtp.gmail.com'
 app.config['MAIL_PORT'] = 587 
 app.config['MAIL_USE_TLS'] = True
 app.config['MAIL_USERNAME'] = 'auw242106@auw.edu.bd'
-app.config['MAIL_PASSWORD'] = 'okkn jnwz iyie xpkz'
+app.config['MAIL_PASSWORD'] = os.environ.get('MAIL_PASSWORD') # check this if email not working
 app.config['MAIL_DEFAULT_SENDER'] = 'auw242106@auw.edu.bd'
 
 mail = Mail(app)
