@@ -1,4 +1,6 @@
 #any confussion check draft_codes.txt
+
+import os
 from flask_mail import Mail, Message
 #DataBase Hundler
 import sqlite3 # main sql :)
@@ -145,7 +147,15 @@ def error_page(error):
 
 init_db()
 if __name__ == "__main__":
-    app.run(debug=True) 
+    # This part is for running LOCALLY (python app.py)
+    app.run(debug=True)
+else:
+    # This part helps Gunicorn find the port when LIVE
+    pass
+
 
 
 # http://127.0.0.1:5000
+
+
+
