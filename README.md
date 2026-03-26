@@ -16,7 +16,7 @@ The goal:
 - Practice front-end fundamentals
 - Create a space that feels personal, calm, and human
 
-[live](https://tamana543.github.io/BangladeshVisualDiary/)
+[live](https://bangladeshvisualdiary.onrender.com/)
 
 ---
 
