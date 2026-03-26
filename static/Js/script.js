@@ -86,6 +86,7 @@ fetch('/api/photos')
 function formDisplayer(){
 container.classList.toggle("hidden")
 formContainer.classList.toggle("show")
+homeBtn.classList.remove("hidden");
 homeBtn.style.top  = "-26px"
 
 if(svgContainer){
@@ -108,6 +109,7 @@ autoplay: true,
 
 function formHide(){
 formContainer.classList.toggle("show")
+
 container.classList.toggle("hidden")
 }
 function showIMG(index){

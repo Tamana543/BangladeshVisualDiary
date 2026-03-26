@@ -64,16 +64,15 @@ body.light .formbold-form-label {
 
 }
 .github_link {
-
-    right: 84px;
+right: 3%;
 }
         .form_container {
              display: block !important; 
   
         }
         #homeBtn { 
-              width: 8%;
-            height: 6%;
+              width: 5%;
+            height: 4%;
              position: fixed;     
             top: -27px;
     right: 15px; 

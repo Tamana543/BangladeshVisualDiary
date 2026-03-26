@@ -36,6 +36,7 @@ header p {
      display: flex;
        top: -17px;
     right: 36px;
+        /* right: 4px; */
 }
 #deleteImg {
      text-decoration: none;
@@ -51,8 +52,7 @@ header p {
 
 }
 .github_logo {
-    width: 38% !important;
-
+    width: 35% !important;
    border: 0;
    background: none;
      padding: 4%;
@@ -242,8 +242,7 @@ left: 6%;
 }
 
 .github_link {
-   
-    right: 72px;
+   right: 72px !important;
 }
 
 }
