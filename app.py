@@ -2,6 +2,7 @@
 
 import os
 from flask_mail import Mail, Message
+from pymongo import MongoClient
 #DataBase Hundler
 import sqlite3 # main sql :)
 def init_db():
