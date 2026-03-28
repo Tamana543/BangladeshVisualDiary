@@ -232,7 +232,7 @@ const formData = new FormData()
 formData.append("file",file)
 formData.append("description",description)
 formData.append("sender",sender)
-if(emailCheck.checked){
+if(emailCheck.checked && email){
 
   formData.append("email", email)
 }
@@ -255,6 +255,7 @@ statusText.textContent = "Uploading your image... "
 try {
 
 // not reallet width = 0;
+let width = 0
 const progress = setInterval(() => {
 
 if (width < 90) {

@@ -17,6 +17,10 @@ from flask import Flask, render_template,request,jsonify
 
 app = Flask(__name__) 
 
+# ImgFolder config
+UPLOAD_FOLDER = "static/default_images"
+app.config["UPLOAD_FOLDER"] = UPLOAD_FOLDER 
+
 # Email handler 
 
 app.config['MAIL_SERVER'] = 'smtp.gmail.com'
@@ -72,9 +76,6 @@ def delete_request():
           return jsonify({"message": "Failed to send email "}), 500
      
 
-
-UPLOAD_FOLDER = "static/default_images"
-app.config["UPLOAD_FOLDER"] = UPLOAD_FOLDER 
 
 
 @app.route("/api/photos") 
