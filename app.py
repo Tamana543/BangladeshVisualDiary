@@ -11,21 +11,6 @@ client = MongoClient(MONGO_URI)
 db = client['e_gallery_database']
 photos_collection = db['photos']
 
-#DataBase Hundler
-import sqlite3 # main sql :)
-def init_db():
-     with sqlite3.connect("database.db") as data_table :
-          data_table.execute("""
-               CREATE TABLE IF NOT EXISTS photos(
-                             id INTEGER PRIMARY KEY AUTOINCREMENT, 
-                             filename TEXT NOT NULL, 
-                             description TEXT NOT NULL, 
-                             sender TEXT NOT NULL
-               )
-          """)
-
-
-
 # Flask Hundler 
 import os
 from flask import Flask, render_template,request,jsonify
@@ -45,8 +30,7 @@ mail = Mail(app)
 
 
 @app.route("/") 
-def main():
-     # return "Hello" 
+def main(): 
      return render_template("index.html")
 
 @app.route("/edit_req")
@@ -57,14 +41,10 @@ def edit_req():
 @app.route("/api/delete_request", methods=['POST'])
 def delete_request():
      data = request.get_json()
-
      sender_name = data.get('sender')
      image_name = data.get('imageName')
      reason = data.get('reason')
-
-     
-     
-
+     # Email for edit 
      msg = Message(
                 subject="Your photo fron E_visual gallery.",
                recipients= ["auw242106@auw.edu.bd"]
@@ -84,9 +64,6 @@ def delete_request():
                msg.attach(image_name, "image/jpeg", img.read())
      else : 
           print(f"Warning: {image_name} not found in folder. Sending without image ")
-     
-     
-     
      try:
           mail.send(msg)
           return jsonify({"message" : "Request sent successfully, it will take at most two working days to approve your reqest :)"}) , 200
@@ -98,6 +75,8 @@ def delete_request():
 
 UPLOAD_FOLDER = "static/default_images"
 app.config["UPLOAD_FOLDER"] = UPLOAD_FOLDER 
+
+
 @app.route("/api/photos") 
 def photo_render():
      # get all doc, _id hide
@@ -142,18 +121,8 @@ def photo_upload():
           with open(filepath,"rb") as img :
                msg.attach(filename, "image/jpeg", img.read())
           mail.send(msg) 
-     #SQL hundler
-     connection = sqlite3.connect("database.db")
-     conn_cursor = connection.cursor()
-
-     conn_cursor.execute("""
-          INSERT INTO photos (filename,description,sender) VALUES (?,?,?)
-
-     """,(filename,description,sender))
-     connection.commit()
-     connection.close()
-
-     return { "message": "Done uploadeing "}, 201
+     
+     return jsonify({ "message": "Done uploadeing "}), 201
     
 
 @app.errorhandler(404)
@@ -161,12 +130,10 @@ def error_page(error):
      return render_template("404.html"), 404
 
 
-init_db()
 if __name__ == "__main__":
-    # This part is for running LOCALLY (python app.py)
+    # running LOCALLY
     app.run(debug=True)
 else:
-    # This part helps Gunicorn find the port when LIVE
     pass
 
 
