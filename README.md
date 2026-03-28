@@ -30,7 +30,10 @@ The goal:
 - **Flask**  - as the web framework for handling routes and API endpoints
 - **Fetch API** -  communication between the frontend and backend
 - **Flask-Mail**  -  sending emails with image attachments
-- **SQLite** -  storing image data
+- **MongoDB Atlas** -  Cloud NoSQL database for permanent image metadata storage
+- **Gunicorn** -  Production-grade WSGI HTTP Server
+- **Render** -  Cloud platform for automated deployment (CI/CD)
+
 
 
 No frameworks. No noise. Just the essentials.
@@ -42,11 +45,15 @@ No frameworks. No noise. Just the essentials.
 ```
 BangladeshVisualDiary/
 │
-├── index.html          # Main webpage
-├── style.css           # Styling
-├── script.js           # Image handling logic
-├── default_images/     # Initial image collection
-└── README.md           # Project documentation
+├── app.py              # Flask Backend (Main Engine)
+├── Procfile            # Deployment instructions for Render
+├── requirements.txt    # Python dependencies
+├── static/             # Assets (CSS, JS, Images, JSON animations)
+│   ├── css/
+│   ├── Js/
+│   └── default_images/ # Uploaded photos
+├── templates/          # HTML files (index, 404, email_template)
+└── README.md
 ```
 
 ---
@@ -58,8 +65,13 @@ BangladeshVisualDiary/
    git clone https://github.com/your-username/BangladeshVisualDiary.git
    ```
 
-2. Open `index.html` in your browser  
-3. View the images and add more through the JavaScript logic
+2. Install dependencies: pip install -r requirements.txt
+
+3. Set your environment variables (MONGO_URI, MAIL_PASSWORD).
+
+4. Run the app: python app.py
+
+5. Visit http://127.0.0.1:5000
 
 No build steps. No setup stress.
 
@@ -71,36 +83,27 @@ No build steps. No setup stress.
 - Simple logic (easy to maintain and expand)
 - Emotional concept 
 - Lightweight and fast
+- Live Uploads: Users can contribute photos directly from the UI.
+- Automated Emails: The system sends a confirmation email with an attachment whenever a photo is uploaded.
+- Persistent Storage: Data is saved in the cloud (MongoDB), so it’s never lost.
 
 
 
 ---
 
 ## 🔮 What Can Be Added to Improve This Project
+1. Cloud Image Hosting (Cloudinary): Move images from the local folder to a cloud CDN so they never get deleted during redeployments.
+
+2. User Authentication: Add a login page so only you can upload or delete photos.
+
+3. Search & Filter: Add a search bar to find photos by the "Sender" name or keywords in the description.
+
 - let me know more :)
 
-### 1. Image Metadata
-- Add **captions**, **dates**, or **locations**
-- Example: *“Kabul , rainy evening – 2024”*
-
-
-### 2. Categories or Tags
-- Street life
-- Nature
-- People
-- Daily moments
-
-### 3. Mobile Optimization
-- Touch-friendly spacing
-
-
-### 4. Story Mode (Advanced)
-- Clicking an image opens a modal with a short story
-- Turns the gallery into a narrative experience
 
 ## Status
 
-👩‍💻 Under Process
+👩‍💻 Completed but open for more :)
 
 ---
 
