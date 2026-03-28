@@ -1,338 +1,337 @@
-import os
-from flask_mail import Mail, Message
-#DataBase Hundler
-import sqlite3 # main sql :)
-def init_db():
-     with sqlite3.connect("database.db") as data_table :
-          data_table.execute("""
-               CREATE TABLE IF NOT EXISTS photos(
-                             id INTEGER PRIMARY KEY AUTOINCREMENT, 
-                             filename TEXT NOT NULL, 
-                             description TEXT NOT NULL, 
-                             sender TEXT NOT NULL
-               )
-          """)
+With SQL : 
+    #draft_codes.txt
+
+    import os
+    from flask_mail import Mail, Message
+    from pymongo import MongoClient
+    #DataBase Hundler
+    import sqlite3 # main sql :)
+    def init_db():
+        with sqlite3.connect("database.db") as data_table :
+              data_table.execute("""
+                  CREATE TABLE IF NOT EXISTS photos(
+                                id INTEGER PRIMARY KEY AUTOINCREMENT, 
+                                filename TEXT NOT NULL, 
+                                description TEXT NOT NULL, 
+                                sender TEXT NOT NULL
+                  )
+              """)
 
 
 
-# Flask Hundler 
-import os
-from flask import Flask, render_template,request,jsonify
+    # Flask Hundler 
+    import os
+    from flask import Flask, render_template,request,jsonify
 
-app = Flask(__name__) 
+    app = Flask(__name__) 
 
-# Email handler 
+    # Email handler 
 
-app.config['MAIL_SERVER'] = 'smtp.gmail.com'
-app.config['MAIL_PORT'] = 587 
-app.config['MAIL_USE_TLS'] = True
-app.config['MAIL_USERNAME'] = 'auw242106@auw.edu.bd'
-# app.config['MAIL_PASSWORD'] = 'okkn jnwz iyie xpkz'# check this if email not working add this 
-app.config['MAIL_PASSWORD'] = os.environ.get('MAIL_PASSWORD') 
-app.config['MAIL_DEFAULT_SENDER'] = 'auw242106@auw.edu.bd'
+    app.config['MAIL_SERVER'] = 'smtp.gmail.com'
+    app.config['MAIL_PORT'] = 587 
+    app.config['MAIL_USE_TLS'] = True
+    app.config['MAIL_USERNAME'] = 'auw242106@auw.edu.bd'
+    app.config['MAIL_PASSWORD'] = os.environ.get('MAIL_PASSWORD') # check this if email not working
+    app.config['MAIL_DEFAULT_SENDER'] = 'auw242106@auw.edu.bd'
 
-mail = Mail(app)
-
-
-@app.route("/") 
-def main():
-     # return "Hello" 
-     return render_template("index.html")
-
-@app.route("/edit_req")
-def edit_req():
-     return render_template("edit_req.html")
+    mail = Mail(app)
 
 
-@app.route("/api/delete_request", methods=['POST'])
-def delete_request():
-     data = request.get_json()
+    @app.route("/") 
+    def main():
+        # return "Hello" 
+        return render_template("index.html")
 
-     sender_name = data.get('sender')
-     image_name = data.get('imageName')
-     reason = data.get('reason')
-
-     
-     
-
-     msg = Message(
-                subject="Your photo fron E_visual gallery.",
-               recipients= ["auw242106@auw.edu.bd"]
-               )
-              
-          # The template loader 
-     msg.html = render_template(
-            "email_template.html", 
-            sender_name=sender_name, 
-            photo_description= f"Reason for deletion :{reason} ",
-            email_reason = "Delete this image from dataBase.."
-        )
-     
-     filepath = os.path.join(app.config["UPLOAD_FOLDER"], image_name)
-     if os.path.exists(filepath):
-          with open(filepath,"rb") as img :
-               msg.attach(image_name, "image/jpeg", img.read())
-     else : 
-          print(f"Warning: {image_name} not found in folder. Sending without image ")
-     
-     
-     
-     try:
-          mail.send(msg)
-          return jsonify({"message" : "Request sent successfully, it will take at most two working days to approve your reqest :)"}) , 200
-     except Exception as e :
-          print(f"Error : {e}")
-          return jsonify({"message": "Failed to send email "}), 500
-     
+    @app.route("/edit_req")
+    def edit_req():
+        return render_template("edit_req.html")
 
 
-UPLOAD_FOLDER = "static/default_images"
-app.config["UPLOAD_FOLDER"] = UPLOAD_FOLDER 
-@app.route("/api/photos") 
-def photo_render():
-     data = sqlite3.connect("database.db")
-     data.row_factory = sqlite3.Row
-     photos = data.execute('SELECT * FROM photos').fetchall()
-     data.close()
-     return jsonify([dict(photo) for photo in photos]) 
+    @app.route("/api/delete_request", methods=['POST'])
+    def delete_request():
+        data = request.get_json()
+
+        sender_name = data.get('sender')
+        image_name = data.get('imageName')
+        reason = data.get('reason')
+
+        
+        
+
+        msg = Message(
+                    subject="Your photo fron E_visual gallery.",
+                  recipients= ["auw242106@auw.edu.bd"]
+                  )
+                  
+              # The template loader 
+        msg.html = render_template(
+                "email_template.html", 
+                sender_name=sender_name, 
+                photo_description= f"Reason for deletion :{reason} ",
+                email_reason = "Delete this image from dataBase.."
+            )
+        
+        filepath = os.path.join(app.config["UPLOAD_FOLDER"], image_name)
+        if os.path.exists(filepath):
+              with open(filepath,"rb") as img :
+                  msg.attach(image_name, "image/jpeg", img.read())
+        else : 
+              print(f"Warning: {image_name} not found in folder. Sending without image ")
+        
+        
+        
+        try:
+              mail.send(msg)
+              return jsonify({"message" : "Request sent successfully, it will take at most two working days to approve your reqest :)"}) , 200
+        except Exception as e :
+              print(f"Error : {e}")
+              return jsonify({"message": "Failed to send email "}), 500
+        
 
 
-@app.route("/api/photos", methods=['POST'])
-def photo_upload():
-     file= request.files["file"]
-     description = request.form["description"]
-     sender = request.form["sender"]
-     email = request.form.get("email")
-
-     filename = file.filename
-     filepath = os.path.join(app.config["UPLOAD_FOLDER"], filename)
-     file.save(filepath)
-
-     
-     if email:
-          msg = Message(
-                subject="Your photo fron E_visual gallery.",
-               recipients=[email]
-               )
-              
-          # The template loader 
-          msg.html = render_template(
-            "email_template.html", 
-            sender_name=sender, 
-            photo_description=description,
-            email_reason = "We've successfully received your upload!"
-        )
-          with open(filepath,"rb") as img :
-               msg.attach(filename, "image/jpeg", img.read())
-          mail.send(msg) 
-     #SQL hundler
-     connection = sqlite3.connect("database.db")
-     conn_cursor = connection.cursor()
-
-     conn_cursor.execute("""
-          INSERT INTO photos (filename,description,sender) VALUES (?,?,?)
-
-     """,(filename,description,sender))
-     connection.commit()
-     connection.close()
-
-     return { "message": "Done uploadeing "}, 201
-    
-
-@app.errorhandler(404)
-def error_page(error):
-     return render_template("404.html"), 404
+    UPLOAD_FOLDER = "static/default_images"
+    app.config["UPLOAD_FOLDER"] = UPLOAD_FOLDER 
+    @app.route("/api/photos") 
+    def photo_render():
+        data = sqlite3.connect("database.db")
+        data.row_factory = sqlite3.Row
+        photos = data.execute('SELECT * FROM photos').fetchall()
+        data.close()
+        return jsonify([dict(photo) for photo in photos]) 
 
 
-init_db()
-if __name__ == "__main__":
-    # This part is for running LOCALLY (python app.py)
-    app.run(debug=True)
-else:
-    # This part helps Gunicorn find the port when LIVE
-    pass
+    @app.route("/api/photos", methods=['POST'])
+    def photo_upload():
+        file= request.files["file"]
+        description = request.form["description"]
+        sender = request.form["sender"]
+        email = request.form.get("email")
+
+        filename = file.filename
+        filepath = os.path.join(app.config["UPLOAD_FOLDER"], filename)
+        file.save(filepath)
+
+        
+        if email:
+              msg = Message(
+                    subject="Your photo fron E_visual gallery.",
+                  recipients=[email]
+                  )
+                  
+              # The template loader 
+              msg.html = render_template(
+                "email_template.html", 
+                sender_name=sender, 
+                photo_description=description,
+                email_reason = "We've successfully received your upload!"
+            )
+              with open(filepath,"rb") as img :
+                  msg.attach(filename, "image/jpeg", img.read())
+              mail.send(msg) 
+        #SQL hundler
+        connection = sqlite3.connect("database.db")
+        conn_cursor = connection.cursor()
+
+        conn_cursor.execute("""
+              INSERT INTO photos (filename,description,sender) VALUES (?,?,?)
+
+        """,(filename,description,sender))
+        connection.commit()
+        connection.close()
+
+        return { "message": "Done uploadeing "}, 201
+        
+
+    @app.errorhandler(404)
+    def error_page(error):
+        return render_template("404.html"), 404
 
 
-
-# http://127.0.0.1:5000
+    init_db()
+    if __name__ == "__main__":
+        # This part is for running LOCALLY (python app.py)
+        app.run(debug=True)
+    else:
+        # This part helps Gunicorn find the port when LIVE
+        pass
 
 
 
-
+    # http://127.0.0.1:5000
 
 Js :
-const imageContainer = document.getElementById('imageContainer')
-const addBtn = document.getElementById('addBtn')
-const sendBtn = document.getElementById('sendBtn')
-const container = document.querySelector(".container")
-const formContainer = document.querySelector(".form_container")
-const svgContainer = document.querySelector(".svgContainer")
-const homeBtn = document.getElementById("homeBtn");
-const dropArea = document.querySelector(".formbold-file-input");
-const fileInput = document.getElementById("file")
-  const description = document.getElementById("description").value;
-  const sender = document.getElementById("sender").value;
-  const progressBar = document.getElementById("progressBar");
-  const progressFill = document.getElementById("progressFill");
-  const statusText = document.getElementById("uploadStatus");
-const fileText = document.getElementById("fileText");
-const fileLabel = document.getElementById("fileLabel");
+    const imageContainer = document.getElementById('imageContainer')
+    const addBtn = document.getElementById('addBtn')
+    const sendBtn = document.getElementById('sendBtn')
+    const container = document.querySelector(".container")
+    const formContainer = document.querySelector(".form_container")
+    const svgContainer = document.querySelector(".svgContainer")
+    const homeBtn = document.getElementById("homeBtn");
+    const dropArea = document.querySelector(".formbold-file-input");
+    const fileInput = document.getElementById("file")
+      const description = document.getElementById("description").value;
+      const sender = document.getElementById("sender").value;
+      const progressBar = document.getElementById("progressBar");
+      const progressFill = document.getElementById("progressFill");
+      const statusText = document.getElementById("uploadStatus");
+    const fileText = document.getElementById("fileText");
+    const fileLabel = document.getElementById("fileLabel");
 
 
-// loding images
+    // loding images
 
-fetch('/api/photos').then(res=>{ // take a look here
-  return res.json()
-})
-.then(images=>{
-  images.forEach((element,ind) => {
-    // /static/default_images/${element.fileInput}
+    fetch('/api/photos').then(res=>{ // take a look here
+      return res.json()
+    })
+    .then(images=>{
+      images.forEach((element,ind) => {
+        // /static/default_images/${element.fileInput}
 
-    imageContainer.innerHTML +=  `
-    <div class="image hover10">
-    <img src="/static/default_images/${element.filename}" alt="image ${ind+1}">
-       <div class="description"> 
-  <p>${element.description} </p>
-  <p>  📸 : ${element.sender} </p>
+        imageContainer.innerHTML +=  `
+        <div class="image hover10">
+        <img src="/static/default_images/${element.filename}" alt="image ${ind+1}">
+          <div class="description"> 
+      <p>${element.description} </p>
+      <p>  📸 : ${element.sender} </p>
 
-    </div>
-    </div>
-   
-    ` 
- 
- 
-});
-})
-.catch(err=>console.log(err))
-
-
-function formDisplayer(){
-container.classList.toggle("hidden")
-formContainer.classList.toggle("show")
-homeBtn.style.top  = "20px"
-
-// looding svg 
-lottie.loadAnimation(
-  { container: svgContainer, 
-    renderer: 'svg', 
-    loop: true, 
-    autoplay: true,
-     path: '/static/Kitty_Cat.json'}
-)
-}
-
-function formHide(){
-  formContainer.classList.toggle("show")
-  container.classList.toggle("hidden")
-}
-// Drag and drop functionality 
-
-dropArea.addEventListener("dragover",(event)=>{
-event.preventDefault()
-})
-
-dropArea.addEventListener("drop",(event)=>{
-event.preventDefault()
-fileInput.files = event.dataTransfer.files;
-})
-
-dropArea.addEventListener("dragenter", () => {
-  dropArea.style.border = "2px solid #F83999";
-});
-
-dropArea.addEventListener("dragleave", () => {
-  dropArea.style.border = "1px dashed #e0e0e0";
-});
-//Event listeners
-addBtn.addEventListener("click",formDisplayer)
-
-sendBtn.addEventListener("click",async (event)=>{
-
-  event.preventDefault();
-  const file = fileInput.files[0];
-
-if(!file){
-alert("Please choose a file :)")
-return;
-}
-
-  const formData = new FormData() // creates a container(object) that mimics a real HTML form submission and allows file uploads.
-  formData.append("file",file)// to get the uploaded file 
-  formData.append("description",description)
-  formData.append("sender",sender)
+        </div>
+        </div>
+      
+        ` 
+    
+    
+    });
+    })
+    .catch(err=>console.log(err))
 
 
-// UI Changes before upload
+    function formDisplayer(){
+    container.classList.toggle("hidden")
+    formContainer.classList.toggle("show")
+    homeBtn.style.top  = "20px"
 
-sendBtn.disabled =true;
-sendBtn.textContent = "Uploading.. "
-progressBar.classList.remove("hidden")
-statusText.classList.remove("hidden")
-statusText.textContent = "Uploading your image... "
-
-try {
-  // not real 
-  let width = 0;
-  const progress = setInterval(() => {
-    if (width < 90) {
-      width += 5
-      progressFill.style.width = width + '%';
+    // looding svg 
+    lottie.loadAnimation(
+      { container: svgContainer, 
+        renderer: 'svg', 
+        loop: true, 
+        autoplay: true,
+        path: '/static/Kitty_Cat.json'}
+    )
     }
-  }, 100);
 
-  const response = await fetch("/api/photos", {
-    method: "POST",
-    body: formData
-  })
+    function formHide(){
+      formContainer.classList.toggle("show")
+      container.classList.toggle("hidden")
+    }
+    // Drag and drop functionality 
 
-  clearInterval(progress)
+    dropArea.addEventListener("dragover",(event)=>{
+    event.preventDefault()
+    })
 
-  if(!response.ok) throw new Error("Upload Failed");
-  
-    progressFill.style.width = "100%";
-    statusText.textContent = "Uploaded Successfully ✓";
-    sendBtn.textContent = "Done";
+    dropArea.addEventListener("drop",(event)=>{
+    event.preventDefault()
+    fileInput.files = event.dataTransfer.files;
+    })
 
-  setTimeout(() => {
-    location.reload()
-  }, 1200);
+    dropArea.addEventListener("dragenter", () => {
+      dropArea.style.border = "2px solid #F83999";
+    });
 
-} catch (error) {
-  progressFill.style.background = "red";
-  statusText.textContent = " Upload Failed :("
-  sendBtn.disabled = false;
-  sendBtn.textContent = "Send File"
-}
-  // fetch("/api/photos", {
-  //   method: "POST",
-  //   body: formData
-  // })
-  // .then(res => res.json())
-  // .then(data => {
-  //   console.log("Success:", data);
+    dropArea.addEventListener("dragleave", () => {
+      dropArea.style.border = "1px dashed #e0e0e0";
+    });
+    //Event listeners
+    addBtn.addEventListener("click",formDisplayer)
 
-  //   // reload page to show new image
-  //   location.reload();
-  // })
-  // .catch(err => console.log(err));
-});
+    sendBtn.addEventListener("click",async (event)=>{
+
+      event.preventDefault();
+      const file = fileInput.files[0];
+
+    if(!file){
+    alert("Please choose a file :)")
+    return;
+    }
+
+      const formData = new FormData() // creates a container(object) that mimics a real HTML form submission and allows file uploads.
+      formData.append("file",file)// to get the uploaded file 
+      formData.append("description",description)
+      formData.append("sender",sender)
+
+
+    // UI Changes before upload
+
+    sendBtn.disabled =true;
+    sendBtn.textContent = "Uploading.. "
+    progressBar.classList.remove("hidden")
+    statusText.classList.remove("hidden")
+    statusText.textContent = "Uploading your image... "
+
+    try {
+      // not real 
+      let width = 0;
+      const progress = setInterval(() => {
+        if (width < 90) {
+          width += 5
+          progressFill.style.width = width + '%';
+        }
+      }, 100);
+
+      const response = await fetch("/api/photos", {
+        method: "POST",
+        body: formData
+      })
+
+      clearInterval(progress)
+
+      if(!response.ok) throw new Error("Upload Failed");
+      
+        progressFill.style.width = "100%";
+        statusText.textContent = "Uploaded Successfully ✓";
+        sendBtn.textContent = "Done";
+
+      setTimeout(() => {
+        location.reload()
+      }, 1200);
+
+    } catch (error) {
+      progressFill.style.background = "red";
+      statusText.textContent = " Upload Failed :("
+      sendBtn.disabled = false;
+      sendBtn.textContent = "Send File"
+    }
+      // fetch("/api/photos", {
+      //   method: "POST",
+      //   body: formData
+      // })
+      // .then(res => res.json())
+      // .then(data => {
+      //   console.log("Success:", data);
+
+      //   // reload page to show new image
+      //   location.reload();
+      // })
+      // .catch(err => console.log(err));
+    });
 
 
 
-// For applying dark and light mode base users local storage 
-// const savedTheme = localStorage.getItem('theme');
-// if (savedTheme === 'light') {
-//     applyLightMode();
-// }
+    // For applying dark and light mode base users local storage 
+    // const savedTheme = localStorage.getItem('theme');
+    // if (savedTheme === 'light') {
+    //     applyLightMode();
+    // }
 
-// function applyLightMode() {
-//     body.classList.add('light');
-//     if (modeTogglerBtn) modeTogglerBtn.classList.add('day');
-//     if (modeTogglerMoon) modeTogglerMoon.classList.add('sun');
-//     if (homeBtn) homeBtn.classList.add("light");
-//     // Apply classes directly to the form
-//     if (deleteForm) {
-//         deleteForm.classList.add("light");
-//         deleteForm.classList.add("formLight");
-//     }
-// }
+    // function applyLightMode() {
+    //     body.classList.add('light');
+    //     if (modeTogglerBtn) modeTogglerBtn.classList.add('day');
+    //     if (modeTogglerMoon) modeTogglerMoon.classList.add('sun');
+    //     if (homeBtn) homeBtn.classList.add("light");
+    //     // Apply classes directly to the form
+    //     if (deleteForm) {
+    //         deleteForm.classList.add("light");
+    //         deleteForm.classList.add("formLight");
+    //     }
+    // }
