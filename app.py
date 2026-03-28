@@ -1,8 +1,16 @@
 #draft_codes.txt
-
+from pymongo import MongoClient
 import os
 from flask_mail import Mail, Message
-from pymongo import MongoClient
+
+
+# MongoDb setup 
+MONGO_URI = os.environ.get("MONGO_URI", "mongodb://localhost:27017/my_database")
+
+client = MongoClient(MONGO_URI)
+db = client['e_gallery_database']
+photos_collection = db['photos']
+
 #DataBase Hundler
 import sqlite3 # main sql :)
 def init_db():
@@ -92,11 +100,9 @@ UPLOAD_FOLDER = "static/default_images"
 app.config["UPLOAD_FOLDER"] = UPLOAD_FOLDER 
 @app.route("/api/photos") 
 def photo_render():
-     data = sqlite3.connect("database.db")
-     data.row_factory = sqlite3.Row
-     photos = data.execute('SELECT * FROM photos').fetchall()
-     data.close()
-     return jsonify([dict(photo) for photo in photos]) 
+     # get all doc, _id hide
+     photos = list(photos_collection.find({},{"_id":0}))
+     return jsonify(photos) 
 
 
 @app.route("/api/photos", methods=['POST'])
@@ -110,6 +116,15 @@ def photo_upload():
      filepath = os.path.join(app.config["UPLOAD_FOLDER"], filename)
      file.save(filepath)
 
+     # Gallery_data
+     new_photo = {
+          "filename": filename,
+          "description" : description,
+          "sender": sender
+     }
+
+     # Save to database
+     photos_collection.insert_one(new_photo)
      
      if email:
           msg = Message(
