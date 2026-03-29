@@ -21,6 +21,10 @@ app = Flask(__name__)
 UPLOAD_FOLDER = "static/default_images"
 app.config["UPLOAD_FOLDER"] = UPLOAD_FOLDER 
 
+if not os.path.exists(UPLOAD_FOLDER):
+    os.makedirs(UPLOAD_FOLDER)
+    print(f"Created folder: {UPLOAD_FOLDER}")
+
 # Email handler 
 
 app.config['MAIL_SERVER'] = 'smtp.gmail.com'
