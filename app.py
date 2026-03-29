@@ -92,7 +92,14 @@ def delete_request():
 def photo_render():
      # get all doc, _id hide
      photos = list(photos_collection.find({},{"_id":0}))
-     return jsonify(photos) 
+     valid_photos = []
+     for photo in photos:
+        filepath = os.path.join(app.config["UPLOAD_FOLDER"], photo['filename'])
+        # Only show the photo if the file actually exists on the server
+        if os.path.exists(filepath):
+            valid_photos.append(photo)
+            
+     return jsonify(valid_photos) 
 
 
 @app.route("/api/photos", methods=['POST'])
@@ -117,22 +124,26 @@ def photo_upload():
      photos_collection.insert_one(new_photo)
      
      if email:
-          msg = Message(
-                subject="Your photo fron E_visual gallery.",
-               recipients=[email]
-               )
-              
-          # The template loader 
-          msg.html = render_template(
-            "email_template.html", 
-            sender_name=sender, 
-            photo_description=description,
-            email_reason = "We've successfully received your upload!"
-        )
-          with open(filepath,"rb") as img :
-               msg.attach(filename, "image/jpeg", img.read())
-          mail.send(msg) 
-     
+          try:
+               msg = Message(
+                    subject="Your photo fron E_visual gallery.",
+                    recipients=[email]
+                    )
+               
+               # The template loader 
+               msg.html = render_template(
+               "email_template.html", 
+               sender_name=sender, 
+               photo_description=description,
+               email_reason = "We've successfully received your upload!"
+          )
+               with open(filepath,"rb") as img :
+                    msg.attach(filename, "image/jpeg", img.read())
+               mail.send(msg)
+          except Exception as e:
+            print(f"MAIL ERROR (Ignored): {e}")
+                
+          
      return jsonify({ "message": "Done uploadeing "}), 201
     
 
