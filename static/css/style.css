@@ -14,7 +14,7 @@
 }
 body{
 background-color: #000;
-     height: 100vh;
+     min-height: 100vh;
      text-align: center;
 color: #a09898;
 position: relative;
@@ -68,6 +68,7 @@ header p {
      width: 100%;
     padding-left: 1%;
     padding-top:1% ;
+    display: block;
     
 }
 .image {
@@ -234,7 +235,7 @@ left: 6%;
   }
   .close {
     top: 5%;
-    right: 8%;
+    right: 48%;
 }
 .lightbox button {
     width: 4% !important;
