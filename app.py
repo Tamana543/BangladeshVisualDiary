@@ -32,9 +32,10 @@ app.config['MAIL_SERVER'] = 'smtp.gmail.com'
 app.config['MAIL_PORT'] = 465 
 app.config['MAIL_USE_TLS'] = False
 app.config['MAIL_USE_SSL'] = True 
-app.config['MAIL_USERNAME'] = 'auw242106@auw.edu.bd'
+app.config['MAIL_USERNAME'] = os.environ.get('MAIL_USERNAME')
 app.config['MAIL_PASSWORD'] = os.environ.get('MAIL_PASSWORD') # check this if email not working
-app.config['MAIL_DEFAULT_SENDER'] = 'auw242106@auw.edu.bd'
+# app.config['MAIL_DEFAULT_SENDER'] = 'tamanafarzami33@gmail.com'
+app.config['MAIL_DEFAULT_SENDER'] = os.environ.get('MAIL_USERNAME')
 
 mail = Mail(app)
 
@@ -55,10 +56,12 @@ def delete_request():
           sender_name = data.get('sender')
           image_name = data.get('imageName')
           reason = data.get('reason')
+
+          my_email = app.config['MAIL_DEFAULT_SENDER']
           # Email for edit 
           msg = Message(
-                    subject="Your photo fron E_visual gallery.",
-                    recipients= ["auw242106@auw.edu.bd"]
+                    subject=f"Delete Request: {image_name}",
+                    recipients= [my_email]
                     )
                
                # The template loader 
@@ -66,7 +69,7 @@ def delete_request():
                "email_template.html", 
                sender_name=sender_name, 
                photo_description= f"Reason for deletion :{reason} ",
-               email_reason = "Delete this image from dataBase.."
+               email_reason = f"Delete this image from dataBase {image_name}"
           )
           
           filepath = os.path.join(app.config["UPLOAD_FOLDER"], image_name)
