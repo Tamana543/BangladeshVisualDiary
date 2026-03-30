@@ -29,7 +29,7 @@ def send_gallery_email(to_email, subject, html_content, attachement_path = None,
           return False
      
      params = {
-          "from": "E-Visual Gallery",
+          "from": "E-Visual Gallery <onboarding@resend.dev>",
           "to" :[to_email],
           "subject" : subject,
           "html" : html_content
@@ -40,7 +40,7 @@ def send_gallery_email(to_email, subject, html_content, attachement_path = None,
                with open(attachement_path, 'rb') as f :
                     data = f.read()
                encoded = base64.b64encode(data).decode("utf-8")
-               params["attachements"] = [{
+               params["attachments"] = [{
                     "filename":attachement_name,
                     "content":encoded,
                     "type": "image/jpeg"
@@ -84,38 +84,37 @@ def delete_request():
           image_name = data.get('imageName')
           reason = data.get('reason')
 
-          my_email = app.config['MAIL_DEFAULT_SENDER']
+          admin_email = os.environ.get('MAIL_USERNAME')
+
+          if not admin_email : 
+               return jsonify({"error": "Admin email have problem"}), 500
+          
           # Email for edit 
-          msg = Message(
-                    subject=f"Delete Request: {image_name}",
-                    recipients= [my_email]
-                    )
-               
-               # The template loader 
-          msg.html = render_template(
-               "email_template.html", 
-               sender_name=sender_name, 
-               photo_description= f"Reason for deletion :{reason} ",
-               email_reason = f"Delete this image from dataBase {image_name}"
+          html_content = render_template(
+              "email_template.html", 
+            sender_name=sender_name, 
+            photo_description=f"Reason for deletion: {reason}",
+            email_reason=f"Delete this image from database: {image_name}" 
           )
           
           filepath = os.path.join(app.config["UPLOAD_FOLDER"], image_name)
-          if os.path.exists(filepath):
-               with open(filepath,"rb") as img :
-                    msg.attach(image_name, "image/jpeg", img.read())
-          else : 
-               print(f"Warning: {image_name} not found in folder. Sending without image ")
-          try:
-               mail.send(msg)
-               return jsonify({"message" : "Request sent successfully, it will take at most two working days to approve your reqest :)"}) , 200
-          except Exception as e :
-               print(f"Error : {e}")
-               return jsonify({"message": "Failed to send email "}), 500
-     except Exception as e:
-        print(f"MAIL ERROR: {e}")
-        #return JSON even if it fails
-        return jsonify({"error": "Mail server connection timed out. Please try again later."}), 504
 
+          success = send_gallery_email(
+               to_email= admin_email,
+               subject=f"Delete Request: {image_name}",
+               html_content= html_content,
+               attachement_path= filepath if os.path.exists(filepath) else None,
+               attachement_name= image_name if os.path.exists(filepath) else None
+          )
+
+          if success :
+               return jsonify({"message" : "Request sent successfully, it will take at most two working days to approve your reqest :)"}) , 200
+          else :
+               return jsonify({"message": "Failed to send email. Please try again later."}), 500
+          
+     except Exception as del_e :
+          print(f"Delete request error : {del_e}")
+          return jsonify({"error":"Delete error, something went wrong"}), 500
 
 
 @app.route("/api/photos") 
