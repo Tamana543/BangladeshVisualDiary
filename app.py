@@ -1,7 +1,9 @@
 #draft_codes.txt
 from pymongo import MongoClient
 import os
-from flask_mail import Mail, Message
+import resend
+import base64
+
 
 
 # MongoDb setup 
@@ -17,6 +19,44 @@ from flask import Flask, render_template,request,jsonify
 
 app = Flask(__name__) 
 
+
+# Email handler 
+resend.api_key = os.environ.get("RESEND_API_KEY")
+
+def send_gallery_email(to_email, subject, html_content, attachement_path = None, attachement_name = None):
+     if not to_email :
+          print("Warning : No email found")
+          return False
+     
+     params = {
+          "from": "E-Visual Gallery",
+          "to" :[to_email],
+          "subject" : subject,
+          "html" : html_content
+     }
+
+     if attachement_name and attachement_path and os.path.exists(attachement_path):
+          try:
+               with open(attachement_path, 'rb') as f :
+                    data = f.read()
+               encoded = base64.b64encode(data).decode("utf-8")
+               params["attachements"] = [{
+                    "filename":attachement_name,
+                    "content":encoded,
+                    "type": "image/jpeg"
+               }]
+               print(f"attachement added {attachement_name}")
+          except Exception as error:
+               print(f"Error : image not attached as : {error}")
+     try :
+          response = resend.Emails.send(params)
+          print(f"Email done to {to_email} ID {response.get('id','unknown')}")
+          return True
+     except Exception as send_err :
+          print(f"Error : {send_err}")
+
+
+
 # ImgFolder config
 UPLOAD_FOLDER = "static/default_images"
 app.config["UPLOAD_FOLDER"] = UPLOAD_FOLDER 
@@ -25,19 +65,6 @@ if not os.path.exists(UPLOAD_FOLDER):
     os.makedirs(UPLOAD_FOLDER)
     print(f"Created folder: {UPLOAD_FOLDER}")
 
-# Email handler 
-
-
-app.config['MAIL_SERVER'] = 'smtp.gmail.com'
-app.config['MAIL_PORT'] = 465 
-app.config['MAIL_USE_TLS'] = False
-app.config['MAIL_USE_SSL'] = True 
-app.config['MAIL_USERNAME'] = os.environ.get('MAIL_USERNAME')
-app.config['MAIL_PASSWORD'] = os.environ.get('MAIL_PASSWORD') # check this if email not working
-# app.config['MAIL_DEFAULT_SENDER'] = 'tamanafarzami33@gmail.com'
-app.config['MAIL_DEFAULT_SENDER'] = os.environ.get('MAIL_USERNAME')
-
-mail = Mail(app)
 
 
 @app.route("/") 
