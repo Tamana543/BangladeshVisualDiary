@@ -29,7 +29,7 @@ def send_gallery_email(to_email, subject, html_content, attachment_path=None, at
           return False
      
      params = {
-          "from": "E-Visual Gallery <tamanafarzami33@gmail.com>",
+          "from": "E-Visual Gallery <onboarding@resend.dev>",
           "to" :[to_email],
           "subject" : subject,
           "html" : html_content
