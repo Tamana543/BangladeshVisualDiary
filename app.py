@@ -133,47 +133,42 @@ def photo_render():
 
 @app.route("/api/photos", methods=['POST'])
 def photo_upload():
-     file= request.files["file"]
-     description = request.form["description"]
-     sender = request.form["sender"]
-     email = request.form.get("email")
+     try : 
+          file= request.files["file"]
+          description = request.form["description"]
+          sender = request.form["sender"]
+          email = request.form.get("email")
 
-     filename = file.filename
-     filepath = os.path.join(app.config["UPLOAD_FOLDER"], filename)
-     file.save(filepath)
+          filename = file.filename
+          filepath = os.path.join(app.config["UPLOAD_FOLDER"], filename)
+          file.save(filepath)
 
-     # Gallery_data
-     new_photo = {
-          "filename": filename,
-          "description" : description,
-          "sender": sender
-     }
-
-     # Save to database
-     photos_collection.insert_one(new_photo)
-     
-     if email:
-          try:
-               msg = Message(
-                    subject="Your photo fron E_visual gallery.",
-                    recipients=[email]
-                    )
-               
-               # The template loader 
-               msg.html = render_template(
-               "email_template.html", 
-               sender_name=sender, 
-               photo_description=description,
-               email_reason = "We've successfully received your upload!"
-          )
-               with open(filepath,"rb") as img :
-                    msg.attach(filename, "image/jpeg", img.read())
-               mail.send(msg)
-          except Exception as e:
-            print(f"MAIL ERROR (Ignored): {e}")
-                
+          # save  to dataBase 
+          new_photo = {
+               "filename": filename,
+               "description" : description,
+               "sender": sender
+          }
+          photos_collection.insert_one(new_photo)
           
-     return jsonify({ "message": "Done uploadeing "}), 201
+          if email:
+              html_content = render_template(
+                    "email_template.html", 
+                    sender_name=sender, 
+                    photo_description=description,
+                    email_reason="We've successfully received your upload!"
+               )
+              send_gallery_email(
+                    to_email= email,
+                    subject= "Your photo from E-Visual Gallery",
+                    html_content= html_content,
+                    attachement_path= filepath,
+                    attachement_name= filename
+               )
+          return jsonify({"message" : "Photo uploaded successfully!"}), 201
+     except Exception as phot_em_err :
+          print(f"Upload Error: {phot_em_err}")
+          return jsonify({"error":"Failed to upload photo"}), 500
     
 
 @app.errorhandler(404)
