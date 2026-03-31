@@ -2,6 +2,8 @@
 from pymongo import MongoClient
 import os
 from flask import Flask,render_template, request, jsonify
+from sib_api_v3_sdk.rest import ApiException
+import base64
 
 
 
@@ -19,7 +21,19 @@ app = Flask(__name__)
 
 
 # Email handler 
+def send_gallery_email(to_email, subject, html_content, attachment_path=None, attachment_name=None) :
+     try:
+          with open(attachment_path, "rb") as f :
+               data = base64.b64encode(f.read()).decode("utf-8")
 
+          attachment = {
+               "content": data,
+                "name": attachment_name,
+                "type": "image/jpeg"
+          }
+          send_smtp_email.attachment = [attachment]
+     except Exception as e :
+          print(e)               
 
 
 # ImgFolder config
