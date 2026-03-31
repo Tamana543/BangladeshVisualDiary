@@ -1,8 +1,8 @@
 #draft_codes.txt
 from pymongo import MongoClient
 import os
-import resend
-import base64
+from flask import Flask,render_template, request, jsonify
+
 
 
 
@@ -14,46 +14,11 @@ db = client['e_gallery_database']
 photos_collection = db['photos']
 
 # Flask Hundler 
-import os
-from flask import Flask, render_template,request,jsonify
 
 app = Flask(__name__) 
 
 
 # Email handler 
-resend.api_key = os.environ.get("RESEND_API_KEY")
-
-def send_gallery_email(to_email, subject, html_content, attachment_path=None, attachment_name=None):
-     if not to_email :
-          print("Warning : No email found")
-          return False
-     
-     params = {
-          "from": "E-Visual Gallery <onboarding@resend.dev>",
-          "to" :[to_email],
-          "subject" : subject,
-          "html" : html_content
-     }
-
-     if attachment_path and attachment_name and os.path.exists(attachment_path):
-          try:
-               with open(attachment_path, 'rb') as f :
-                    data = f.read()
-               encoded = base64.b64encode(data).decode("utf-8")
-               params["attachments"] = [{
-                    "filename":attachment_name,
-                    "content":encoded,
-                    "type": "image/jpeg"
-               }]
-               print(f"attachment added {attachment_name}")
-          except Exception as error:
-               print(f"Error : image not attached as : {error}")
-     try :
-          response = resend.Emails.send(params)
-          print(f"Email done to {to_email} ID {response.get('id','unknown')}")
-          return True
-     except Exception as send_err :
-          print(f"Error : {send_err}")
 
 
 
@@ -99,19 +64,10 @@ def delete_request():
           
           filepath = os.path.join(app.config["UPLOAD_FOLDER"], image_name)
 
-          success = send_gallery_email(
-               to_email= admin_email,
-               subject=f"Delete Request: {image_name}",
-               html_content= html_content,
-               attachment_path= filepath if os.path.exists(filepath) else None,
-               attachment_name= image_name if os.path.exists(filepath) else None
-          )
+          return jsonify({
+            "message": "Request sent successfully, it will take at most two working days to approve your request :)"
+        }), 200
 
-          if success :
-               return jsonify({"message" : "Request sent successfully, it will take at most two working days to approve your reqest :)"}) , 200
-          else :
-               return jsonify({"message": "Failed to send email. Please try again later."}), 500
-          
      except Exception as del_e :
           print(f"Delete request error : {del_e}")
           return jsonify({"error":"Delete error, something went wrong"}), 500
@@ -158,13 +114,7 @@ def photo_upload():
                     photo_description=description,
                     email_reason="We've successfully received your upload!"
                )
-              send_gallery_email(
-                    to_email= email,
-                    subject= "Your photo from E-Visual Gallery",
-                    html_content= html_content,
-                    attachment_path= filepath,
-                    attachment_name= filename
-               )
+            
           return jsonify({"message" : "Photo uploaded successfully!"}), 201
      except Exception as phot_em_err :
           print(f"Upload Error: {phot_em_err}")
