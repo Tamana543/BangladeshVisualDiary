@@ -19,6 +19,15 @@ photos_collection = db['photos']
 
 app = Flask(__name__) 
 
+# ImgFolder config
+UPLOAD_FOLDER = "static/default_images"
+app.config["UPLOAD_FOLDER"] = UPLOAD_FOLDER 
+
+if not os.path.exists(UPLOAD_FOLDER):
+    os.makedirs(UPLOAD_FOLDER)
+    print(f"Created folder: {UPLOAD_FOLDER}")
+
+
 
 # Email handler (brevo)
 def send_gallery_email(to_email, subject, html_content, attachment_path=None, attachment_name=None) :
@@ -52,18 +61,17 @@ def send_gallery_email(to_email, subject, html_content, attachment_path=None, at
           except Exception as email_err : 
              print(f"Attachement error: {email_err}")
      
+     try :
+          api_instance.send_transac_email(send_smtp_email)
+          print(f"Email sent to {to_email}")
+          return True
+     except ApiException as err :
+          print(f"API error {err}")
+     except Exception as error :
+          print(f"Email Error {error}")
+          return False
      
-          
-
-
-# ImgFolder config
-UPLOAD_FOLDER = "static/default_images"
-app.config["UPLOAD_FOLDER"] = UPLOAD_FOLDER 
-
-if not os.path.exists(UPLOAD_FOLDER):
-    os.makedirs(UPLOAD_FOLDER)
-    print(f"Created folder: {UPLOAD_FOLDER}")
-
+     
 
 
 @app.route("/") 
@@ -98,9 +106,20 @@ def delete_request():
           
           filepath = os.path.join(app.config["UPLOAD_FOLDER"], image_name)
 
-          return jsonify({
-            "message": "Request sent successfully, it will take at most two working days to approve your request :)"
-        }), 200
+          success = send_gallery_email(
+               to_email= admin_email,
+               subject= f"Delete request for : {image_name}",
+               html_content= html_content,
+               attachment_path= filepath if os.path.exists(filepath) else None,
+               attachment_name= image_name if os.path.exists(filepath) else None,
+          )
+
+          if success : 
+               return jsonify({
+               "message": "Request sent successfully, it will take at most two working days to approve your request :)"
+          }), 200
+          else :
+               return jsonify({"message": "Failed to send email. Please try again later."}), 500
 
      except Exception as del_e :
           print(f"Delete request error : {del_e}")
