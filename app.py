@@ -20,20 +20,40 @@ photos_collection = db['photos']
 app = Flask(__name__) 
 
 
-# Email handler 
+# Email handler (brevo)
 def send_gallery_email(to_email, subject, html_content, attachment_path=None, attachment_name=None) :
-     try:
-          with open(attachment_path, "rb") as f :
-               data = base64.b64encode(f.read()).decode("utf-8")
+     if not to_email :
+          print("Warning: No email provided")
+          return False
+     
+     configuration = sib_api_v3_sdk.Configuration()
+     configuration.api_key['api-key'] = os.environ.get("BREVO_SMTP_HOST")
 
-          attachment = {
-               "content": data,
-                "name": attachment_name,
-                "type": "image/jpeg"
-          }
-          send_smtp_email.attachment = [attachment]
-     except Exception as e :
-          print(e)               
+     api_instance = sib_api_v3_skd.TransactionalEmailsApi(sib_api_v3_sdk.ApiClient(configuration))
+
+     send_smtp_email = sib_api_v3_sdk.SendSmtpEmail(
+        to=[{"email": to_email}],
+        sender={"name": "E-Visual Gallery", "email": "tamanafarzami33@gmail.com"},
+        subject=subject,
+        html_content=html_content
+    )
+     
+     if attachment_path and attachment_name and os.path.exists(attachment_path):
+          try:
+               with open(attachment_path,"rb") as f :
+                  data = base64.b64encode(f.read()).decode("utf-8")
+               attachment ={
+                    "content": data,
+                    "name": attachment_name,
+                    "type": "image/jpeg"
+               }
+               send_smtp_email.attachment = [attachment]
+               print(f"Attachment added {attachment_name}")
+          except Exception as email_err : 
+             print(f"Attachement error: {email_err}")
+     
+     
+          
 
 
 # ImgFolder config
