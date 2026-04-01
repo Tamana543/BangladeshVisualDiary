@@ -130,14 +130,13 @@ def delete_request():
 def photo_render():
      # get all doc, _id hide
      photos = list(photos_collection.find({},{"_id":0}))
-     valid_photos = []
-     for photo in photos:
-        filepath = os.path.join(app.config["UPLOAD_FOLDER"], photo['filename'])
-        # Only show the photo if the file actually exists on the server
-        if os.path.exists(filepath):
-            valid_photos.append(photo)
-            
-     return jsonify(valid_photos) 
+     valid_photos = [
+          photo for photo in photos 
+          if os.path.exists(os.path.join(app.config["UPLOAD_FOLDER"], photo['filename']))
+          ]
+     
+     return jsonify(valid_photos)
+     
 
 
 @app.route("/api/photos", methods=['POST'])
@@ -167,8 +166,17 @@ def photo_upload():
                     photo_description=description,
                     email_reason="We've successfully received your upload!"
                )
+              
+          send_gallery_email(
+               to_email= email,
+               subject="Your photo form E-visual Gallery",
+               html_content= html_content,
+               attachment_path=filepath,
+               attachment_name= filename
+          )
             
           return jsonify({"message" : "Photo uploaded successfully!"}), 201
+     
      except Exception as phot_em_err :
           print(f"Upload Error: {phot_em_err}")
           return jsonify({"error":"Failed to upload photo"}), 500
