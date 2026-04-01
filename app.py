@@ -2,8 +2,11 @@
 from pymongo import MongoClient
 import os
 from flask import Flask,render_template, request, jsonify
-from sib_api_v3_sdk.rest import ApiException
 import base64
+
+
+import sib_api_v3_sdk
+from sib_api_v3_sdk.rest import ApiException
 
 
 
@@ -35,36 +38,37 @@ def send_gallery_email(to_email, subject, html_content, attachment_path=None, at
           print("Warning: No email provided")
           return False
      
-     configuration = sib_api_v3_sdk.Configuration()
-     configuration.api_key['api-key'] = os.environ.get("BREVO_SMTP_HOST")
-
-     api_instance = sib_api_v3_skd.TransactionalEmailsApi(sib_api_v3_sdk.ApiClient(configuration))
-
-     send_smtp_email = sib_api_v3_sdk.SendSmtpEmail(
-        to=[{"email": to_email}],
-        sender={"name": "E-Visual Gallery", "email": "tamanafarzami33@gmail.com"},
-        subject=subject,
-        html_content=html_content
-    )
-     
-     if attachment_path and attachment_name and os.path.exists(attachment_path):
-          try:
-               with open(attachment_path,"rb") as f :
-                  data = base64.b64encode(f.read()).decode("utf-8")
-               attachment ={
-                    "content": data,
-                    "name": attachment_name,
-                    "type": "image/jpeg"
-               }
-               send_smtp_email.attachment = [attachment]
-               print(f"Attachment added {attachment_name}")
-          except Exception as email_err : 
-             print(f"Attachement error: {email_err}")
-     
      try :
-          api_instance.send_transac_email(send_smtp_email)
-          print(f"Email sent to {to_email}")
-          return True
+          configuration = sib_api_v3_sdk.Configuration()
+          configuration.api_key['api-key'] = os.environ.get("BREVO_SMTP_PASS")
+
+          api_instance = sib_api_v3_sdk.TransactionalEmailsApi(sib_api_v3_sdk.ApiClient(configuration))
+
+          send_smtp_email = sib_api_v3_sdk.SendSmtpEmail(
+          to=[{"email": to_email}],
+          sender={"name": "E-Visual Gallery", "email": "tamanafarzami33@gmail.com"},
+          subject=subject,
+          html_content=html_content
+     )
+          
+          if attachment_path and attachment_name and os.path.exists(attachment_path):
+               try:
+                    with open(attachment_path,"rb") as f :
+                         data = base64.b64encode(f.read()).decode("utf-8")
+                         attachment ={
+                              "content": data,
+                              "name": attachment_name,
+                              "type": "image/jpeg"
+                         }
+                         send_smtp_email.attachment = [attachment]
+                         print(f"Attachment added {attachment_name}")
+               except Exception as email_err : 
+                     print(f"Attachement error: {email_err}")
+          
+          
+               api_instance.send_transac_email(send_smtp_email)
+               print(f"Email sent to {to_email}")
+               return True
      except ApiException as err :
           print(f"API error {err}")
      except Exception as error :
@@ -132,7 +136,7 @@ def photo_render():
      photos = list(photos_collection.find({},{"_id":0}))
      valid_photos = [
           photo for photo in photos 
-          if os.path.exists(os.path.join(app.config["UPLOAD_FOLDER"], photo['filename']))
+          if os.path.exists(os.path.join(app.config["UPLOAD_FOLDER"],photo.get('filename', '')))
           ]
      
      return jsonify(valid_photos)
