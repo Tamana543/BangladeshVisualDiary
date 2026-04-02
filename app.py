@@ -3,7 +3,8 @@ from pymongo import MongoClient
 import os
 from flask import Flask,render_template, request, jsonify
 from flask_mail import Mail,Message 
-import base64
+import threading
+
 
 
 
@@ -46,31 +47,36 @@ def send_gallery_email(to_email, subject, html_content, attachment_path=None, at
      if not to_email :
           print("Warning: No email provided")
           return False
-     
-     try :
-          msg = Message(
-            subject=subject,
-            recipients=[to_email],
-            html=html_content,
-            sender=("E-Visual Gallery", "tamanafarzami33@gmail.com")
-        )
-          
-          if attachment_path and attachment_name and os.path.exists(attachment_path):
-               try:
-                    with open(attachment_path,"rb") as f :
-                         msg.attach(attachment_name, "image/jpeg", f.read())
-                         print(f"Attachment added {attachment_name}")
-               except Exception as email_err : 
-                     print(f"Attachement error: {email_err}")
-          mail.send(msg)
-          print(f"email send to : {to_email}")
-          return True
+     def send_email_thread():
+          try :
+               msg = Message(
+               subject=subject,
+               recipients=[to_email],
+               html=html_content,
+               sender=("E-Visual Gallery", "tamanafarzami33@gmail.com")
+          )
+               
+               if attachment_path and attachment_name and os.path.exists(attachment_path):
+                    try:
+                         with open(attachment_path,"rb") as f :
+                              msg.attach(attachment_name, "image/jpeg", f.read())
+                              print(f"Attachment added {attachment_name}")
+                    except Exception as email_err : 
+                         print(f"Attachement error: {email_err}")
+               mail.send(msg)
+               print(f"email send to : {to_email}")
+               
 
-     except Exception as error :
-          print(f"Email Error {error}")
-          return False
+          except Exception as error :
+               print(f"Email Error {error}")
+               
      
-     
+     thread = threading.Thread(target=send_email_thread)
+     thread.daemon = True
+     thread.start()
+     return True 
+          
+          
 
 
 @app.route("/") 
