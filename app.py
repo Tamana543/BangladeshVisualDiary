@@ -60,9 +60,11 @@ def send_gallery_email(to_email, subject, html_content, attachment_path=None, at
                     with open(attachment_path,"rb") as f :
                          msg.attach(attachment_name, "image/jpeg", f.read())
                          print(f"Attachment added {attachment_name}")
-
                except Exception as email_err : 
                      print(f"Attachement error: {email_err}")
+          mail.send(msg)
+          print(f"email send to : {to_email}")
+          return True
 
      except Exception as error :
           print(f"Email Error {error}")
@@ -163,14 +165,13 @@ def photo_upload():
                     photo_description=description,
                     email_reason="We've successfully received your upload!"
                )
-              
-          send_gallery_email(
-               to_email= email,
-               subject="Your photo form E-visual Gallery",
-               html_content= html_content,
-               attachment_path=filepath,
-               attachment_name= filename
-          )
+              send_gallery_email(
+                    to_email= email,
+                    subject="Your photo form E-visual Gallery",
+                    html_content= html_content,
+                    attachment_path=filepath,
+                    attachment_name= filename
+               )
             
           return jsonify({"message" : "Photo uploaded successfully!"}), 201
      
