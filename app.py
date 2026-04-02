@@ -2,11 +2,9 @@
 from pymongo import MongoClient
 import os
 from flask import Flask,render_template, request, jsonify
+from flask_mail import Mail,Message 
 import base64
 
-
-import sib_api_v3_sdk
-from sib_api_v3_sdk.rest import ApiException
 
 
 
@@ -33,44 +31,39 @@ if not os.path.exists(UPLOAD_FOLDER):
 
 
 # Email handler (brevo)
+app.config['MAIL_SERVER'] = os.environ.get('BREVO_SMTP_HOST', 'smtp-relay.brevo.com')
+app.config['MAIL_PORT'] = 587
+app.config['MAIL_USE_TLS'] = True
+app.config['MAIL_USE_SSL'] = False
+app.config['MAIL_USERNAME'] = os.environ.get('BREVO_SMTP_USER')
+app.config['MAIL_PASSWORD'] = os.environ.get('BREVO_SMTP_PASS')
+app.config['MAIL_DEFAULT_SENDER'] = "tamanafarzami33@gmail.com"
+
+mail = Mail(app)
+
+
 def send_gallery_email(to_email, subject, html_content, attachment_path=None, attachment_name=None) :
      if not to_email :
           print("Warning: No email provided")
           return False
      
      try :
-          configuration = sib_api_v3_sdk.Configuration()
-          configuration.api_key['api-key'] = os.environ.get("BREVO_SMTP_PASS")
-
-          api_instance = sib_api_v3_sdk.TransactionalEmailsApi(sib_api_v3_sdk.ApiClient(configuration))
-
-          send_smtp_email = sib_api_v3_sdk.SendSmtpEmail(
-          to=[{"email": to_email}],
-          sender={"name": "E-Visual Gallery", "email": "tamanafarzami33@gmail.com"},
-          subject=subject,
-          html_content=html_content
-     )
+          msg = Message(
+            subject=subject,
+            recipients=[to_email],
+            html=html_content,
+            sender=("E-Visual Gallery", "tamanafarzami33@gmail.com")
+        )
           
           if attachment_path and attachment_name and os.path.exists(attachment_path):
                try:
                     with open(attachment_path,"rb") as f :
-                         data = base64.b64encode(f.read()).decode("utf-8")
-                         attachment ={
-                              "content": data,
-                              "name": attachment_name,
-                              "type": "image/jpeg"
-                         }
-                         send_smtp_email.attachment = [attachment]
+                         msg.attach(attachment_name, "image/jpeg", f.read())
                          print(f"Attachment added {attachment_name}")
+
                except Exception as email_err : 
                      print(f"Attachement error: {email_err}")
-          
-          
-               api_instance.send_transac_email(send_smtp_email)
-               print(f"Email sent to {to_email}")
-               return True
-     except ApiException as err :
-          print(f"API error {err}")
+
      except Exception as error :
           print(f"Email Error {error}")
           return False
