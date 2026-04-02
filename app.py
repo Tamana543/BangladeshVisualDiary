@@ -57,13 +57,10 @@ def send_gallery_email(to_email, subject, html_content, attachment_path=None, at
           )
                
                if attachment_path and attachment_name and os.path.exists(attachment_path):
-                    try:
-                         with open(attachment_path,"rb") as f :
+                    with open(attachment_path,"rb") as f :
                               msg.attach(attachment_name, "image/jpeg", f.read())
                               print(f"Attachment added {attachment_name}")
-                    except Exception as email_err : 
-                         print(f"Attachement error: {email_err}")
-               mail.send(msg)
+               mail.send(msg)          
                print(f"email send to : {to_email}")
                
 
@@ -173,7 +170,7 @@ def photo_upload():
                )
               send_gallery_email(
                     to_email= email,
-                    subject="Your photo form E-visual Gallery",
+                    subject="Your photo from E-visual Gallery",
                     html_content= html_content,
                     attachment_path=filepath,
                     attachment_name= filename
