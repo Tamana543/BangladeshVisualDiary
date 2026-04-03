@@ -47,8 +47,7 @@ def send_gallery_email(to_email, subject, html_content, attachment_path=None, at
      if not to_email :
           print("Warning: No email provided")
           return False
-     def send_email_thread():
-          try :
+     try :
                msg = Message(
                subject=subject,
                recipients=[to_email],
@@ -64,7 +63,7 @@ def send_gallery_email(to_email, subject, html_content, attachment_path=None, at
                print(f"👩‍💻 Success: email send to : {to_email}")
                
 
-          except Exception as error :
+     except Exception as error :
                print(f"Failed: Email Error {error}")
                traceback.print_exc()
                
@@ -72,7 +71,7 @@ def send_gallery_email(to_email, subject, html_content, attachment_path=None, at
      # thread = threading.Thread(target=send_email_thread)
      # thread.daemon = True
      # thread.start()
-     send_email_thread()
+    
      return True 
           
           
