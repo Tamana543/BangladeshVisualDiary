@@ -5,6 +5,7 @@ import threading
 from flask import Flask,render_template, request, jsonify
 from flask_mail import Mail,Message 
 import traceback
+from smtplib import SMTPException
 
 
 
@@ -39,6 +40,7 @@ app.config['MAIL_USE_SSL'] = False
 app.config['MAIL_USERNAME'] = os.environ.get('BREVO_SMTP_USER')
 app.config['MAIL_PASSWORD'] = os.environ.get('BREVO_SMTP_PASS')
 app.config['MAIL_DEFAULT_SENDER'] = os.environ.get('BREVO_SMTP_USER')
+app.config['MAIL_TIMEOUT'] = 10
 
 mail = Mail(app)
 
@@ -48,19 +50,19 @@ def send_gallery_email(to_email, subject, html_content, attachment_path=None, at
           print("Warning: No email provided")
           return False
      try :
+          with mail.connect() as conn:
                msg = Message(
-               subject=subject,
-               recipients=[to_email],
-               html=html_content,
-               sender=("E-Visual Gallery", os.environ.get('BREVO_SMTP_USER'))
-          )
-               
-               if attachment_path and attachment_name and os.path.exists(attachment_path):
-                    with open(attachment_path,"rb") as f :
+                    subject=subject,
+                    recipients=[to_email],
+                    html=html_content,
+                    sender=("E-Visual Gallery", os.environ.get('BREVO_SMTP_USER'))
+               )
+               if attachment_path and os.path.exists(attachment_path):
+                         with open(attachment_path, "rb") as f:
                               msg.attach(attachment_name, "image/jpeg", f.read())
-                    print(f"Attachment added {attachment_name}")
-               mail.send(msg)          
-               print(f"👩‍💻 Success: email send to : {to_email}")
+               conn.send(msg)         
+          
+          print(f"👩 Success: email send to : {to_email}")
                
 
      except Exception as error :
@@ -108,13 +110,18 @@ def delete_request():
           
           filepath = os.path.join(app.config["UPLOAD_FOLDER"], image_name)
 
-          success = send_gallery_email(
-               to_email= admin_email,
-               subject= f"Delete request for : {image_name}",
-               html_content= html_content,
-               attachment_path= filepath if os.path.exists(filepath) else None,
-               attachment_name= image_name if os.path.exists(filepath) else None,
-          )
+          thread = threading.Thread(
+               target=send_gallery_email,
+               args=(
+                    admin_email,
+                    f"Delete request for : {image_name}",
+                    html_content,
+                    filepath if os.path.exists(filepath) else None,
+                    image_name if os.path.exists(filepath) else None
+               )
+               )
+          thread.daemon = True
+          thread.start()
 
           return jsonify({
                "message": "Request sent successfully, it will take at most two working days to approve your request :)"
@@ -166,13 +173,16 @@ def photo_upload():
                     photo_description=description,
                     email_reason="We've successfully received your upload!"
                )
-              send_gallery_email(
-                    to_email= email,
-                    subject="Your photo from E-visual Gallery",
-                    html_content= html_content,
-                    attachment_path=filepath,
-                    attachment_name= filename
-               )
+              thread = threading.Thread(
+                    target=send_gallery_email,
+                    args=(email,
+                              "Your photo from E-visual Gallery",
+                              html_content,
+                              filepath,
+                              filename)
+                    )
+              thread.daemon = True
+              thread.start()
             
           return jsonify({"message" : "Photo uploaded successfully!"}), 201
      
