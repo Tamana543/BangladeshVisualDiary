@@ -1,9 +1,9 @@
 #draft_codes.txt
 from pymongo import MongoClient
 import os
+import threading
 from flask import Flask,render_template, request, jsonify
 from flask_mail import Mail,Message 
-import threading
 
 
 
@@ -12,7 +12,6 @@ import threading
 
 # MongoDb setup 
 MONGO_URI = os.environ.get("MONGO_URI", "mongodb://localhost:27017/my_database")
-
 client = MongoClient(MONGO_URI)
 db = client['e_gallery_database']
 photos_collection = db['photos']
@@ -42,7 +41,7 @@ app.config['MAIL_DEFAULT_SENDER'] = "tamanafarzami33@gmail.com"
 
 mail = Mail(app)
 
-
+# Email Function 
 def send_gallery_email(to_email, subject, html_content, attachment_path=None, attachment_name=None) :
      if not to_email :
           print("Warning: No email provided")
@@ -59,13 +58,13 @@ def send_gallery_email(to_email, subject, html_content, attachment_path=None, at
                if attachment_path and attachment_name and os.path.exists(attachment_path):
                     with open(attachment_path,"rb") as f :
                               msg.attach(attachment_name, "image/jpeg", f.read())
-                              print(f"Attachment added {attachment_name}")
+                    print(f"Attachment added {attachment_name}")
                mail.send(msg)          
-               print(f"email send to : {to_email}")
+               print(f"👩‍💻 Success: email send to : {to_email}")
                
 
           except Exception as error :
-               print(f"Email Error {error}")
+               print(f"😳 Failed: Email Error {error}")
                
      
      thread = threading.Thread(target=send_email_thread)
@@ -116,12 +115,10 @@ def delete_request():
                attachment_name= image_name if os.path.exists(filepath) else None,
           )
 
-          if success : 
-               return jsonify({
+          return jsonify({
                "message": "Request sent successfully, it will take at most two working days to approve your request :)"
           }), 200
-          else :
-               return jsonify({"message": "Failed to send email. Please try again later."}), 500
+       
 
      except Exception as del_e :
           print(f"Delete request error : {del_e}")
