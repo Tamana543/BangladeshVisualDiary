@@ -4,6 +4,7 @@ import os
 import threading
 from flask import Flask,render_template, request, jsonify
 from flask_mail import Mail,Message 
+import traceback
 
 
 
@@ -32,12 +33,12 @@ if not os.path.exists(UPLOAD_FOLDER):
 
 # Email handler (brevo)
 app.config['MAIL_SERVER'] = os.environ.get('BREVO_SMTP_HOST', 'smtp-relay.brevo.com')
-app.config['MAIL_PORT'] = 587
+app.config['MAIL_PORT'] = int(os.environ.get('BREVO_SMTP_PORT', 587))
 app.config['MAIL_USE_TLS'] = True
 app.config['MAIL_USE_SSL'] = False
 app.config['MAIL_USERNAME'] = os.environ.get('BREVO_SMTP_USER')
 app.config['MAIL_PASSWORD'] = os.environ.get('BREVO_SMTP_PASS')
-app.config['MAIL_DEFAULT_SENDER'] = "tamanafarzami33@gmail.com"
+app.config['MAIL_DEFAULT_SENDER'] = os.environ.get('BREVO_SMTP_USER')
 
 mail = Mail(app)
 
@@ -52,7 +53,7 @@ def send_gallery_email(to_email, subject, html_content, attachment_path=None, at
                subject=subject,
                recipients=[to_email],
                html=html_content,
-               sender=("E-Visual Gallery", "tamanafarzami33@gmail.com")
+               sender=("E-Visual Gallery", os.environ.get('BREVO_SMTP_USER'))
           )
                
                if attachment_path and attachment_name and os.path.exists(attachment_path):
@@ -64,12 +65,14 @@ def send_gallery_email(to_email, subject, html_content, attachment_path=None, at
                
 
           except Exception as error :
-               print(f"😳 Failed: Email Error {error}")
+               print(f"Failed: Email Error {error}")
+               traceback.print_exc()
                
      
-     thread = threading.Thread(target=send_email_thread)
-     thread.daemon = True
-     thread.start()
+     # thread = threading.Thread(target=send_email_thread)
+     # thread.daemon = True
+     # thread.start()
+     send_email_thread()
      return True 
           
           
@@ -91,8 +94,7 @@ def delete_request():
           sender_name = data.get('sender')
           image_name = data.get('imageName')
           reason = data.get('reason')
-
-          admin_email = os.environ.get('MAIL_USERNAME')
+          admin_email = os.environ.get('BREVO_SMTP_USER')
 
           if not admin_email : 
                return jsonify({"error": "Admin email have problem"}), 500
