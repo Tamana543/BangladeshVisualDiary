@@ -7,6 +7,8 @@ from flask_mail import Mail,Message
 import traceback
 from smtplib import SMTPException
 
+import requests
+
 
 
 
@@ -45,38 +47,60 @@ app.config['MAIL_TIMEOUT'] = 10
 mail = Mail(app)
 
 # Email Function 
-def send_gallery_email(to_email, subject, html_content, attachment_path=None, attachment_name=None) :
-     if not to_email :
-          print("Warning: No email provided")
-          return False
-     try :
-          with mail.connect() as conn:
-               msg = Message(
-                    subject=subject,
-                    recipients=[to_email],
-                    html=html_content,
-                    sender=("E-Visual Gallery", os.environ.get('BREVO_SMTP_USER'))
-               )
-               if attachment_path and os.path.exists(attachment_path):
-                         with open(attachment_path, "rb") as f:
-                              msg.attach(attachment_name, "image/jpeg", f.read())
-               conn.send(msg)         
+# def send_gallery_email(to_email, subject, html_content, attachment_path=None, attachment_name=None) :
+#      if not to_email :
+#           print("Warning: No email provided")
+#           return False
+#      try :
+#           with mail.connect() as conn:
+#                msg = Message(
+#                     subject=subject,
+#                     recipients=[to_email],
+#                     html=html_content,
+#                     sender=("E-Visual Gallery", os.environ.get('BREVO_SMTP_USER'))
+#                )
+#                if attachment_path and os.path.exists(attachment_path):
+#                          with open(attachment_path, "rb") as f:
+#                               msg.attach(attachment_name, "image/jpeg", f.read())
+#                conn.send(msg)         
           
-          print(f"👩 Success: email send to : {to_email}")
+#           print(f"👩 Success: email send to : {to_email}")
                
 
-     except Exception as error :
-               print(f"Failed: Email Error {error}")
-               traceback.print_exc()
+#      except Exception as error :
+#                print(f"Failed: Email Error {error}")
+#                traceback.print_exc()
                
      
-     # thread = threading.Thread(target=send_email_thread)
-     # thread.daemon = True
-     # thread.start()
+#      # thread = threading.Thread(target=send_email_thread)
+#      # thread.daemon = True
+#      # thread.start()
     
-     return True 
-          
-          
+#      return True 
+
+def send_gallery_email(to_email, subject, html_content):
+    url = "https://api.brevo.com/v3/smtp/email"
+
+    headers = {
+        "accept": "application/json",
+        "api-key": os.environ.get("BREVO_API_KEY"),
+        "content-type": "application/json"
+    }
+
+    data = {
+        "sender": {
+            "name": "E-Visual Gallery",
+            "email": os.environ.get("BREVO_SMTP_USER")
+        },
+        "to": [{"email": to_email}],
+        "subject": subject,
+        "htmlContent": html_content
+    }
+
+    response = requests.post(url, json=data, headers=headers)
+
+    print("Status:", response.status_code)
+    print("Response:", response.text)
 
 
 @app.route("/") 
