@@ -1,10 +1,10 @@
 #draft_codes.txt
+import base64
 from pymongo import MongoClient
 import os
 import threading
 from flask import Flask,render_template, request, jsonify
 from flask_mail import Mail,Message 
-import traceback
 from smtplib import SMTPException
 
 import requests
@@ -104,6 +104,15 @@ def send_gallery_email(to_email, subject, html_content, attachment_path=None, at
         "subject": subject,
         "htmlContent": html_content
     }
+    if attachment_path and os.path.exists(attachment_path):
+        with open(attachment_path, "rb") as f:
+            # Read the file and convert to base64 string
+            b64_content = base64.b64encode(f.read()).decode('utf-8')
+            
+        data["attachment"] = [{
+            "content": b64_content,
+            "name": attachment_name or "image.jpg"
+        }]
 
     response = requests.post(url, json=data, headers=headers)
 
@@ -149,8 +158,8 @@ def delete_request():
                     admin_email,
                     f"Delete request for : {image_name}",
                     html_content,
-                    # filepath if os.path.exists(filepath) else None,
-                    # image_name if os.path.exists(filepath) else None
+                    filepath if os.path.exists(filepath) else None,
+                    image_name if os.path.exists(filepath) else None
                )
                )
           thread.daemon = True
@@ -211,8 +220,8 @@ def photo_upload():
                     args=(email,
                               "Your photo from E-visual Gallery",
                               html_content,
-                              # filepath,
-                              # filename
+                              filepath,
+                              filename
                               )
                     )
               thread.daemon = True
