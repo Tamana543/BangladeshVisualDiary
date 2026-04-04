@@ -140,8 +140,8 @@ def delete_request():
                     admin_email,
                     f"Delete request for : {image_name}",
                     html_content,
-                    filepath if os.path.exists(filepath) else None,
-                    image_name if os.path.exists(filepath) else None
+                    # filepath if os.path.exists(filepath) else None,
+                    # image_name if os.path.exists(filepath) else None
                )
                )
           thread.daemon = True
@@ -202,8 +202,9 @@ def photo_upload():
                     args=(email,
                               "Your photo from E-visual Gallery",
                               html_content,
-                              filepath,
-                              filename)
+                              # filepath,
+                              # filename
+                              )
                     )
               thread.daemon = True
               thread.start()
