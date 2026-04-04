@@ -41,7 +41,7 @@ app.config['MAIL_USE_TLS'] = True
 app.config['MAIL_USE_SSL'] = False
 app.config['MAIL_USERNAME'] = os.environ.get('BREVO_SMTP_USER')
 app.config['MAIL_PASSWORD'] = os.environ.get('BREVO_SMTP_PASS')
-app.config['MAIL_DEFAULT_SENDER'] = os.environ.get('BREVO_SMTP_USER')
+app.config['MAIL_DEFAULT_SENDER'] = os.environ.get('MAIL_USERNAME')
 app.config['MAIL_TIMEOUT'] = 10
 
 mail = Mail(app)
@@ -98,7 +98,7 @@ def send_gallery_email(to_email, subject, html_content, attachment_path=None, at
     data = {
         "sender": {
             "name": "E-Visual Gallery",
-            "email": os.environ.get("BREVO_SMTP_USER")
+            "email": os.environ.get("MAIL_USERNAME")
         },
         "to": [{"email": to_email}],
         "subject": subject,
@@ -128,7 +128,7 @@ def delete_request():
           sender_name = data.get('sender')
           image_name = data.get('imageName')
           reason = data.get('reason')
-          admin_email = os.environ.get('BREVO_SMTP_USER')
+          admin_email = os.environ.get('MAIL_USERNAME')
 
           if not admin_email : 
                return jsonify({"error": "Admin email have problem"}), 500
