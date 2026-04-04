@@ -78,12 +78,20 @@ mail = Mail(app)
     
 #      return True 
 
-def send_gallery_email(to_email, subject, html_content):
+
+
+def send_gallery_email(to_email, subject, html_content, attachment_path=None, attachment_name=None):
+    api_key = os.environ.get("BREVO_API_KEY")
+
+    if not api_key:
+        print("No API key found")
+        return False
+
     url = "https://api.brevo.com/v3/smtp/email"
 
     headers = {
         "accept": "application/json",
-        "api-key": os.environ.get("BREVO_API_KEY"),
+        "api-key": api_key,
         "content-type": "application/json"
     }
 
@@ -102,6 +110,7 @@ def send_gallery_email(to_email, subject, html_content):
     print("Status:", response.status_code)
     print("Response:", response.text)
 
+    return True
 
 @app.route("/") 
 def main(): 
