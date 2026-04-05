@@ -81,7 +81,7 @@ right: 3%;
 
 @media (max-width: 540px) {
     .svgContainer {
-               width: 410px !important;
+                      width: 359px !important;
         height: 300px !important;
     }
     .formbold-btn {
