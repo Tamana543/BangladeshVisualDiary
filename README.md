@@ -16,7 +16,6 @@ The goal:
 - Practice front-end fundamentals
 - Create a space that feels personal, calm, and human
 
-[live](https://bangladeshvisualdiary.onrender.com/)
 
 ---
 
@@ -76,6 +75,9 @@ BangladeshVisualDiary/
 No build steps. No setup stress.
 
 ---
+
+## [live](https://bangladeshvisualdiary.onrender.com/)
+
 
 ## ✨ What Works Well
 
