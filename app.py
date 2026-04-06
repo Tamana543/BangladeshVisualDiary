@@ -46,40 +46,6 @@ app.config['MAIL_TIMEOUT'] = 10
 
 mail = Mail(app)
 
-# Email Function 
-# def send_gallery_email(to_email, subject, html_content, attachment_path=None, attachment_name=None) :
-#      if not to_email :
-#           print("Warning: No email provided")
-#           return False
-#      try :
-#           with mail.connect() as conn:
-#                msg = Message(
-#                     subject=subject,
-#                     recipients=[to_email],
-#                     html=html_content,
-#                     sender=("E-Visual Gallery", os.environ.get('BREVO_SMTP_USER'))
-#                )
-#                if attachment_path and os.path.exists(attachment_path):
-#                          with open(attachment_path, "rb") as f:
-#                               msg.attach(attachment_name, "image/jpeg", f.read())
-#                conn.send(msg)         
-          
-#           print(f"👩 Success: email send to : {to_email}")
-               
-
-#      except Exception as error :
-#                print(f"Failed: Email Error {error}")
-#                traceback.print_exc()
-               
-     
-#      # thread = threading.Thread(target=send_email_thread)
-#      # thread.daemon = True
-#      # thread.start()
-    
-#      return True 
-
-
-
 def send_gallery_email(to_email, subject, html_content, attachment_path=None, attachment_name=None):
     api_key = os.environ.get("BREVO_API_KEY")
 
@@ -197,8 +163,7 @@ def photo_upload():
           email = request.form.get("email")
 
           filename = file.filename
-          filepath = os.path.join(app.config["UPLOAD_FOLDER"], filename)
-          file.save(filepath)
+          
 
           # save  to dataBase 
           new_photo = {
