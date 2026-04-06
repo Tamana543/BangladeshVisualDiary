@@ -88,17 +88,15 @@ No build steps. No setup stress.
 - Live Uploads: Users can contribute photos directly from the UI.
 - Automated Emails: The system sends a confirmation email with an attachment whenever a photo is uploaded.
 - Persistent Storage: Data is saved in the cloud (MongoDB), so it’s never lost.
-
+- Cloud Image Hosting (Cloudinary): Move images from the local folder to a cloud CDN so they never get deleted during redeployments.
 
 
 ---
 
 ## 🔮 What Can Be Added to Improve This Project
-1. Cloud Image Hosting (Cloudinary): Move images from the local folder to a cloud CDN so they never get deleted during redeployments.
+1. User Authentication: Add a login page so only you can upload or delete photos.
 
-2. User Authentication: Add a login page so only you can upload or delete photos.
-
-3. Search & Filter: Add a search bar to find photos by the "Sender" name or keywords in the description.
+2. Search & Filter: Add a search bar to find photos by the "Sender" name or keywords in the description.
 
 - let me know more :)
 
