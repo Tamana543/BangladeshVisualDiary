@@ -6,7 +6,8 @@ import threading
 from flask import Flask,render_template, request, jsonify
 from flask_mail import Mail,Message 
 from smtplib import SMTPException
-
+import cloudinary
+import cloudinary.uploader
 import requests
 
 
@@ -32,7 +33,13 @@ if not os.path.exists(UPLOAD_FOLDER):
     os.makedirs(UPLOAD_FOLDER)
     print(f"Created folder: {UPLOAD_FOLDER}")
 
+# image cloudinary setup
 
+cloudinary.config(
+    cloud_name = os.environ.get("CLOUDINARY_CLOUD_NAME"),
+    api_key = os.environ.get("CLOUDINARY_API_KEY"),
+    api_secret = os.environ.get("CLOUDINARY_API_SECRET")
+)
 
 # Email handler (brevo)
 app.config['MAIL_SERVER'] = os.environ.get('BREVO_SMTP_HOST', 'smtp-relay.brevo.com')
@@ -147,12 +154,7 @@ def delete_request():
 def photo_render():
      # get all doc, _id hide
      photos = list(photos_collection.find({},{"_id":0}))
-     valid_photos = [
-          photo for photo in photos 
-          if os.path.exists(os.path.join(app.config["UPLOAD_FOLDER"],photo.get('filename', '')))
-          ]
-     
-     return jsonify(valid_photos)
+     return jsonify(photos)
      
 
 
@@ -165,14 +167,15 @@ def photo_upload():
           email = request.form.get("email")
 
           filename = file.filename
-          filepath = os.path.join(app.config["UPLOAD_FOLDER"], filename)
-          file.save(filepath)
+          upload_result = cloudinary.uploader.upload(file)
+          image_url = upload_result.get("secure_url")
 
           # save  to dataBase 
           new_photo = {
                "filename": filename,
                "description" : description,
-               "sender": sender
+               "sender": sender,
+               "image_url":image_url
           }
           photos_collection.insert_one(new_photo)
           
@@ -188,7 +191,6 @@ def photo_upload():
                     args=(email,
                               "Your photo from E-visual Gallery",
                               html_content,
-                              filepath,
                               filename
                               )
                     )

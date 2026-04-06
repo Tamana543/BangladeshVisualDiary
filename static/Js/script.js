@@ -48,7 +48,7 @@ fetch('/api/photos')
 
       <div class="image hover">
 
-      <img src="/static/default_images/${element.filename}"
+      <img src="${element.image_url}">
 
       alt="image ${ind+1}"
 
@@ -115,7 +115,7 @@ container.classList.toggle("hidden")
 function showIMG(index){
 const imageData = imageList[index]
 
-lightboxImg.src = `/static/default_images/${imageData.filename}`
+lightboxImg.src = imageData.image_url
 lightboxImg.alt =`image ${index + 1}`
 }
 
