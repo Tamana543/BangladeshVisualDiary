@@ -79,12 +79,19 @@ def send_gallery_email(to_email, subject, html_content, attachment_path=None, at
         "subject": subject,
         "htmlContent": html_content
     }
-    if attachment_path and os.path.exists(attachment_path):
-        with open(attachment_path, "rb") as f:
-            # Read the file and convert to base64 string
-            b64_content = base64.b64encode(f.read()).decode('utf-8')
+    if attachment_path: # if bug check here 
+     try:
+          img_data = requests.get(attachment_path).content
+          b64_content = base64.b64encode(img_data).decode('utf-8')
+
+          data["attachment"] = [{
+               "content": b64_content,
+               "name": attachment_name or "image.jpg"
+          }]
+     except Exception as e:
+          print("Attachment error:", e)
             
-        data["attachment"] = [{
+     data["attachment"] = [{
             "content": b64_content,
             "name": attachment_name or "image.jpg"
         }]
@@ -191,6 +198,7 @@ def photo_upload():
                     args=(email,
                               "Your photo from E-visual Gallery",
                               html_content,
+                              image_url,
                               filename
                               )
                     )
