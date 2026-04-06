@@ -46,6 +46,8 @@ app.config['MAIL_TIMEOUT'] = 10
 
 mail = Mail(app)
 
+
+
 def send_gallery_email(to_email, subject, html_content, attachment_path=None, attachment_name=None):
     api_key = os.environ.get("BREVO_API_KEY")
 
@@ -163,7 +165,8 @@ def photo_upload():
           email = request.form.get("email")
 
           filename = file.filename
-          
+          filepath = os.path.join(app.config["UPLOAD_FOLDER"], filename)
+          file.save(filepath)
 
           # save  to dataBase 
           new_photo = {
