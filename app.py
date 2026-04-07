@@ -25,13 +25,7 @@ photos_collection = db['photos']
 
 app = Flask(__name__) 
 
-# ImgFolder config
-UPLOAD_FOLDER = "static/default_images"
-app.config["UPLOAD_FOLDER"] = UPLOAD_FOLDER 
 
-if not os.path.exists(UPLOAD_FOLDER):
-    os.makedirs(UPLOAD_FOLDER)
-    print(f"Created folder: {UPLOAD_FOLDER}")
 
 # image cloudinary setup
 
@@ -79,7 +73,7 @@ def send_gallery_email(to_email, subject, html_content, attachment_path=None, at
         "subject": subject,
         "htmlContent": html_content
     }
-    if attachment_path: # if bug check here 
+    if attachment_path:
      try:
           img_data = requests.get(attachment_path).content
           b64_content = base64.b64encode(img_data).decode('utf-8')
@@ -90,11 +84,6 @@ def send_gallery_email(to_email, subject, html_content, attachment_path=None, at
           }]
      except Exception as e:
           print("Attachment error:", e)
-            
-     data["attachment"] = [{
-            "content": b64_content,
-            "name": attachment_name or "image.jpg"
-        }]
 
     response = requests.post(url, json=data, headers=headers)
 
@@ -129,21 +118,21 @@ def delete_request():
               "email_template.html", 
             sender_name=sender_name, 
             photo_description=f"Reason for deletion: {reason}",
-            email_reason=f"Delete this image from database: {image_name}" 
+            email_reason=f"Delete this image from database: {image_name}",
+            image_url = image_url 
           )
           
-          filepath = os.path.join(app.config["UPLOAD_FOLDER"], image_name)
+          photo = photos_collection.find_one({"filename": image_name})
+          image_url = photo.get("image_url") if photo else None
 
-          thread = threading.Thread(
-               target=send_gallery_email,
-               args=(
-                    admin_email,
-                    f"Delete request for : {image_name}",
-                    html_content,
-                    filepath if os.path.exists(filepath) else None,
-                    image_name if os.path.exists(filepath) else None
+          thread=(
+               admin_email,
+               f"Delete request for : {image_name}",
+               html_content,
+               image_url,
+               image_name
                )
-               )
+          
           thread.daemon = True
           thread.start()
 
@@ -174,7 +163,7 @@ def photo_upload():
           email = request.form.get("email")
 
           filename = file.filename
-          upload_result = cloudinary.uploader.upload(file)
+          upload_result = cloudinary.uploader.upload(file, folder="gallery")
           image_url = upload_result.get("secure_url")
 
           # save  to dataBase 
@@ -191,7 +180,8 @@ def photo_upload():
                     "email_template.html", 
                     sender_name=sender, 
                     photo_description=description,
-                    email_reason="We've successfully received your upload!"
+                    email_reason="We've successfully received your upload!",
+                    image_url = image_url
                )
               thread = threading.Thread(
                     target=send_gallery_email,

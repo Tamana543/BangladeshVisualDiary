@@ -14,4 +14,4 @@ photo render function
 sWITCH FROM JSON TO FORMDATA,
 CHANGE THE MAIN FUNCTION TO READ AND UPLOAD TO DEFAULT FOLDER (STORING THE UPLODAED IMAGE)
 the deleting image after uploading it by requesting from me,
- TO DO TOMORROW : host the sql to mongoDB and host the images to cloud ( add the render, create account in cloudify )
+ TO DO TOMORROW :host the images to cloud ( add the render, create account in cloudify )
