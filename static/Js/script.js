@@ -48,7 +48,7 @@ fetch('/api/photos')
 
       <div class="image hover">
 
-      <img src="${element.image_url}">
+      <img src="${element.image_url}"
 
       alt="image ${ind+1}"
 
