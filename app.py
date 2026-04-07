@@ -34,7 +34,7 @@ cloudinary.config(
     api_key = os.environ.get("CLOUDINARY_API_KEY"),
     api_secret = os.environ.get("CLOUDINARY_API_SECRET")
 )
-
+print("Cloud name:", os.environ.get("CLOUDINARY_CLOUD_NAME"))
 # Email handler (brevo)
 app.config['MAIL_SERVER'] = os.environ.get('BREVO_SMTP_HOST', 'smtp-relay.brevo.com')
 app.config['MAIL_PORT'] = int(os.environ.get('BREVO_SMTP_PORT', 587))
@@ -109,6 +109,8 @@ def delete_request():
           image_name = data.get('imageName')
           reason = data.get('reason')
           admin_email = os.environ.get('MAIL_USERNAME')
+          photo = photos_collection.find_one({"filename": image_name})
+          image_url = photo.get("image_url") if photo else None
 
           if not admin_email : 
                return jsonify({"error": "Admin email have problem"}), 500
@@ -122,17 +124,18 @@ def delete_request():
             image_url = image_url 
           )
           
-          photo = photos_collection.find_one({"filename": image_name})
-          image_url = photo.get("image_url") if photo else None
+         
 
-          thread=(
-               admin_email,
-               f"Delete request for : {image_name}",
-               html_content,
-               image_url,
-               image_name
+          thread = threading.Thread(
+               target=send_gallery_email,
+               args=(
+                    admin_email,
+                    f"Delete request for : {image_name}",
+                    html_content,
+                    image_url,
+                    image_name
                )
-          
+)
           thread.daemon = True
           thread.start()
 
