@@ -37,115 +37,64 @@ fetch('/api/photos')
   }) .then(images=>{
 
   imageList = images
-
-    images.forEach((element,ind) => {
-
+  images.forEach((element,ind) => {
+  imageContainer.innerHTML +=  `
+  <div class="image hover">
+  <img src="${element.image_url}" alt="image ${ind+1}" data-index="${ind}" >
+  <div class="description">
+  <p>${element.description} </p>
+  <p>  📸 : ${element.sender} </p>
+  </div>
+  </div> `
   
-
-    
-
-      imageContainer.innerHTML +=  `
-
-      <div class="image hover">
-
-      <img src="${element.image_url}"
-
-      alt="image ${ind+1}"
-
-        data-index="${ind}"
-
-        >
-
-    
-
-        <div class="description">
-
-    <p>${element.description} </p>
-
-    <p>  📸 : ${element.sender} </p>
-
-
-
-      </div>
-
-      </div>
-
-    
-
-      `
-
-  
-
-  
-
-  });
-
-  }).catch(err=>console.log(err))
+  }); 
+}).catch(err=>console.log(err))
 
 
 function formDisplayer(){
-container.classList.toggle("hidden")
-formContainer.classList.toggle("show")
-homeBtn.classList.remove("hidden");
-homeBtn.style.top  = "-26px"
+    container.classList.toggle("hidden")
+    formContainer.classList.toggle("show")
+    homeBtn.classList.remove("hidden");
+    homeBtn.style.top  = "-26px"
 
-if(svgContainer){
-
-// looding svg
-lottie.loadAnimation(
-
-{ container: svgContainer,
-
-renderer: 'svg',
-
-loop: true,
-
-autoplay: true,
-
-  path: '/static/Kitty_Cat.json'}
-)
-}
+    if(svgContainer){
+        // looding svg
+        lottie.loadAnimation({ 
+          container: svgContainer,
+          renderer: 'svg',
+          loop: true,
+          autoplay: true,
+          path: '/static/Kitty_Cat.json'}
+        )
+    }
 }
 
 function formHide(){
-formContainer.classList.toggle("show")
+    formContainer.classList.toggle("show")
+    container.classList.toggle("hidden")
+    }
+    function showIMG(index){
+    const imageData = imageList[index]
 
-container.classList.toggle("hidden")
-}
-function showIMG(index){
-const imageData = imageList[index]
-
-lightboxImg.src = imageData.image_url
-lightboxImg.alt =`image ${index + 1}`
+    lightboxImg.src = imageData.image_url
+    lightboxImg.alt =`image ${index + 1}`
 }
 
 
 function nextIMG(){
-currentInd++;
-
-  if(currentInd >= imageList.length){
-
-    currentInd = 0
-
-}
-
-
-showIMG(currentInd)
+  currentInd++;
+    if(currentInd >= imageList.length) currentInd = 0;
+    showIMG(currentInd)
 }
 
 function prevIMG(){
-currentInd--;
-if(currentInd < 0){
-
-   currentInd = imageList.length - 1
-}
-showIMG(currentInd)
+    currentInd--;
+    if(currentInd < 0) currentInd = imageList.length - 1
+    showIMG(currentInd)
 }
 
 function closeLightBox(){
-
   lightbox.classList.add("hidden")
-
 }
 //Event listeners
 // Drag and drop functionality  
@@ -155,34 +104,33 @@ event.preventDefault()
 })
 
 dropArea.addEventListener("drop",(event)=>{
-event.preventDefault()
-fileInput.files = event.dataTransfer.files;
-const fileName = fileInput.files[0].name;
-fileText.textContent = fileName.length > 30 ? fileName.substring(0,30)+"..." : fileName;
+  event.preventDefault()
+  fileInput.files = event.dataTransfer.files;
+  const fileName = fileInput.files[0].name;
+  fileText.textContent = fileName.length > 30 ? fileName.substring(0,30)+"..." : fileName;
 
-fileLabel.style.border = "2px solid #f83999"
+  fileLabel.style.border = "2px solid #f83999"
 })
 
 dropArea.addEventListener("dragenter", () => {
-dropArea.style.border = "2px solid #F83999";
+  dropArea.style.border = "2px solid #F83999";
 });
 
 
 dropArea.addEventListener("dragleave", () => {
-
-dropArea.style.border = "1px dashed #e0e0e0";
+  dropArea.style.border = "1px dashed #e0e0e0";
 });
 
 imageContainer.addEventListener("click",(event)=>{
-if(event.target.tagName === "IMG"){
+  if(event.target.tagName === "IMG"){
 
-currentInd = Number(event.target.dataset.index)
+  currentInd = Number(event.target.dataset.index)
 
-lightbox.classList.remove("hidden")
+  lightbox.classList.remove("hidden")
 
-showIMG(currentInd)
+  showIMG(currentInd)
 
-}
+  }
 })
 
 
@@ -214,20 +162,14 @@ sendBtn.addEventListener("click",async (event)=>{
 event.preventDefault();
 
 const file = fileInput.files[0];
-
-  const description = document.getElementById("description").value;
-
+const description = document.getElementById("description").value;
 const sender = document.getElementById("sender").value;
 const email = document.getElementById("email").value;
 console.log(email)
-
-
-if(!file){
-
-alert("Please choose a file :)")
-
-return;
-}
+  if(!file){
+  alert("Please choose a file :)")
+  return;
+  }
 const formData = new FormData()
 formData.append("file",file)
 formData.append("description",description)
@@ -237,15 +179,7 @@ if(emailCheck.checked && email){
   formData.append("email", email)
 }
 
-
-
-
-
-
-
 // UI Changes before upload
-
-
 sendBtn.disabled =true;
 sendBtn.textContent = "Uploading.. "
 progressBar.classList.remove("hidden")
@@ -254,98 +188,58 @@ statusText.textContent = "Uploading your image... "
 
 try {
 
-// not reallet width = 0;
-let width = 0
-const progress = setInterval(() => {
+  // not reallet width = 0;
+  let width = 0
+  const progress = setInterval(() => {
 
-if (width < 90) {
+  if (width < 90) {
+    width += 5
+    progressFill.style.width = width + '%';
 
-  width += 5
-
-  progressFill.style.width = width + '%';
-
-}
-}, 100);
-
-
+} }, 100);
 const response = await fetch("/api/photos", {
-
-method: "POST",
-
-body: formData
+  method: "POST",
+  body: formData
 })
-
-
 clearInterval(progress)
-
 
 if(!response.ok) throw new Error("Upload Failed");
 
- 
-
 progressFill.style.width = "100%";
-
 statusText.textContent = "Uploaded Successfully ✓";
-
 sendBtn.textContent = "Done";
 
 
 setTimeout(() => {
-
-location.reload()
+  location.reload()
 }, 1200);
-
 } catch (error) {
-progressFill.style.background = "red";
-statusText.textContent = " Upload Failed :("
-sendBtn.disabled = false;
-sendBtn.textContent = "Send File"
-}
-
- });
+  progressFill.style.background = "red";
+  statusText.textContent = " Upload Failed :("
+  sendBtn.disabled = false;
+  sendBtn.textContent = "Send File"
+} });
 
 
 fileInput.addEventListener("change", () => {
+  if (fileInput.files && fileInput.files.length > 0) {
+    formboalContainer.style.display ="none"
+    const fileName = fileInput.files[0].name;
+    fileText.textContent = fileName.length > 30 ? fileName.substring(0, 30) + "..." : fileName;
+    fileLabel.style.border = "2px solid #f83999";
 
-if (fileInput.files && fileInput.files.length > 0) {
-
-  formboalContainer.style.display ="none"
-
-  const fileName = fileInput.files[0].name;
-
-
-
-  fileText.textContent =
-
-    fileName.length > 30
-
-      ? fileName.substring(0, 30) + "..."
-
-      : fileName;
-
-
-
-  fileLabel.style.border = "2px solid #f83999";
-
-  }
+    }
 
 });
-
-
-
 emailCheck.addEventListener("change", () => {
-
-  if(emailCheck.checked){
-
+  if(emailCheck.checked){ 
     emailContainer.classList.remove("hidden")
-
   } else {
-
     emailContainer.classList.add("hidden")
-
   }
 
 })
+
 modeTogglerBtn.addEventListener("click",()=>{
 
     modeTogglerBtn.classList.toggle('day');
