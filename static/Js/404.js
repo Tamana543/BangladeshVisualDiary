@@ -5,17 +5,12 @@ const modeTogglerMoon = document.querySelector(".moon");
 const homeBtn = document.querySelector(".return_home");
 const svgContainer = document.querySelector(".svgContainer");
 
-lottie.loadAnimation(
-
-{ container: svgContainer,
-
-renderer: 'svg',
-
-loop: true,
-
-autoplay: true,
-
-  path: '/static/404_anime.json'}
+lottie.loadAnimation({
+     container: svgContainer,
+     renderer: 'svg',
+     loop: true,
+     autoplay: true,
+     path: '/static/404_anime.json'}
 )
 
 
@@ -24,9 +19,7 @@ if (modeTogglerBtn) {
         const isLight = body.classList.toggle('light');
         modeTogglerBtn.classList.toggle('day');
         modeTogglerMoon.classList.toggle("sun");
-        
         if (homeBtn) homeBtn.classList.toggle("light");
-        
         localStorage.setItem('theme', isLight ? 'light' : 'dark');
     });
 }
