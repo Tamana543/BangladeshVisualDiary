@@ -6,17 +6,12 @@ const homeBtn = document.getElementById("homeBtn");
 const deleteForm = document.getElementById('deleteRequestForm'); 
 const svgContainer = document.querySelector(".svgContainer")
 // load animation 
-lottie.loadAnimation(
-
-{ container: svgContainer,
-
-renderer: 'svg',
-
-loop: true,
-
-autoplay: true,
-
-  path: '/static/Cat playing animation_2.json'}
+lottie.loadAnimation( { 
+    container: svgContainer,
+    renderer: 'svg',
+    loop: true,
+    autoplay: true,
+    path: '/static/Cat playing animation_2.json'}
 )
 
 
@@ -63,8 +58,6 @@ if (deleteForm) {
     deleteForm.addEventListener('submit', async (e) => {
         e.preventDefault();
         const submitBtn = document.getElementById('submitDelBtn');
-  
-
         submitBtn.textContent = "Sending Request...";
         submitBtn.disabled = true;
 
@@ -80,10 +73,9 @@ if (deleteForm) {
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(payload)
             });
-      const resData = await response.json();
+            const resData = await response.json();
             if (response.ok) {
                showFancyAlert("Request Sent!", resData.message);
-                
                 document.getElementById('closeAlertBtn').onclick = () => {
                     window.location.href = "/";
                 };
