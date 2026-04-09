@@ -1,4 +1,3 @@
-#draft_codes.txt
 import base64
 from pymongo import MongoClient
 import os
@@ -10,11 +9,6 @@ import cloudinary
 import cloudinary.uploader
 import requests
 
-
-
-
-
-
 # MongoDb setup 
 MONGO_URI = os.environ.get("MONGO_URI", "mongodb://localhost:27017/my_database")
 client = MongoClient(MONGO_URI)
@@ -22,19 +16,18 @@ db = client['e_gallery_database']
 photos_collection = db['photos']
 
 # Flask Hundler 
-
 app = Flask(__name__) 
 
 
 
 # image cloudinary setup
-
 cloudinary.config(
     cloud_name = os.environ.get("CLOUDINARY_CLOUD_NAME"),
     api_key = os.environ.get("CLOUDINARY_API_KEY"),
     api_secret = os.environ.get("CLOUDINARY_API_SECRET")
 )
-print("Cloud name:", os.environ.get("CLOUDINARY_CLOUD_NAME"))
+
+
 # Email handler (brevo)
 app.config['MAIL_SERVER'] = os.environ.get('BREVO_SMTP_HOST', 'smtp-relay.brevo.com')
 app.config['MAIL_PORT'] = int(os.environ.get('BREVO_SMTP_PORT', 587))
